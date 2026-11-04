@@ -11,7 +11,9 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 target = sys.argv[1]
-W, H = (int(x) for x in (sys.argv[2] if len(sys.argv) > 2 else "1456x816").split("x"))
+SIZE = sys.argv[2] if len(sys.argv) > 2 else "1456x816"
+W, H = (int(x) for x in SIZE.split("x")[:2])
+DPR = float(SIZE.split("x")[2]) if SIZE.count("x") == 2 else 1.0  # e.g. 1536x864x1.25 = 1920x1080 device pixels
 srv = None
 if not target.startswith("http"):
     root = Path(target).resolve()
@@ -44,12 +46,15 @@ SAMPLE = """
 """
 
 with sync_playwright() as p:
-    b = p.chromium.launch(channel="msedge", headless=False, args=["--ignore-gpu-blocklist", f"--window-size={W},{H + 90}", "--window-position=40,40"])
-    pg = b.new_context(viewport={"width": W, "height": H}).new_page()
+    b = p.chromium.launch(channel="msedge", headless=False, args=["--ignore-gpu-blocklist", f"--window-size={int(W * DPR)},{int(H * DPR) + 90}", "--window-position=0,0"])
+    pg = b.new_context(viewport={"width": W, "height": H}, device_scale_factor=DPR).new_page()
     errors = []
     pg.on("console", lambda m: errors.append(m.text[:160]) if m.type == "error" else None)
+    import time
+    t_nav = time.time()
     pg.goto(target, wait_until="load")
     pg.wait_for_selector("#gate-btn:not([disabled])", timeout=90000)
+    print(f"gate ready after {time.time() - t_nav:.1f} s;", pg.evaluate("() => { const e = window.__ita; return { tier: e.quality.tier, scale: e['pipeline'].renderScale, fpsUnderGate: +e.fps.toFixed(1), built: e.built }; }"))
     print("gpu:", pg.evaluate("() => { const gl = window.__ita.renderer.getContext(); const d = gl.getExtension('WEBGL_debug_renderer_info'); return d ? gl.getParameter(d.UNMASKED_RENDERER_WEBGL) : 'n/a'; }"))
     pg.click("#gate-btn")
     pg.wait_for_timeout(5000)
@@ -61,6 +66,9 @@ with sync_playwright() as p:
         print("shadowEvery:", sys.argv[3])
     print("size:", pg.evaluate("() => [innerWidth, innerHeight, devicePixelRatio]"), "tier after probe:", pg.evaluate("() => window.__ita.quality.tier"))
     print("A gantry→plunge→vault, 6 s wheel:", pg.evaluate(SAMPLE, [6, 55]))
+    if os.environ.get("PERF_LONG"):
+        pg.evaluate("() => { const e = window.__ita; e.scroll.goTo(0, 0); }"); pg.wait_for_timeout(3000)
+        print("L whole descent, 36 s wheel:", pg.evaluate(SAMPLE, [36, 60]))
     pg.evaluate("() => { const e = window.__ita; e.scroll.goTo(1, e.chapters[1].stations[2]); }")
     pg.wait_for_timeout(3500)
     print("B vault, 6 s wheel:", pg.evaluate(SAMPLE, [6, 45]))

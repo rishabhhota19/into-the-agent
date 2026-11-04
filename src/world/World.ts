@@ -25,6 +25,8 @@ function spareLight(kind: LightKind): Light {
   if (kind === 'point') return new PointLight(0, 0);
   if (kind === 'hemisphere') return new HemisphereLight(0, 0, 0);
   const light = new DirectionalLight(0, 0);
+  // A spare's shadow map is never drawn (nothing in it); it only keeps the shader's light count steady.
+  light.shadow.autoUpdate = false;
   if (kind === 'shadowed') {
     light.castShadow = true;
     light.shadow.autoUpdate = false; // no map and no shadow pass: it only holds the count
@@ -111,13 +113,26 @@ export class World {
     return atm;
   }
 
+  /** True for the frame in which the set of visible chambers changed. */
+  visibilityChanged = false;
+  /** True while a visible chamber has shadow casters that move. */
+  movingShadows = false;
+
   update(dt: number, elapsed: number, st: ScrollState, camera: PerspectiveCamera): void {
+    let changed = false;
+    let moving = false;
     this.chapters.forEach((c, i) => {
       const near = i === st.chapter || i === st.chapter + 1 || (i === st.chapter - 1 && st.t < 0.15);
+      if (c.group.visible !== near) changed = true;
       c.group.visible = near;
-      if (near) c.update(dt, i === st.chapter ? st.t : i < st.chapter ? 1 : 0, elapsed, camera);
+      if (near) {
+        c.update(dt, i === st.chapter ? st.t : i < st.chapter ? 1 : 0, elapsed, camera);
+        if (c.movingShadows) moving = true;
+      }
     });
-    this.balanceLights();
+    this.visibilityChanged = changed;
+    this.movingShadows = moving;
+    if (changed) this.balanceLights();
   }
 
   /** Show one chamber alone (for an off-screen first draw); returns what to hand back to `restore`. */

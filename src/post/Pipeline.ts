@@ -24,6 +24,10 @@ export class Pipeline {
   private travel!: ShaderPass;
   private look!: ShaderPass;
   private quality: Quality;
+  /** Render scale: the passes draw at this fraction of the canvas and the last pass fills it. */
+  private scale = 1;
+  private width = 0;
+  private height = 0;
 
   constructor(
     private readonly renderer: WebGLRenderer,
@@ -36,7 +40,11 @@ export class Pipeline {
   }
 
   private build(): void {
-    const { width, height } = this.renderer.getSize(new Vector2());
+    const full = this.renderer.getSize(new Vector2());
+    this.width = full.x;
+    this.height = full.y;
+    const width = Math.round(full.x * this.scale);
+    const height = Math.round(full.y * this.scale);
     const target = new WebGLRenderTarget(width, height, { type: HalfFloatType, samples: this.quality.msaa });
     this.composer = new EffectComposer(this.renderer, target);
     this.composer.setPixelRatio(this.quality.dpr);
@@ -93,9 +101,21 @@ export class Pipeline {
   }
 
   resize(width: number, height: number): void {
+    this.width = width;
+    this.height = height;
     this.composer.setPixelRatio(this.quality.dpr);
-    this.composer.setSize(width, height);
-    this.bloom.resolution.set(width, height);
+    this.composer.setSize(Math.round(width * this.scale), Math.round(height * this.scale));
+  }
+
+  /** Draw at a fraction of the canvas (settled under the gate; it reallocates the targets, so never mid-descent). */
+  setScale(scale: number): void {
+    if (scale === this.scale) return;
+    this.scale = scale;
+    this.resize(this.width, this.height);
+  }
+
+  get renderScale(): number {
+    return this.scale;
   }
 
   render(dt: number, elapsed: number, smear: number, atm: Atmosphere): void {

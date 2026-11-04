@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, Color, PCFShadowMap, Raycaster, Scene, SRGBColorSpace, Texture, Timer, Vector2, WebGLRenderer, WebGLRenderTarget } from 'three';
+import { ACESFilmicToneMapping, Color, DirectionalLight, Object3D, PCFShadowMap, Raycaster, Scene, SRGBColorSpace, Texture, Timer, Vector2, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { Particles } from '../atmosphere/Particles';
 import { makePose, Rig } from '../camera/Rig';
 import content from '../content/site.json';
@@ -54,12 +54,10 @@ export class Experience {
   /** Chambers built so far (the rest build ahead of you after the gate opens). */
   built = 0;
   private stopped = false;
+  private started = false;
   private buildCtx!: BuildContext;
   /** A small off-screen target for the first draw of each chamber and each project stage. */
   private readonly warmTarget = new WebGLRenderTarget(64, 64);
-  private shadowTick = 0;
-  /** Frames between shadow-map redraws (the chambers barely move). */
-  shadowEvery = 60;
   private lastChapter = -1;
   private stageWarmed = false;
   /** Fired when the visitor arrives in another chamber. */
@@ -92,9 +90,8 @@ export class Experience {
     this.renderer.toneMappingExposure = 1.0;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFShadowMap;
-    // The chambers barely move: shadow maps are redrawn a few times a second and after each build, not every frame.
-    this.renderer.shadowMap.autoUpdate = false;
-    this.renderer.shadowMap.needsUpdate = true;
+    // Shadow maps are drawn once per light, off-screen when its chamber is built; only a light over something
+    // that moves (the dock's crane) is redrawn now and then. See warmChamber and the chambers' update().
     // Count the whole frame (every composer pass), not just the last pass.
     this.renderer.info.autoReset = false;
 
@@ -164,15 +161,20 @@ export class Experience {
     });
   }
 
-  /** Build the first two chambers before the gate opens; the rest build behind the gate while it waits for you. */
+  /**
+   * Everything happens behind the gate: every chamber is built and drawn once, the project stages
+   * too, then real frames run under the gate until the tier and render scale that hold a steady
+   * frame are found. Nothing is built, compiled or reallocated after the button lights up.
+   */
   async load(onProgress: (p: number) => void): Promise<void> {
     this.buildCtx = { quality: this.quality, textures: this.textures, env: this.env, renderer: this.renderer };
-    const AHEAD = 2;
-    for (let i = 0; i < Math.min(AHEAD, this.chapters.length); i++) {
+    const n = this.chapters.length;
+    for (let i = 0; i < n; i++) {
       await this.buildChapter(i);
-      onProgress((i + 1) / AHEAD);
+      onProgress(((i + 1) / n) * 0.7);
+      await new Promise((r) => window.setTimeout(r, 0));
     }
-    // Compile every material and every pass once before the gate opens, so nothing hitches later.
+    // Compile every material and every pass once, at the real size.
     const atm = this.world.applyAtmosphere(this.scroll.state);
     this.world.poseAt(this.scroll.state, this.pose);
     this.rig.update(0, this.pose, 0, 0, true);
@@ -180,7 +182,72 @@ export class Experience {
     this.world.update(0, 0, this.scroll.state, this.rig.camera);
     this.pipeline.compile(this.scene, this.rig.camera);
     this.pipeline.warm(atm);
-    this.buildAhead();
+    this.warmStage();
+    onProgress(0.78);
+    // Real frames under the gate, until the settings hold.
+    this.timer.connect(document);
+    this.renderer.setAnimationLoop(this.frame);
+    await this.settle((p) => onProgress(0.78 + p * 0.22));
+    onProgress(1);
+  }
+
+  /**
+   * The ladder of settings tried under the gate. Each is measured on a fast sweep of the camera
+   * through every chamber at the real size (which also gives everything its first real frames):
+   * the first setting whose average frame fits a 60 Hz beat is kept for the whole descent.
+   */
+  private async settle(onProgress: (p: number) => void): Promise<void> {
+    if (this.probeOff) return;
+    const ladder: { tier: Quality['tier']; scale: number }[] = [
+      { tier: 'full', scale: 1 },
+      { tier: 'full', scale: 0.85 },
+      { tier: 'full', scale: 0.75 },
+      { tier: 'medium', scale: 0.75 },
+    ];
+    // At 60 Hz a frame that fits measures ~16.7 ms (vsync); one that does not measures 20 or more.
+    const BUDGET = 17.6;
+    // A device that opened on a lower tier starts the ladder there.
+    const start = Math.max(0, ladder.findIndex((l) => l.tier === this.quality.tier));
+    for (let i = start; i < ladder.length; i++) {
+      const step = ladder[i];
+      if (step.tier !== this.quality.tier) this.setTier(step.tier);
+      this.pipeline.setScale(step.scale);
+      onProgress((i - start + 0.2) / (ladder.length - start));
+      const avg = await this.sweep(1.6);
+      this.fps = 1000 / avg;
+      if (avg <= BUDGET || i === ladder.length - 1) break;
+    }
+    // Back to the surface, standing still, for the gate to open on.
+    this.scroll.position = 0;
+    this.scroll.target = 0;
+    this.scroll.update(0.016, 0.016);
+  }
+
+  /**
+   * Run the camera through the whole route in `seconds` while frames draw, and return the average
+   * frame time, leaving out the first moments after a change and anything the tab was not awake for.
+   */
+  private sweep(seconds: number): Promise<number> {
+    return new Promise((resolve) => {
+      const times: number[] = [];
+      let last = performance.now();
+      const t0 = last;
+      const total = this.scroll.total;
+      const tick = (): void => {
+        const now = performance.now();
+        const d = now - last;
+        last = now;
+        const u = Math.min(1, (now - t0) / (seconds * 1000));
+        // The route end to end, both ways, so every chamber is drawn from both sides.
+        const back = u > 0.5 ? 1 - (u - 0.5) * 2 : u * 2;
+        this.scroll.position = total * back;
+        this.scroll.target = this.scroll.position;
+        if (now - t0 > 300 && d < 500) times.push(d);
+        if (u < 1 && !this.stopped) requestAnimationFrame(tick);
+        else resolve(times.length ? times.reduce((a, b) => a + b, 0) / times.length : 16);
+      };
+      requestAnimationFrame(tick);
+    });
   }
 
   private async buildChapter(i: number): Promise<void> {
@@ -202,13 +269,28 @@ export class Experience {
     const shown = this.world.showOnly(c);
     c.poseAt(0, this.pose);
     this.rig.update(0, this.pose, 0, 0, true);
+    // Culling off for this one draw: what the entry pose cannot see is uploaded all the same.
+    const culled: Object3D[] = [];
+    c.group.traverse((o) => {
+      if (o.frustumCulled) {
+        o.frustumCulled = false;
+        culled.push(o);
+      }
+    });
+    // Its shadow maps are drawn once, now; from here they are kept, unless the chamber asks again.
+    c.group.traverse((o) => {
+      const l = o as DirectionalLight;
+      if (l.isLight && l.shadow) {
+        l.shadow.autoUpdate = false;
+        l.shadow.needsUpdate = true;
+      }
+    });
     const target = this.renderer.getRenderTarget();
     this.renderer.setRenderTarget(this.warmTarget);
-    this.renderer.shadowMap.needsUpdate = true;
     this.renderer.render(this.scene, this.rig.camera);
     this.renderer.setRenderTarget(target);
+    for (const o of culled) o.frustumCulled = true;
     this.world.restore(shown);
-    this.renderer.shadowMap.needsUpdate = true;
   }
 
   /** The six project stages, built and drawn once off-screen, so the first window opens without a pause. */
@@ -235,20 +317,6 @@ export class Experience {
     return this.buildChain.catch((err) => console.warn(`chamber ${this.chapters[i]?.id} failed to build`, err));
   }
 
-  private buildAhead(): void {
-    const next = this.built;
-    if (next >= this.chapters.length) {
-      window.setTimeout(() => {
-        if (!this.stopped) this.warmStage();
-      }, 300);
-      return;
-    }
-    window.setTimeout(() => {
-      if (this.stopped) return;
-      void this.enqueueBuild(next).then(() => this.buildAhead());
-    }, 200);
-  }
-
   /** Warp to a chamber from the rail or a station link, building anything on the way first. */
   async travelTo(k: number): Promise<void> {
     const c = this.chapters[k];
@@ -262,9 +330,8 @@ export class Experience {
   start(): void {
     this.scroll.attach();
     this.scroll.enabled = true;
-    this.timer.connect(document);
-    this.renderer.setAnimationLoop(this.frame);
     this.rail.show();
+    this.started = true;
   }
 
   /** Stop rendering for good (the written page takes over). */
@@ -377,7 +444,6 @@ export class Experience {
       this.lastChapter = st.chapter;
       this.onChapter?.(this.chapters[st.chapter].id);
     }
-    if (this.shadowTick++ % this.shadowEvery === 0) this.renderer.shadowMap.needsUpdate = true;
     this.updateHover();
     this.world.poseAt(st, this.pose);
     // Velocity in chambers-per-second terms for the rig's tilt: scale px/s down.
@@ -399,37 +465,30 @@ export class Experience {
   };
 
   /**
-   * Measure the first seconds; while the frame rate cannot hold, step the tier down and measure again.
-   * A throttled tab (hidden, or a background pane) is not a slow device: a long gap restarts the probe.
+   * The descent never re-measures itself; only a collapse that lasts (five seconds under 30 fps,
+   * with the tab visible) steps the tier down, and the lightest tier under 12 fps hands over.
    */
   private probeFps(): void {
-    if (this.probe.done || this.probeOff) return;
+    if (!this.started || this.probeOff) return;
     const raw = this.timer.getDelta();
-    // Not the device's speed: a hidden tab, a long gap, or chambers still building and compiling.
-    if (raw > 0.25 || document.hidden || this.built < this.chapters.length) {
+    if (raw > 0.5 || document.hidden) {
       this.probe.t = 0;
       this.probe.frames = 0;
       this.probe.busy = 0;
       return;
     }
     this.probe.t += raw;
-    if (this.probe.t < 1.0) return;
-    // Measure the steady frames only; a hitch (a compile, a collection) is not the frame rate.
     if (raw <= 0.1) {
       this.probe.frames += 1;
       this.probe.busy += raw;
     }
-    if (this.probe.t < 4.0) return;
-    this.fps = this.probe.busy > 0 ? this.probe.frames / this.probe.busy : 60;
+    if (this.probe.t < 5) return;
+    const fps = this.probe.busy > 0 ? this.probe.frames / this.probe.busy : 60;
+    this.probe = { t: 0, frames: 0, busy: 0, done: false };
     const next = stepDown(this.quality.tier);
-    if (this.fps < 45 && next) {
-      this.setTier(next);
-      this.probe = { t: 0, frames: 0, busy: 0, done: false };
-      return;
-    }
-    this.probe.done = true;
-    // Only when even the light tier cannot hold a readable frame does the written page take over.
-    if (this.fps < 14 && !next) this.onTooSlow?.(this.fps);
+    if (fps < 30 && next) this.setTier(next);
+    else if (fps < 12 && !next) this.onTooSlow?.(fps);
+    this.fps = fps;
   }
 
   /** Set by main: what to do when the device cannot keep up. */
@@ -437,6 +496,10 @@ export class Experience {
 
   setTier(tier: Quality['tier']): void {
     this.quality = makeQuality(tier, this.quality.reducedMotion);
+    this.scene.traverse((o) => {
+      const l = o as DirectionalLight;
+      if (l.isLight && l.shadow) l.shadow.needsUpdate = true;
+    });
     this.renderer.setPixelRatio(this.quality.dpr);
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
     this.pipeline.setQuality(this.quality);

@@ -48,6 +48,8 @@ export abstract class Chapter {
   readonly texts: StationText[] = [];
   /** Offset from this chamber's origin to the next chamber's origin. */
   readonly exit = new Vector3(0, -64, 0);
+  /** True when something in the chamber casts a shadow that moves (the shadow maps are redrawn while it is in view). */
+  readonly movingShadows: boolean = false;
   /** Wheel pixels across the content and across the plunge that follows it. */
   contentPx = 2600;
   plungePx = 1100;

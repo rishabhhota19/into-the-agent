@@ -61,6 +61,7 @@ export class Overlay {
   }
 
   progress(p: number): void {
+    this.btn.textContent = p < 0.72 ? 'building the chambers…' : p < 0.8 ? 'warming up…' : 'settling the picture…';
     this.bar.style.width = `${Math.round(p * 100)}%`;
     this.bar.parentElement?.setAttribute('aria-valuenow', String(Math.round(p * 100)));
   }

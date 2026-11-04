@@ -3,6 +3,7 @@ import {
   CapsuleGeometry,
   Color,
   CylinderGeometry,
+  DirectionalLight,
   Group,
   InstancedMesh,
   Mesh,
@@ -60,6 +61,10 @@ export class Dock extends Chapter {
   readonly fogDensity = 0.036;
   readonly grade: Grade = { shadow: new Color(0x062a22), highlight: new Color(0xe6f7e4), saturation: 0.96 };
   override readonly accent = new Color(0x7fe0b0);
+  /** The crane walks the bay and its load swings, so the key light's shadow is redrawn now and then. */
+  override readonly movingShadows = true;
+  private key?: DirectionalLight;
+  private shadowTick = 0;
   private readonly length: number;
   private readonly pods: Pod[] = [];
   private water?: ShaderMaterial;
@@ -344,6 +349,9 @@ export class Dock extends Chapter {
     entryTube(g, tex, this.accent);
     exitPit(g, tex, new Color(0xffb86b), -L + 0.2);
     hallLights(g, L, this.accent, ctx.quality.shadowMap, 2.4);
+    g.traverse((o) => {
+      if ((o as DirectionalLight).isDirectionalLight && (o as DirectionalLight).castShadow) this.key = o as DirectionalLight;
+    });
     this.shafts = new LightShafts(Math.max(2, ctx.quality.shafts - 3), this.accent.getHex(), 0.45);
     this.shafts.group.position.set(0, 0, -L / 2);
     this.shafts.group.scale.set(1.5, 1, 1.5);
@@ -405,6 +413,7 @@ export class Dock extends Chapter {
 
     // The crane runs the bay on a slow harmonic; its load swings on the cable with the
     // quasi-static tilt of that acceleration plus a small free swing at the cable's own period.
+    if (this.key && this.shadowTick++ % 45 === 0) this.key.shadow.needsUpdate = true;
     if (this.crane && this.hook) {
       const O = 0.07;
       this.crane.position.z = this.craneMid + this.craneSpan * Math.sin(elapsed * O);
