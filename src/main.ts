@@ -1,13 +1,17 @@
 import './style.css';
+import { addAction, startAnalytics } from './analytics';
 import { Experience } from './experience/Experience';
-import { showFallback } from './ui/Fallback';
-import content from './content/site.json';
-import type { SiteContent } from './content/types';
+
+/** The written site: where every visitor goes when the descent cannot run. */
+const PORTFOLIO = 'https://rishabh-hota.vercel.app/';
+const leave = (): void => location.replace(PORTFOLIO);
 
 const canvas = document.getElementById('stage') as HTMLCanvasElement;
 const note = document.getElementById('gate-note') as HTMLParagraphElement;
 const btn = document.getElementById('gate-btn') as HTMLButtonElement;
-const read = document.getElementById('gate-read') as HTMLAnchorElement;
+
+startAnalytics();
+document.getElementById('ask')?.addEventListener('click', () => addAction('ask_dumbledore'));
 
 let experience: Experience | undefined;
 try {
@@ -15,28 +19,28 @@ try {
 } catch (err) {
   console.error(err);
   btn.textContent = 'unavailable';
-  note.textContent = 'This browser cannot run WebGL.';
-  showFallback(content as SiteContent, [], 'This browser cannot run the 3D version, so here it is as a page.');
+  note.textContent = 'This browser cannot run WebGL. Taking you to the written site.';
+  leave();
 }
 
 if (experience) {
   const exp = experience;
-  read.addEventListener('click', (e) => {
-    e.preventDefault();
+  exp.onTooSlow = () => {
     exp.stop();
-    showFallback(exp.content, exp.chapters, 'The written version. The descent is one reload away.');
-  });
-  exp.onTooSlow = (fps) => {
-    exp.stop();
-    showFallback(exp.content, exp.chapters, `This device drew ${Math.round(fps)} frames a second at the lightest setting, so here it is as a page.`);
+    leave();
   };
   exp
     .load((p) => exp.overlay.progress(p))
-    .then(() => exp.overlay.ready(() => exp.start()))
+    .then(() =>
+      exp.overlay.ready(() => {
+        addAction('descend');
+        exp.start();
+      }),
+    )
     .catch((err) => {
       console.error(err);
       exp.overlay.fail('The scene could not load.');
-      showFallback(exp.content, exp.chapters, 'The 3D scene could not load on this device, so here it is as a page.');
+      leave();
     });
   // Read-only handle for the test harness.
   (window as unknown as { __ita: Experience }).__ita = exp;

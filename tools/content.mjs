@@ -1,23 +1,35 @@
 // Reads the portfolio's content folder (the same Markdown the live site and the agent use)
 // and writes src/content/site.json: the chambers are built from this, nothing is typed twice.
 //   node tools/content.mjs [path/to/portfolio/content]
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(process.argv[2] ?? path.join(here, '..', '..', 'portfolio', 'content'));
+let ROOT = path.resolve(process.argv[2] ?? path.join(here, '..', '..', 'portfolio', 'content'));
 const OUT = path.join(here, '..', 'src', 'content', 'site.json');
 
-// On a build machine the portfolio checkout is not beside this one: keep the committed site.json.
+// On a build machine the portfolio checkout is not beside this one: fetch just its content folder from
+// the public repo (a shallow, sparse clone into a gitignored folder). If even that fails, the committed
+// site.json stands.
 if (!fs.existsSync(path.join(ROOT, 'site.json'))) {
-  if (fs.existsSync(OUT)) {
-    console.log(`content: ${ROOT} not found, keeping ${path.relative(process.cwd(), OUT)}`);
-    process.exit(0);
+  const clone = path.join(here, 'portfolio-src');
+  try {
+    fs.rmSync(clone, { recursive: true, force: true });
+    execFileSync('git', ['clone', '--depth', '1', '--filter=blob:none', '--sparse', 'https://github.com/rishabhhota19/portfolio.git', clone], { stdio: 'inherit' });
+    execFileSync('git', ['-C', clone, 'sparse-checkout', 'set', 'content'], { stdio: 'inherit' });
+    ROOT = path.join(clone, 'content');
+    console.log(`content: reading the portfolio repo at ${path.relative(process.cwd(), ROOT)}`);
+  } catch (err) {
+    if (fs.existsSync(OUT)) {
+      console.log(`content: portfolio not found and the clone failed (${err?.message ?? err}); keeping ${path.relative(process.cwd(), OUT)}`);
+      process.exit(0);
+    }
+    console.error(`content: portfolio not found, clone failed and no ${OUT}`);
+    process.exit(1);
   }
-  console.error(`content: ${ROOT} not found and no ${OUT}`);
-  process.exit(1);
 }
 
 const read = (f) => fs.readFileSync(f, 'utf8').replace(/\r\n?/g, '\n');
@@ -72,7 +84,7 @@ function blocks(md) {
   return out;
 }
 
-/** This project's own content (what the live site does not carry yet): services and the dock's words. */
+/** This project's own content: the dock's words. */
 const LOCAL = path.join(here, '..', 'content');
 
 const dirAt = (abs) =>
@@ -158,7 +170,10 @@ const blog = dir('blog').map((e) => ({
   link: { label: 'Read the post', href: abs(`/blog/${e.slug}`) },
 }));
 
-const services = dirAt(path.join(LOCAL, 'services')).map((e) => ({
+// Services live with the rest of the content in the portfolio repo; the dock's own words stay here.
+const servicesDir = path.join(ROOT, 'services');
+if (!fs.existsSync(servicesDir)) console.warn(`content: no services folder at ${servicesDir}`);
+const services = (fs.existsSync(servicesDir) ? dirAt(servicesDir) : []).map((e) => ({
   slug: e.slug.replace(/^\d+-/, ''),
   title: str(e.data.title),
   kicker: str(e.data.kicker) || 'build',

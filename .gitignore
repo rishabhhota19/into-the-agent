@@ -7,3 +7,4 @@ tools/dist-host/
 .DS_Store
 .vercel
 .env*
+tools/portfolio-src/

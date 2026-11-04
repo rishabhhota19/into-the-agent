@@ -31,7 +31,7 @@ with sync_playwright() as p:
     pg.wait_for_selector("#gate-btn:not([disabled])", timeout=90000)
     print("gate:", pg.evaluate("() => document.getElementById('gate-btn').textContent"))
     pg.click("#gate-btn"); pg.wait_for_timeout(9000)
-    print(pg.evaluate("() => { const e = window.__ita; let meshes = 0; e.chapters[0].group.traverse(o => { if (o.isMesh) meshes++; }); return { built: e.built, tier: e.quality.tier, fps: +e.fps.toFixed(1), meshes, fallback: !document.getElementById('fallback').hidden, chapter: e.scroll.state.chapter }; }"))
+    print(pg.evaluate("() => { const e = window.__ita; let meshes = 0; e.chapters[0].group.traverse(o => { if (o.isMesh) meshes++; }); return { built: e.built, tier: e.quality.tier, fps: +e.fps.toFixed(1), meshes, chapter: e.scroll.state.chapter }; }"))
     pg.screenshot(path=str(OUT))
     b.close()
 srv.shutdown()
