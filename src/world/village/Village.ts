@@ -529,6 +529,12 @@ export class Village {
 
   private frameParity = 0;
 
+  /** Draw once while nobody can see it, so its shaders are ready when the window comes into view. */
+  warm(renderer: WebGLRenderer): void {
+    this.frameParity = 1;
+    this.render(renderer, 0);
+  }
+
   /** Draw the village into its texture, every other frame. Call before the main render while the window is in view. */
   render(renderer: WebGLRenderer, elapsed: number): void {
     this.frameParity ^= 1;

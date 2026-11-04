@@ -71,6 +71,14 @@ export class Pipeline {
     this.build();
   }
 
+  /** Prepare a scene's shaders as they will be drawn: the render target decides their tone mapping and colour space. */
+  compile(scene: Scene, camera: PerspectiveCamera): void {
+    const target = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.composer.readBuffer);
+    this.renderer.compile(scene, camera);
+    this.renderer.setRenderTarget(target);
+  }
+
   /** Render one frame through every pass, travel included, so no shader compiles mid-plunge. */
   warm(atm: Atmosphere): void {
     this.render(0.016, 0, 0.5, atm);

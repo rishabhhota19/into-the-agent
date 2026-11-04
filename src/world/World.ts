@@ -1,4 +1,4 @@
-import { Color, FogExp2, PerspectiveCamera, Scene } from 'three';
+import { Color, DirectionalLight, FogExp2, HemisphereLight, Light, PerspectiveCamera, PointLight, Scene } from 'three';
 import type { Pose } from '../camera/Rig';
 import { makePose } from '../camera/Rig';
 import type { ScrollState } from '../scroll/VirtualScroll';
@@ -11,13 +11,46 @@ export interface Atmosphere {
   grade: Grade;
 }
 
+/**
+ * The most lights of each kind ever in view at once: three neighbouring chambers (see `update`). three.js rebuilds the
+ * shader of every lit material whenever one of these counts changes, which froze the page for a second or two each time
+ * a chamber came into view or left it. So the counts never change: dark spare lights fill in for whatever is out of view.
+ * A chamber that brings more lights than this still works, it only freezes again: raise the number.
+ */
+const LIGHTS = { point: 11, directional: 1, shadowed: 3, hemisphere: 3 };
+type LightKind = keyof typeof LIGHTS;
+const KINDS = Object.keys(LIGHTS) as LightKind[];
+
+function spareLight(kind: LightKind): Light {
+  if (kind === 'point') return new PointLight(0, 0);
+  if (kind === 'hemisphere') return new HemisphereLight(0, 0, 0);
+  const light = new DirectionalLight(0, 0);
+  if (kind === 'shadowed') {
+    light.castShadow = true;
+    light.shadow.autoUpdate = false; // no map and no shadow pass: it only holds the count
+  }
+  return light;
+}
+
+function kindOf(light: Light): LightKind | null {
+  if (light instanceof PointLight) return 'point';
+  if (light instanceof HemisphereLight) return 'hemisphere';
+  if (light instanceof DirectionalLight) return light.castShadow ? 'shadowed' : 'directional';
+  return null;
+}
+
 export class World {
   readonly fog: FogExp2;
   readonly atmosphere: Atmosphere;
   private readonly poseA = makePose();
   private readonly poseB = makePose();
+  private readonly lightCounts = new Map<Chapter, Record<LightKind, number>>();
+  private readonly spares = Object.fromEntries(
+    KINDS.map((kind) => [kind, Array.from({ length: LIGHTS[kind] }, () => spareLight(kind))]),
+  ) as Record<LightKind, Light[]>;
 
   constructor(readonly scene: Scene, readonly chapters: Chapter[]) {
+    for (const kind of KINDS) scene.add(...this.spares[kind]);
     // Chain the chambers: each one's exit is the next one's origin.
     let x = 0;
     let y = 0;
@@ -84,5 +117,25 @@ export class World {
       c.group.visible = near;
       if (near) c.update(dt, i === st.chapter ? st.t : i < st.chapter ? 1 : 0, elapsed, camera);
     });
+    this.balanceLights();
+  }
+
+  /** A chamber has just been built: count its lights, so its shaders can be prepared with the counts they'll be drawn with. */
+  chamberBuilt(c: Chapter): void {
+    const counts: Record<LightKind, number> = { point: 0, directional: 0, shadowed: 0, hemisphere: 0 };
+    c.group.traverse((o) => {
+      const kind = o instanceof Light ? kindOf(o) : null;
+      if (kind) counts[kind]++;
+    });
+    this.lightCounts.set(c, counts);
+    this.balanceLights();
+  }
+
+  private balanceLights(): void {
+    for (const kind of KINDS) {
+      let inView = 0;
+      for (const c of this.chapters) if (c.group.visible) inView += this.lightCounts.get(c)?.[kind] ?? 0;
+      this.spares[kind].forEach((light, i) => (light.visible = i < LIGHTS[kind] - inView));
+    }
   }
 }

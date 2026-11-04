@@ -152,7 +152,7 @@ export class Experience {
     });
   }
 
-  /** Build the first two chambers before the gate opens; the rest build ahead of you once you are in. */
+  /** Build the first two chambers before the gate opens; the rest build behind the gate while it waits for you. */
   async load(onProgress: (p: number) => void): Promise<void> {
     this.buildCtx = { quality: this.quality, textures: this.textures, env: this.env, renderer: this.renderer };
     const AHEAD = 2;
@@ -166,19 +166,19 @@ export class Experience {
     this.rig.update(0, this.pose, 0, 0, true);
     this.particles.update(0, this.rig.camera);
     this.world.update(0, 0, this.scroll.state, this.rig.camera);
-    this.renderer.compile(this.scene, this.rig.camera);
+    this.pipeline.compile(this.scene, this.rig.camera);
     this.pipeline.warm(atm);
+    this.buildAhead();
   }
 
   private async buildChapter(i: number): Promise<void> {
     const c = this.chapters[i];
     await c.build(this.buildCtx);
     this.built = Math.max(this.built, i + 1);
-    // Compile its materials now, while it is still out of sight.
-    const wasVisible = c.group.visible;
-    c.group.visible = true;
-    this.renderer.compile(this.scene, this.rig.camera);
-    c.group.visible = wasVisible;
+    // Compile its materials now, while it is still out of sight (compile reaches hidden meshes too).
+    this.world.chamberBuilt(c);
+    this.pipeline.compile(this.scene, this.rig.camera);
+    if (c instanceof Timefold) this.village.warm(this.renderer);
   }
 
   /** Queue a chamber's build behind whatever is building; a chamber already built is skipped. */
@@ -215,7 +215,6 @@ export class Experience {
     this.timer.connect(document);
     this.renderer.setAnimationLoop(this.frame);
     this.rail.show();
-    this.buildAhead();
   }
 
   /** Stop rendering for good (the written page takes over). */
