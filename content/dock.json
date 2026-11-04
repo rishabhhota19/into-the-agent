@@ -1,0 +1,61 @@
+{
+  "label": "Services",
+  "intro": "Building, training, consulting: intelligence embedded in the flow of work, not slideware.",
+  "stations": [
+    {
+      "kicker": "how a build runs",
+      "title": "Scoped in a call. <em>Prototyped in days. Shipped with evals.</em>",
+      "body": "A short call fixes the problem, the data and the done-condition. A working prototype lands within days, not a deck. The shipped build comes with an eval suite, documentation and a handover, so it keeps working after he leaves. Strategic foresight meets execution: today's AI trends, translated into tomorrow's edge for your business.",
+      "tags": [
+        "fixed-scope builds",
+        "retainers",
+        "full-time roles"
+      ],
+      "link": {
+        "label": "Book the call",
+        "href": "#go:contact"
+      }
+    },
+    {
+      "kicker": "the toolkit",
+      "title": "The stack he reaches for, <em>and has shipped with.</em>",
+      "body": "Python, PyTorch, LangChain and LangGraph, Google ADK, CrewAI, FastAPI and FastMCP; Unsloth, TRL, vLLM, Ollama and llama.cpp; FAISS and Redis; AWS (S3, Lambda, SageMaker, EC2, Bedrock), Azure AI Foundry, Docker.",
+      "tags": [
+        "python",
+        "pytorch",
+        "langgraph",
+        "mcp",
+        "aws",
+        "azure ai foundry",
+        "vllm",
+        "docker"
+      ]
+    },
+    {
+      "kicker": "credentials",
+      "title": "Published, awarded, <em>and still studying.</em>",
+      "body": "B.E. Electronics and Communication, B.M.S. College of Engineering (2023). LLM fine-tuning (DeepLearning.AI), Generative AI fundamentals (Databricks), NVIDIA Deep Learning Institute. Best Team Award at Simplilearn; papers in Elsevier, Springer and Inderscience.",
+      "tags": [
+        "b.e. ece · bmsce",
+        "deeplearning.ai",
+        "databricks",
+        "nvidia dli",
+        "elsevier · springer · inderscience"
+      ]
+    },
+    {
+      "kicker": "why it matters",
+      "title": "Real solutions, <em>not buzzwords.</em>",
+      "body": "Every project embeds intelligence into a workflow: operational change, backed by metrics, from near-clinical-grade accuracy in healthcare to agentic workflows that cut a ten-day process to one. Let's turn today's AI breakthroughs into your next business differentiator.",
+      "tags": [
+        "foresight",
+        "execution",
+        "measured results"
+      ],
+      "link": {
+        "label": "Start the conversation",
+        "href": "#go:contact"
+      }
+    }
+  ]
+}

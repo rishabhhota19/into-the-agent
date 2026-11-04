@@ -1,0 +1,8 @@
+node_modules/
+dist/
+tools/out/
+tools/dist-host/
+.claude/
+*.log
+.DS_Store
+.vercel/

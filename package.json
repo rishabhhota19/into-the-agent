@@ -1,0 +1,25 @@
+{
+  "name": "into-the-agent",
+  "private": true,
+  "version": "0.6.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5177",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4177 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "content": "node tools/content.mjs",
+    "prebuild": "npm run content",
+    "predev": "npm run content"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.5.1",
+    "@types/three": "^0.187.0",
+    "gray-matter": "^4.0.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}

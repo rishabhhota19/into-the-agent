@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#06161b" />
+    <meta name="description" content="Into the Agent: a descent through the work of Rishabh Hota, senior AI researcher." />
+    <title>Into the Agent</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2306161b'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23ff3b4a'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="stage" aria-hidden="true"></canvas>
+
+    <div id="ui">
+      <header class="brand">
+        <span class="brand__name">Rishabh Hota</span>
+        <span class="brand__role mono">senior ai researcher</span>
+      </header>
+
+      <div id="texts" class="texts" aria-live="polite"></div>
+
+      <div id="hint" class="hint mono">[ scroll ] to descend</div>
+
+      <nav id="rail" class="rail" aria-label="Chambers"></nav>
+
+      <section id="proj" class="proj" role="dialog" aria-modal="true" aria-labelledby="proj-title" hidden>
+        <button id="proj-close" class="proj__close mono" type="button">close ✕</button>
+        <div id="proj-scroll" class="proj__scroll" tabindex="-1">
+          <div class="proj__stage">
+            <div class="proj__head">
+              <p id="proj-kicker" class="text__kicker mono"></p>
+              <h2 id="proj-title" class="proj__title"></h2>
+              <p id="proj-summary" class="proj__summary"></p>
+              <p class="proj__hint mono">[ scroll ] for the build</p>
+            </div>
+          </div>
+          <article class="proj__body">
+            <ul id="proj-tags" class="text__tags"></ul>
+            <div id="proj-blocks" class="proj__blocks"></div>
+            <div class="proj__links">
+              <a id="proj-link" class="text__link" href="#" target="_blank" rel="noopener"></a>
+              <button id="proj-next" class="proj__next" type="button"></button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div id="gate" class="gate">
+        <div class="gate__inner">
+          <p class="gate__eyebrow mono">into the agent</p>
+          <h1 class="gate__title">A descent through the work of Rishabh Hota</h1>
+          <p class="gate__sub">Agents, medical imaging, research, and what he builds for clients. Seven chambers down.</p>
+          <div class="gate__loader" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="gate-bar" class="gate__bar"></span>
+          </div>
+          <button id="gate-btn" class="gate__btn mono" type="button" disabled>preparing…</button>
+          <p id="gate-note" class="gate__note mono"></p>
+          <p class="gate__alt mono"><a id="gate-read" href="#read">or read it as a page</a></p>
+          <p class="gate__credits mono">Rabbit: “Bobo” by riddle0104 (CC BY 4.0) · Ant: Poly by Google (CC BY) · Everything else is drawn in code.</p>
+        </div>
+      </div>
+    </div>
+
+    <main id="fallback" class="fallback" hidden></main>
+
+    <noscript>
+      <div class="noscript">Into the Agent needs JavaScript and WebGL. The written portfolio is at rishabh-hota.vercel.app.</div>
+    </noscript>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

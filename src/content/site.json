@@ -1,0 +1,929 @@
+{
+  "site": {
+    "name": "Rishabh Hota",
+    "role": "AI/ML Researcher & Engineer",
+    "tagline": "I turn new AI research into working systems — agents, LLM pipelines and medical-imaging models that ship.",
+    "location": "Bengaluru, India",
+    "email": "rishabhhota19@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/rishabh-hota-4138b31b3",
+    "github": "https://github.com/rishabhhota19",
+    "resume": "https://rishabh-hota.vercel.app/resume.pdf",
+    "url": "https://rishabh-hota.vercel.app"
+  },
+  "assets": {
+    "rabbit": true,
+    "projects": {}
+  },
+  "home": {
+    "now": "Sr. AI Researcher at Simplilearn (on-site, Bengaluru), since Mar 2026. Works on automating complex workflows, agentic orchestration, open source, and hands-on research into new AI tech. Before that, AI Researcher at Simplilearn (Mar 2025 – Mar 2026).",
+    "wins": [
+      "Built an N8N-based multi-agent \"Collaterals Agent\" at Simplilearn that cut course-launch collateral creation from 7–10 days (2 teams of 4) to 1 day; won the Best Team Award (Q3).",
+      "His novel LCSNet architecture was published in Intelligence-Based Medicine (Elsevier, IF 2.3, Oct 2025).",
+      "Designed QFPViT, a quantum self-attention operator for Vision Transformers, starting from zero quantum background; paper communicated to Quantum Journal."
+    ],
+    "roles": "AI Engineer, GenAI / LLM Engineer, Agentic AI Engineer, Forward Deployed Engineer, Applied / Research Engineer (ML, medical imaging, efficient attention)."
+  },
+  "dock": {
+    "label": "Services",
+    "intro": "Building, training, consulting: intelligence embedded in the flow of work, not slideware.",
+    "stations": [
+      {
+        "kicker": "how a build runs",
+        "title": "Scoped in a call. <em>Prototyped in days. Shipped with evals.</em>",
+        "body": "A short call fixes the problem, the data and the done-condition. A working prototype lands within days, not a deck. The shipped build comes with an eval suite, documentation and a handover, so it keeps working after he leaves. Strategic foresight meets execution: today's AI trends, translated into tomorrow's edge for your business.",
+        "tags": [
+          "fixed-scope builds",
+          "retainers",
+          "full-time roles"
+        ],
+        "link": {
+          "label": "Book the call",
+          "href": "#go:contact"
+        }
+      },
+      {
+        "kicker": "the toolkit",
+        "title": "The stack he reaches for, <em>and has shipped with.</em>",
+        "body": "Python, PyTorch, LangChain and LangGraph, Google ADK, CrewAI, FastAPI and FastMCP; Unsloth, TRL, vLLM, Ollama and llama.cpp; FAISS and Redis; AWS (S3, Lambda, SageMaker, EC2, Bedrock), Azure AI Foundry, Docker.",
+        "tags": [
+          "python",
+          "pytorch",
+          "langgraph",
+          "mcp",
+          "aws",
+          "azure ai foundry",
+          "vllm",
+          "docker"
+        ]
+      },
+      {
+        "kicker": "credentials",
+        "title": "Published, awarded, <em>and still studying.</em>",
+        "body": "B.E. Electronics and Communication, B.M.S. College of Engineering (2023). LLM fine-tuning (DeepLearning.AI), Generative AI fundamentals (Databricks), NVIDIA Deep Learning Institute. Best Team Award at Simplilearn; papers in Elsevier, Springer and Inderscience.",
+        "tags": [
+          "b.e. ece · bmsce",
+          "deeplearning.ai",
+          "databricks",
+          "nvidia dli",
+          "elsevier · springer · inderscience"
+        ]
+      },
+      {
+        "kicker": "why it matters",
+        "title": "Real solutions, <em>not buzzwords.</em>",
+        "body": "Every project embeds intelligence into a workflow: operational change, backed by metrics, from near-clinical-grade accuracy in healthcare to agentic workflows that cut a ten-day process to one. Let's turn today's AI breakthroughs into your next business differentiator.",
+        "tags": [
+          "foresight",
+          "execution",
+          "measured results"
+        ],
+        "link": {
+          "label": "Start the conversation",
+          "href": "#go:contact"
+        }
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "projects",
+      "label": "Projects",
+      "path": "https://rishabh-hota.vercel.app/projects",
+      "intro": "11 builds, from a hospital pipeline to the agent on this site.",
+      "items": [
+        {
+          "slug": "collaterals-agent",
+          "title": "Collaterals Agent",
+          "kicker": "Simplilearn · Jun – Aug 2025",
+          "summary": "An N8N-based multi-agent system that cut course-launch marketing collateral from 7–10 days to 1 day.",
+          "body": "Every new course launch needed SD/SL pages, brochures and seven types of emailers. Two teams of four people (eight in total) spent 7–10 days producing them.",
+          "tags": [
+            "Agentic AI",
+            "Multi-agent",
+            "N8N",
+            "Fine-tuned GPT",
+            "Google Docs"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "h",
+              "text": "Problem"
+            },
+            {
+              "type": "p",
+              "text": "Every new course launch needed SD/SL pages, brochures and seven types of emailers. Two teams of four people (eight in total) spent 7–10 days producing them."
+            },
+            {
+              "type": "h",
+              "text": "What Rishabh built"
+            },
+            {
+              "type": "list",
+              "items": [
+                "An N8N-based agentic system that drafts all collateral automatically and cuts turnaround to one day, including reviews and approvals.",
+                "A fine-tuned GPT model with deep course knowledge drafts accurate, relevant marketing content.",
+                "Architecture: one Head Agent coordinates two sub-agents:",
+                "a Researcher, which gathers and validates course information through SerpAPI;",
+                "an Analyst, which checks content structure and data accuracy and extracts the table of contents.",
+                "Integrated with Google Docs for automatic document creation and real-time updates throughout the workflow."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Outcome"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Launch collateral time fell from 7–10 days to 1 day.",
+                "The team won Simplilearn's Best Team Award (Q3)."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "oa-classification",
+          "title": "AI-Powered Osteoarthritis Classification & Reporting",
+          "kicker": "OsteosConnect · Jan 2024 – Sep 2024",
+          "summary": "End-to-end knee X-ray grading on AWS — 96% accuracy, more than 90% concordance with radiologists, ahead of competitor RBKnee.",
+          "body": "Doctors capture a knee X-ray on a React web app or an Android app. The system grades osteoarthritis automatically and produces a web-based report.",
+          "tags": [
+            "Computer Vision",
+            "Medical Imaging",
+            "AWS",
+            "SageMaker",
+            "Feedback loop"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "h",
+              "text": "What it does"
+            },
+            {
+              "type": "p",
+              "text": "Doctors capture a knee X-ray on a React web app or an Android app. The system grades osteoarthritis automatically and produces a web-based report."
+            },
+            {
+              "type": "h",
+              "text": "How it works"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Flow: capture on React/Android → encrypted upload to S3 → Lambda trigger → SageMaker/EC2 inference → prediction → Lambda → report written to the EMR.",
+                "A closed feedback loop retrains the model on doctor-validated labels, so it keeps improving with real clinical use.",
+                "Earlier, as an intern, Rishabh ran EDA on DICOM images and built baseline classifiers (logistic regression, random forest) before moving to deep learning."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Results"
+            },
+            {
+              "type": "list",
+              "items": [
+                "96% classification accuracy.",
+                "More than 90% concordance with radiologists in trials at SRM Trichy.",
+                "Outperformed competitor RBKnee.",
+                "Rishabh led the clinicians and engineers who delivered it.",
+                "Follow-on research, \"OA Classification and Reporting using Agentic AI and Deep Neural Networks\", is ongoing with OsteosConnect."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "turbotrade",
+          "title": "TurboTrade — Zerodha MCP trading copilot",
+          "kicker": "Simplilearn (on-site project) · Apr – May 2025",
+          "summary": "A chat copilot that researches, plans and trades Indian markets using LangChain, Groq and Zerodha's Kite MCP.",
+          "body": "TurboTrade puts research, planning and trading on Indian markets into one chat.",
+          "tags": [
+            "MCP",
+            "LangChain",
+            "Groq",
+            "RAG",
+            "Fintech"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "h",
+              "text": "What it does"
+            },
+            {
+              "type": "p",
+              "text": "TurboTrade puts research, planning and trading on Indian markets into one chat."
+            },
+            {
+              "type": "p",
+              "text": "A user can ask: \"Show my live P&L, scan for bullish breakouts, then sell half my HDFC Bank.\""
+            },
+            {
+              "type": "h",
+              "text": "How it works"
+            },
+            {
+              "type": "list",
+              "items": [
+                "LangChain handles orchestration, Groq provides fast reasoning, and the Zerodha Kite MCP server streams secure, real-time account data.",
+                "The agent fetches positions through MCP, blends fresh news using LangChain RAG, and streams insights.",
+                "One-tap options let the user buy, sell, set stops or queue deeper research."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Safety design"
+            },
+            {
+              "type": "list",
+              "items": [
+                "MCP keeps API keys out of prompts, and OAuth scopes guard capital.",
+                "Every step is logged and reversible.",
+                "Models and brokers can be swapped, and custom research feeds plugged in, without rewrites.",
+                "Built to stay compliant with Indian rules."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "ai-teddy-bear",
+          "title": "AI Teddy Bear (MVP)",
+          "kicker": "Personal",
+          "summary": "A storytelling teddy bear for children with its own character voice — guardrailed, open source, hardware- and app-ready.",
+          "body": "An MVP AI teddy bear that tells children stories in a unique character voice and style. The stories are personalized so children feel comfortable.",
+          "tags": [
+            "Voice AI",
+            "Speech generation",
+            "Guardrails",
+            "Hardware"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "h",
+              "text": "What it does"
+            },
+            {
+              "type": "p",
+              "text": "An MVP AI teddy bear that tells children stories in a unique character voice and style. The stories are personalized so children feel comfortable."
+            },
+            {
+              "type": "h",
+              "text": "Notes"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Open source, and ready for both hardware and a companion app.",
+                "Guardrailed and secure for children's use.",
+                "Many details are confidential. If a recruiter asks for specifics beyond this, the agent should say Rishabh can share more directly."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "portfolio-agent",
+          "title": "AI Portfolio Agent (this site)",
+          "kicker": "Personal · Oct 2026",
+          "summary": "Dumbledore, a Python LangGraph agent live on this site — hybrid RAG, a five-gate refusal pipeline, page navigation and 17 free LLMs on a ₹0/month stack.",
+          "body": "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its…",
+          "tags": [
+            "LangGraph",
+            "LangChain",
+            "RAG",
+            "FAISS",
+            "Python",
+            "RAGAS"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its interface.",
+                "Agent: a LangGraph graph in Python (FastAPI on Vercel):",
+                "route: greetings, contact questions and \"take me to …\" requests get an instant answer with no LLM call;",
+                "retrieve: hybrid search, combining FAISS for meaning (BAAI bge-small-en-v1.5 embeddings, run inside the server with the same model on Cloudflare as the backup) with BM25 for keywords, merged with Reciprocal Rank Fusion. A cross-encoder re-ranker was A/B-tested and kept off (MRR@4 0.885 vs 0.962);",
+                "respond: 17 free LLMs across Groq, Gemini, Cloudflare Workers AI and OpenRouter, picked by question difficulty (fact, standard, reasoning). Budgets are reserved atomically in Redis, so many visitors at once never overload one model, and the switch between models is invisible.",
+                "Refusal pipeline: five gates keep it on topic — rules, then a meaning check against on-topic and off-topic examples (both before any LLM), the prompt, an output check on every sentence before the visitor sees it (code and leaked instructions replaced; unknown links, phone numbers and other emails removed), and a cache that stores only clean answers. On 76 attack and off-topic prompts (follow-ups included): 0 leaks. On held-out prompts it refused 32 of 33, 24 of them before any LLM, with 0 false refusals on 47 real recruiter questions.",
+                "Agent actions: it takes visitors to the page they ask for (\"open the LCSNet paper\") and offers \"take me there\" buttons under answers. Targets come from an allow-list of the site's own pages, so no one can be sent elsewhere.",
+                "Answer bank: common questions, asked any way, are answered instantly from checked answers: an embedding match with a safety margin (0 wrong answers on held-out paraphrases).",
+                "Security: a Next.js gateway in front of the agent checks for bots, validates input, rate-limits per visitor and enforces a daily budget.",
+                "Memory: lives only in the visitor's open tab. When the chat or the site is closed, it's gone, and only a short AI summary is logged to a Google Sheet.",
+                "Evals: Python suites check retrieval, facts, guardrails, refusals, navigation and difficulty routing; RAGAS scores faithfulness, answer relevancy and context precision."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "sales-training-chatbot",
+          "title": "Scalable Sales Training Chatbot",
+          "kicker": "Simplilearn (on-site project) · Apr – May 2025",
+          "summary": "A high-throughput sales-enablement chatbot using FAISS retrieval, Gemini and Google ADK, with a Streamlit training UI.",
+          "body": "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK. Built a Streamlit interface for interactive training scenarios with real-time…",
+          "tags": [
+            "RAG",
+            "FAISS",
+            "Gemini",
+            "Google ADK",
+            "Streamlit"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK.",
+                "Built a Streamlit interface for interactive training scenarios with real-time feedback.",
+                "Engineered for horizontal scalability."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "edtech-platform",
+          "title": "Ed-Tech Web App",
+          "kicker": "Personal",
+          "summary": "A cohort-based learning platform with automated cohort and instructor mapping, WhatsApp agent posts and automated payroll.",
+          "body": "An ed-tech platform where learners explore courses and join cohorts. Automated:",
+          "tags": [
+            "Full-stack",
+            "Vercel",
+            "Supabase",
+            "Razorpay",
+            "Automation"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "An ed-tech platform where learners explore courses and join cohorts.",
+                "Automated:",
+                "cohort and instructor mapping;",
+                "communication channels, with an agent that posts to WhatsApp;",
+                "payroll.",
+                "Stack: Vercel (frontend and middleware), Sentry (error tracking), Umami (web analytics), Supabase (database), Razorpay (payments), plus in-house revenue analytics.",
+                "Admin dashboard: all analytics, cohort creation, instructor pool, payroll and live error tracking."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "claude-health-doctor",
+          "title": "Claude Personal Health Doctor",
+          "kicker": "Personal",
+          "summary": "A Claude \"Doctor Skill\" plus a knowledge-graph second brain built from personal medical records.",
+          "body": "Built a Doctor Skill for Claude. It contains: medical resources and links the agent can visit for any query;",
+          "tags": [
+            "Claude Skills",
+            "Knowledge graph",
+            "Healthcare",
+            "Agents"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Built a Doctor Skill for Claude. It contains:",
+                "medical resources and links the agent can visit for any query;",
+                "guidance on how a doctor should behave and reason;",
+                "a strict workflow for investigating evidence against current information.",
+                "Organized personal medical documents into dated folders, then used Graphify to turn them into a knowledge-graph \"second brain\" for Claude, with documents processed into nodes and communities.",
+                "Result: a private, queryable health assistant grounded in his own records."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "gemma-3n-on-device",
+          "title": "Gemma 3n on Android — Google AI Edge Gallery",
+          "kicker": "Simplilearn (on-site research) · May – Jun 2025",
+          "summary": "Ran an Android-compatible Gemma 3n model inside a custom offline chatbot app.",
+          "body": "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure. Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone.",
+          "tags": [
+            "On-device AI",
+            "Gemma",
+            "Android",
+            "Edge"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure.",
+                "Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "covid-decision-support",
+          "title": "COVID-19 Decision Support System",
+          "kicker": "BMSCE, team of four · Oct 2022 – Apr 2023",
+          "summary": "An IoT-enabled, two-stage diagnostic pipeline combining vitals, symptoms and chest X-rays — 6th place college-wide.",
+          "body": "An IoT-enabled home-assessment system that combines sensor data, symptom checklists, and X-ray/CT analysis using deep learning and rule-based logic. Stage one gives a preliminary assessment from vitals and symptoms. Stage two…",
+          "tags": [
+            "Deep Learning",
+            "IoT",
+            "Medical Imaging",
+            "Rule engine"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "An IoT-enabled home-assessment system that combines sensor data, symptom checklists, and X-ray/CT analysis using deep learning and rule-based logic.",
+                "Stage one gives a preliminary assessment from vitals and symptoms. Stage two adds chest X-ray analysis for a deeper diagnosis.",
+                "A guided UI:",
+                "Phase 1 asks screening questions.",
+                "Phase 2, if needed, asks for a chest X-ray upload.",
+                "A final rule-based engine combines all inputs into a report with recommended next steps.",
+                "Awarded 6th place college-wide. Related papers are listed under Publications."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "news-research-tool",
+          "title": "News Search & Research Tool",
+          "kicker": "Personal · Jan – Feb 2024",
+          "summary": "A GenAI pipeline that turns a question into a scraped, RAG-backed research answer.",
+          "body": "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface.",
+          "tags": [
+            "RAG",
+            "NLP",
+            "Web scraping"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "label": "Research",
+      "path": "https://rishabh-hota.vercel.app/publications",
+      "intro": "7 papers: medical imaging, quantum attention, decision support.",
+      "items": [
+        {
+          "slug": "lcsnet",
+          "title": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "kicker": "Published · Intelligence-Based Medicine (Elsevier, Impact Factor 2.3)",
+          "summary": "Built a dataset of smartphone photos of teeth with varying resolution and lighting.",
+          "body": "Proposed LCSNet, a new lightweight segmentation architecture for dental caries. It reached an F1-score of 71.7% and IoU of 56.8% with significantly fewer parameters and FLOPs than heavier baselines.…",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "Read the paper",
+            "href": "https://www.sciencedirect.com/science/article/pii/S2666521225001085"
+          }
+        },
+        {
+          "slug": "qfpvit",
+          "title": "QFPViT: A Fidelity-Phase Quantum Self-Attention Operator for Vision Transformers — Design and Evaluation on MedMNIST",
+          "kicker": "Under review · Quantum (journal)",
+          "summary": "Designs a fidelity-phase quantum self-attention operator for Vision Transformers and evaluates it on MedMNIST medical-imaging benchmarks.",
+          "body": "Rishabh started with no quantum-computing background, with the goal of building a better attention mechanism using quantum algorithms. QFPViT is the result. Communicated to the journal Quantum.",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "All research",
+            "href": "https://rishabh-hota.vercel.app/publications"
+          }
+        },
+        {
+          "slug": "quantum-feature-maps",
+          "title": "Do Quantum-Inspired Feature Maps Help Vision Transformer Attention? A Matched-Budget Dequantization Study",
+          "kicker": "Under review · Quantum Machine Intelligence (Springer)",
+          "summary": "Tests whether quantum-inspired feature maps actually improve Vision Transformer attention when compared at a matched compute and parameter budget. This dequantization study separates real gains from…",
+          "body": "Communicated to Quantum Machine Intelligence (Springer).",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "All research",
+            "href": "https://rishabh-hota.vercel.app/publications"
+          }
+        },
+        {
+          "slug": "didss",
+          "title": "Depression Identification Decision Support System (DIDSS)",
+          "kicker": "Published · Springer — Advanced Machine Learning for Real World Applications…",
+          "summary": "A decision support system for identifying depression, published as a chapter in Springer's Advanced Machine Learning for Real World Applications.",
+          "body": "Authors: Hota R.K. and Verma N.",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "Read the paper",
+            "href": "https://link.springer.com/chapter/10.1007/978-981-97-1900-6_4"
+          }
+        },
+        {
+          "slug": "covid-ct",
+          "title": "COVID-19 Classification with Chest CT",
+          "kicker": "Submitted · International Journal of Computing Science & Mathematics…",
+          "summary": "Deep-learning classification of COVID-19 from chest CT scans.",
+          "body": "Authors: Hota R.K. and Akhilesh S.",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "Read the paper",
+            "href": "https://ieeexplore.ieee.org/document/10957133"
+          }
+        },
+        {
+          "slug": "covid-multimodal",
+          "title": "Multi-Modal Decision Support for COVID-19 Prediction",
+          "kicker": "Under review · Inderscience",
+          "summary": "A multi-modal decision support approach that combines vitals, symptoms and imaging to predict COVID-19, building on his COVID-19 Decision Support System project.",
+          "body": "Communicated to Inderscience.",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "All research",
+            "href": "https://rishabh-hota.vercel.app/publications"
+          }
+        },
+        {
+          "slug": "oa-agentic",
+          "title": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "kicker": "In progress · With OsteosConnect",
+          "summary": "Ongoing research with OsteosConnect. It extends his osteoarthritis X-ray classification work with agentic AI that generates clinical reports.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "All research",
+            "href": "https://rishabh-hota.vercel.app/publications"
+          }
+        }
+      ]
+    },
+    {
+      "id": "experience",
+      "label": "Experience",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "Three years turning research into systems that ship.",
+      "items": [
+        {
+          "slug": "01-simplilearn-sr-ai-researcher",
+          "title": "Sr. AI Researcher",
+          "kicker": "Simplilearn · Mar 2026 – Present",
+          "summary": "Rishabh's current role. He leads hands-on research into new AI technology and turns it into automation for the business.",
+          "body": "Agentic orchestration: designing how multiple agents, tools and human reviewers work together. Open-source work.",
+          "tags": [
+            "On-site, Bengaluru, Karnataka"
+          ],
+          "featured": true,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "02-simplilearn-ai-researcher",
+          "title": "AI Researcher",
+          "kicker": "Simplilearn · Mar 2025 – Mar 2026",
+          "summary": "Tracked and dissected emerging AI breakthroughs (MCP, agentic AI, LLMs, Gemini) and turned them into hands-on prototypes.",
+          "body": "Built, validated and documented research demos; curated a code-backed learning hub. Designed bite-sized, code-driven learning modules and influenced the roadmap for next-generation AI features.",
+          "tags": [
+            "On-site, Bengaluru, Karnataka"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "03-osteosconnect-ai-engineer",
+          "title": "AI Engineer",
+          "kicker": "OsteosConnect Inc · Feb 2024 – Mar 2025",
+          "summary": "Led a team of clinicians and engineers to deliver a 96%-accurate osteoarthritis classification pipeline: X-ray → S3 → Lambda → EC2 → prediction → Lambda → EMR.",
+          "body": "Surpassed competitor RBKnee and achieved more than 90% concordance with radiologists in SRM Trichy trials. Implemented a continuous feedback loop that retrains the model on doctor-validated ground truth.",
+          "tags": [
+            "Remote, California"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "04-osteosconnect-intern",
+          "title": "AI/ML Intern",
+          "kicker": "OsteosConnect Inc · Jul 2023 – Jan 2024",
+          "summary": "Hypothesized and prototyped ML approaches for automated osteoarthritis grading.",
+          "body": "Ran exploratory data analysis on DICOM imagery and set up baseline classifiers (logistic regression, random forest).",
+          "tags": [
+            "Remote, California"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "05-smartknower-intern",
+          "title": "Data Science & ML Intern",
+          "kicker": "Smartknower Pvt Ltd · Nov 2020 – Jan 2021",
+          "summary": "Built a full ETL pipeline, feature engineering and predictive models.",
+          "body": "Developed Power BI dashboards for sales forecasting and presented actionable insights.",
+          "tags": [
+            "Bangalore"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        }
+      ]
+    },
+    {
+      "id": "writing",
+      "label": "Writing",
+      "path": "https://rishabh-hota.vercel.app/blog",
+      "intro": "Notes from building.",
+      "items": [
+        {
+          "slug": "how-my-portfolio-agent-works",
+          "title": "How the AI agent on this site works (and why it costs ₹0)",
+          "kicker": "Writing · Oct 2026",
+          "summary": "Dumbledore, a Python LangGraph agent — hybrid RAG, a five-gate refusal pipeline, page navigation, and free LLMs with fallbacks.",
+          "body": "Recruiters rarely have time to read a whole portfolio, so I put an agent on this site that answers questions about my work. It's called Dumbledore; the chat window is only its interface. Here's how it's built.",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "Read the post",
+            "href": "https://rishabh-hota.vercel.app/blog/how-my-portfolio-agent-works"
+          }
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "label": "Services",
+      "path": "https://rishabh-hota.vercel.app/",
+      "intro": "Building, training, consulting: intelligence embedded in the flow of work, not slideware.",
+      "items": [
+        {
+          "slug": "agentic-systems",
+          "title": "Agentic systems that replace a process",
+          "kicker": "build · agents and automation",
+          "summary": "Multi-agent workflows with tool access, guardrails and evals, built to take over a whole process rather than a single step.",
+          "body": "Multi-agent systems, agentic RAG workflows, Model Context Protocol and agent-to-agent collaboration, brought into the tools a team already uses rather than a demo beside them, with review and approval steps kept in the loop. At Simplilearn the Collaterals Agent cut course-launch collateral from…",
+          "tags": [
+            "LangGraph",
+            "Google ADK",
+            "CrewAI",
+            "n8n",
+            "MCP",
+            "A2A",
+            "evals"
+          ],
+          "featured": true,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20Agentic%20systems%20that%20replace%20a%20process"
+          }
+        },
+        {
+          "slug": "rag-knowledge",
+          "title": "Retrieval systems that are measured, not assumed",
+          "kicker": "build · rag and knowledge",
+          "summary": "Production RAG and Graph RAG over your documents: hybrid search, re-ranking, and an eval suite that runs in CI so quality is a number.",
+          "body": "Hybrid retrieval (FAISS and BM25 fused by reciprocal rank, then cross-encoder re-ranking), a free-model fallback chain and a security gateway. Built sales-enablement platforms on agentic RAG that generate learning content, scripts and playbooks adapting in real time. The agent on his own site runs…",
+          "tags": [
+            "RAG",
+            "Graph RAG",
+            "FAISS",
+            "BM25",
+            "RAGAS",
+            "FastAPI"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20Retrieval%20systems%20that%20are%20measured%2C%20not%20assumed"
+          }
+        },
+        {
+          "slug": "fine-tuning-serving",
+          "title": "Small models tuned for one job, served on your hardware",
+          "kicker": "build · fine-tuning and serving",
+          "summary": "LoRA and QLoRA fine-tunes of Gemma, Llama and Phi with Unsloth and TRL, then quantised and served with vLLM, Ollama or llama.cpp, down to on-device.",
+          "body": "Supervised fine-tuning on your data in 4-bit and 8-bit, KV-cache and batching work for throughput, OpenAI-compatible serving. Ran Gemma 3n offline on Android inside a custom chatbot app, and long-form speech generation with Qwen 3 TTS: thirty minutes of consistent narration without drift.",
+          "tags": [
+            "Unsloth",
+            "LoRA · QLoRA",
+            "TRL",
+            "vLLM",
+            "llama.cpp",
+            "speech · TTS"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20Small%20models%20tuned%20for%20one%20job%2C%20served%20on%20your%20hardware"
+          }
+        },
+        {
+          "slug": "medical-imaging",
+          "title": "Clinical imaging pipelines, from DICOM to report",
+          "kicker": "build · medical imaging and vision",
+          "summary": "X-ray and CT classification, segmentation and reporting on AWS, with doctor-validated feedback loops for retraining.",
+          "body": "Led clinicians and engineers at OsteosConnect to a 96%-accurate osteoarthritis pipeline (X-ray to S3, Lambda, SageMaker and the EMR) with over 90% concordance with radiologists in hospital trials, ahead of the competitor RBKnee. LCSNet, his lightweight caries segmentation network, is published in…",
+          "tags": [
+            "computer vision",
+            "DICOM",
+            "SageMaker",
+            "segmentation",
+            "AWS"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20Clinical%20imaging%20pipelines%2C%20from%20DICOM%20to%20report"
+          }
+        },
+        {
+          "slug": "research-to-prototype",
+          "title": "New research, turned into a working demo",
+          "kicker": "build · applied research",
+          "summary": "A paper or a release on Monday, a code-backed prototype by Friday: MCP, agentic patterns, new model families, efficient attention.",
+          "body": "Reading papers, forming bold hypotheses, testing in code, then hardening and scaling what works with robust MLOps and LLMOps. At Simplilearn this is the day job: dissect emerging AI into hands-on prototypes, document them, and feed the roadmap. Designed QFPViT, a quantum self-attention operator…",
+          "tags": [
+            "applied research",
+            "prototyping",
+            "MLOps",
+            "LLMOps",
+            "quantum attention",
+            "publications"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20New%20research%2C%20turned%20into%20a%20working%20demo"
+          }
+        },
+        {
+          "slug": "training",
+          "title": "Teams that can build agents, not just discuss them",
+          "kicker": "teach · training and workshops",
+          "summary": "Code-driven modules and learning hubs for engineering and product teams: agents, RAG, evaluation and MCP, taught from working repositories.",
+          "body": "Bite-sized modules with runnable code, a curated hub teams come back to, and evaluation habits that outlast the session. This is how the research and learning modules at Simplilearn are built.",
+          "tags": [
+            "workshops",
+            "curriculum",
+            "agents",
+            "RAG",
+            "evals"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20Teams%20that%20can%20build%20agents%2C%20not%20just%20discuss%20them"
+          }
+        },
+        {
+          "slug": "consulting",
+          "title": "AI strategy that ends in a deployed system",
+          "kicker": "consult · ai strategy",
+          "summary": "Consulting for teams that want to design the trend rather than follow it: which model, which architecture, what to build first, and how to run it in production.",
+          "body": "An AI researcher, engineer and consultant strategist who helps businesses not just follow trends but design and deploy them in production. GenAI tools and copilots designed and shipped in ed-tech and finance, bridging prototypes to production; breakthroughs turned into enterprise-ready systems…",
+          "tags": [
+            "AI strategy",
+            "copilots",
+            "architecture",
+            "model selection",
+            "production"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Ask about this",
+            "href": "mailto:rishabhhota19@gmail.com?subject=Build%3A%20AI%20strategy%20that%20ends%20in%20a%20deployed%20system"
+          }
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "path": "https://rishabh-hota.vercel.app/",
+      "intro": "Hire him, book a build, or bring a problem.",
+      "items": [
+        {
+          "slug": "email",
+          "title": "Email",
+          "kicker": "fastest",
+          "summary": "rishabhhota19@gmail.com",
+          "body": "For roles, freelance builds, training and collaborations.",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "rishabhhota19@gmail.com",
+            "href": "mailto:rishabhhota19@gmail.com"
+          }
+        },
+        {
+          "slug": "linkedin",
+          "title": "LinkedIn",
+          "kicker": "profile",
+          "summary": "Connect and message.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "Open LinkedIn",
+            "href": "https://www.linkedin.com/in/rishabh-hota-4138b31b3"
+          }
+        },
+        {
+          "slug": "github",
+          "title": "GitHub",
+          "kicker": "code",
+          "summary": "Open-source work and this site.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "Open GitHub",
+            "href": "https://github.com/rishabhhota19"
+          }
+        },
+        {
+          "slug": "resume",
+          "title": "Résumé",
+          "kicker": "pdf",
+          "summary": "One page, current.",
+          "body": "Roles he fits: AI Engineer, GenAI / LLM Engineer, Agentic AI Engineer, Forward Deployed Engineer, Applied / Research Engineer (ML, medical imaging, efficient attention).",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "Download the résumé",
+            "href": "https://rishabh-hota.vercel.app/resume.pdf"
+          }
+        }
+      ]
+    }
+  ]
+}
