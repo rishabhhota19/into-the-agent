@@ -120,6 +120,19 @@ export class World {
     this.balanceLights();
   }
 
+  /** Show one chamber alone (for an off-screen first draw); returns what to hand back to `restore`. */
+  showOnly(c: Chapter): boolean[] {
+    const shown = this.chapters.map((x) => x.group.visible);
+    this.chapters.forEach((x) => (x.group.visible = x === c));
+    this.balanceLights();
+    return shown;
+  }
+
+  restore(shown: boolean[]): void {
+    this.chapters.forEach((x, i) => (x.group.visible = shown[i]));
+    this.balanceLights();
+  }
+
   /** A chamber has just been built: count its lights, so its shaders can be prepared with the counts they'll be drawn with. */
   chamberBuilt(c: Chapter): void {
     const counts: Record<LightKind, number> = { point: 0, directional: 0, shadowed: 0, hemisphere: 0 };

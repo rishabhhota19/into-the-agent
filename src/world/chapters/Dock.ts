@@ -63,6 +63,9 @@ export class Dock extends Chapter {
   private readonly length: number;
   private readonly pods: Pod[] = [];
   private water?: ShaderMaterial;
+  /** Every lantern, chamber-local; the water is shown the four nearest to you each frame. */
+  private lanterns: Vector3[] = [];
+  private readonly camLocal = new Vector3();
   private crane?: Group;
   private hook?: Group;
   private craneMid = 0;
@@ -169,7 +172,7 @@ export class Dock extends Chapter {
           uDeep: { value: new Color(0x020b0a) },
           uTint: { value: new Color(0x0e3a36) },
           uAccent: { value: this.accent.clone() },
-          uLamps: { value: Array.from({ length: 8 }, () => new Vector3(0, -100, 0)) },
+          uLamps: { value: Array.from({ length: 4 }, () => new Vector3(0, -100, 0)) },
           uLampCount: { value: 0 },
         },
       ]),
@@ -186,7 +189,7 @@ export class Dock extends Chapter {
       fragmentShader: /* glsl */ `
         #include <fog_pars_fragment>
         uniform float uTime; uniform vec3 uDeep; uniform vec3 uTint; uniform vec3 uAccent;
-        uniform vec3 uLamps[8]; uniform int uLampCount;
+        uniform vec3 uLamps[4]; uniform int uLampCount;
         varying vec3 vWorld;
         // Three small swells crossing: the gradient of their sum tilts the surface normal.
         vec2 ripple(vec2 p, float t) {
@@ -204,7 +207,7 @@ export class Dock extends Chapter {
           float fres = pow(1.0 - max(dot(n, V), 0.0), 4.0);
           vec3 col = mix(uDeep, uTint, 0.12 + 0.88 * fres);
           // Each lantern lays a streak of glints on the water toward you.
-          for (int i = 0; i < 8; i++) {
+          for (int i = 0; i < 4; i++) {
             if (i >= uLampCount) break;
             vec3 toL = uLamps[i] - vWorld;
             vec3 h = normalize(normalize(toL) + V);
@@ -256,9 +259,12 @@ export class Dock extends Chapter {
       const lantern = new Mesh(new SphereGeometry(0.15, 12, 8), lanternMat);
       lantern.position.set(0, 2.9, 0.95);
       pod.add(lantern);
-      const light = new PointLight(this.accent, it.featured ? 60 : 42, 18, 2);
-      light.position.copy(lantern.position);
-      pod.add(light);
+      // Real lights for the first three pods; the rest glow by their emissive lanterns and the bloom.
+      if (i < 3) {
+        const light = new PointLight(this.accent, it.featured ? 60 : 42, 18, 2);
+        light.position.copy(lantern.position);
+        pod.add(light);
+      }
       g.add(pod);
       lamps.push(new Vector3(pod.position.x, pod.position.y + 2.9, pod.position.z + 0.95));
 
@@ -276,10 +282,8 @@ export class Dock extends Chapter {
         phase: i * 1.9,
       });
     });
-    (this.water.uniforms.uLamps.value as Vector3[]).forEach((v, i) => {
-      if (lamps[i]) v.copy(lamps[i]);
-    });
-    this.water.uniforms.uLampCount.value = Math.min(8, lamps.length);
+    this.lanterns = lamps;
+    this.water.uniforms.uLampCount.value = Math.min(4, lamps.length);
 
     // --- the bay walls: tall ribs fading into the fog ---------------------------------------------
     const ribs = Math.ceil((L + 10) / 4.5);
@@ -366,10 +370,21 @@ export class Dock extends Chapter {
     return m;
   }
 
-  override update(dt: number, _t: number, elapsed: number, _camera: PerspectiveCamera): void {
+  override update(dt: number, _t: number, elapsed: number, camera: PerspectiveCamera): void {
     void dt;
     this.shafts?.update(elapsed);
-    if (this.water) this.water.uniforms.uTime.value = elapsed;
+    if (this.water) {
+      this.water.uniforms.uTime.value = elapsed;
+      // The four lanterns nearest you, in world space, for the glints.
+      this.camLocal.copy(camera.position).sub(this.group.position);
+      const near = this.lanterns
+        .map((l) => ({ l, d: l.distanceToSquared(this.camLocal) }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 4);
+      (this.water.uniforms.uLamps.value as Vector3[]).forEach((v, i) => {
+        if (near[i]) v.copy(near[i].l).add(this.group.position);
+      });
+    }
 
     // Pods heave and pitch with the swell, each at its own phase, and the lines follow.
     const w = (Math.PI * 2) / HEAVE_PERIOD;

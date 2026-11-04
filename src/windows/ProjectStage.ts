@@ -40,6 +40,7 @@ import { radialTexture } from '../world/chapters/Gantry';
 import type { Grade } from '../world/Chapter';
 
 export type Preset = 'agent' | 'xray' | 'market' | 'device' | 'swarm' | 'crystal';
+export const PRESETS: Preset[] = ['agent', 'xray', 'market', 'device', 'swarm', 'crystal'];
 
 /** Which scene a project opens with; anything unlisted gets the crystal. */
 export function presetFor(slug: string): Preset {

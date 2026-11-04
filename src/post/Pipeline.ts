@@ -9,6 +9,13 @@ import type { Quality } from '../experience/Quality';
 import type { Atmosphere } from '../world/World';
 import { LookShader, TravelShader } from './shaders';
 
+/** The bloom's blur chain at half resolution: a quarter of the fill for a glow that is blurry anyway. */
+class HalfBloom extends UnrealBloomPass {
+  override setSize(width: number, height: number): void {
+    super.setSize(Math.ceil(width / 2), Math.ceil(height / 2));
+  }
+}
+
 /** scene → bloom → travel smear → look → tone map / sRGB. */
 export class Pipeline {
   private composer!: EffectComposer;
@@ -38,7 +45,7 @@ export class Pipeline {
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.composer.addPass(this.renderPass);
 
-    this.bloom = new UnrealBloomPass(new Vector2(width, height), 0.48, 0.72, 0.8);
+    this.bloom = new HalfBloom(new Vector2(Math.ceil(width / 2), Math.ceil(height / 2)), 0.48, 0.72, 0.8);
     this.bloom.enabled = this.quality.bloom;
     this.composer.addPass(this.bloom);
 

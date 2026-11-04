@@ -1,4 +1,4 @@
-import { ACESFilmicToneMapping, Color, PCFShadowMap, Raycaster, Scene, SRGBColorSpace, Texture, Timer, Vector2, WebGLRenderer } from 'three';
+import { ACESFilmicToneMapping, Color, PCFShadowMap, Raycaster, Scene, SRGBColorSpace, Texture, Timer, Vector2, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { Particles } from '../atmosphere/Particles';
 import { makePose, Rig } from '../camera/Rig';
 import content from '../content/site.json';
@@ -8,7 +8,7 @@ import { VirtualScroll } from '../scroll/VirtualScroll';
 import { Overlay } from '../ui/Overlay';
 import { Rail } from '../ui/Rail';
 import { ProjectWindow } from '../ui/ProjectWindow';
-import { presetFor, ProjectStage } from '../windows/ProjectStage';
+import { presetFor, ProjectStage, PRESETS } from '../windows/ProjectStage';
 import type { Atmosphere } from '../world/World';
 import type { BuildContext, Chapter } from '../world/Chapter';
 import { Archive } from '../world/chapters/Archive';
@@ -55,6 +55,15 @@ export class Experience {
   built = 0;
   private stopped = false;
   private buildCtx!: BuildContext;
+  /** A small off-screen target for the first draw of each chamber and each project stage. */
+  private readonly warmTarget = new WebGLRenderTarget(64, 64);
+  private shadowTick = 0;
+  /** Frames between shadow-map redraws (the chambers barely move). */
+  shadowEvery = 60;
+  private lastChapter = -1;
+  private stageWarmed = false;
+  /** Fired when the visitor arrives in another chamber. */
+  onChapter?: (id: string) => void;
   /** Chambers build one at a time, whoever asks: the build-ahead or a rail click. */
   private buildChain: Promise<void> = Promise.resolve();
 
@@ -83,6 +92,9 @@ export class Experience {
     this.renderer.toneMappingExposure = 1.0;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFShadowMap;
+    // The chambers barely move: shadow maps are redrawn a few times a second and after each build, not every frame.
+    this.renderer.shadowMap.autoUpdate = false;
+    this.renderer.shadowMap.needsUpdate = true;
     // Count the whole frame (every composer pass), not just the last pass.
     this.renderer.info.autoReset = false;
 
@@ -179,6 +191,39 @@ export class Experience {
     this.world.chamberBuilt(c);
     this.pipeline.compile(this.scene, this.rig.camera);
     if (c instanceof Timefold) this.village.warm(this.renderer);
+    this.warmChamber(c);
+  }
+
+  /**
+   * One real draw of this chamber alone, into a small target nobody sees: the shadow depth programs
+   * and the driver's first-use work for every material happen now, not the first time you see it.
+   */
+  private warmChamber(c: Chapter): void {
+    const shown = this.world.showOnly(c);
+    c.poseAt(0, this.pose);
+    this.rig.update(0, this.pose, 0, 0, true);
+    const target = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.warmTarget);
+    this.renderer.shadowMap.needsUpdate = true;
+    this.renderer.render(this.scene, this.rig.camera);
+    this.renderer.setRenderTarget(target);
+    this.world.restore(shown);
+    this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  /** The six project stages, built and drawn once off-screen, so the first window opens without a pause. */
+  private warmStage(): void {
+    if (this.stageWarmed) return;
+    this.stageWarmed = true;
+    const target = this.renderer.getRenderTarget();
+    this.renderer.setRenderTarget(this.warmTarget);
+    for (const preset of PRESETS) {
+      this.stage.open(preset);
+      this.stage.update(0.3, 0.016, 1);
+      this.renderer.render(this.stage.scene, this.stage.camera);
+    }
+    this.stage.close();
+    this.renderer.setRenderTarget(target);
   }
 
   /** Queue a chamber's build behind whatever is building; a chamber already built is skipped. */
@@ -192,7 +237,12 @@ export class Experience {
 
   private buildAhead(): void {
     const next = this.built;
-    if (next >= this.chapters.length) return;
+    if (next >= this.chapters.length) {
+      window.setTimeout(() => {
+        if (!this.stopped) this.warmStage();
+      }, 300);
+      return;
+    }
     window.setTimeout(() => {
       if (this.stopped) return;
       void this.enqueueBuild(next).then(() => this.buildAhead());
@@ -277,6 +327,24 @@ export class Experience {
     this.renderer.domElement.classList.remove('is-hover');
   }
 
+  /** Warp to the vault, then open this project's window when the travel has landed. */
+  async goToProject(slug: string): Promise<void> {
+    const k = this.chapters.findIndex((c) => c.id === 'projects');
+    if (k < 0) return;
+    await this.travelTo(k);
+    await new Promise<void>((resolve) => {
+      const started = performance.now();
+      const tick = (): void => {
+        if (this.stopped) return resolve();
+        if (!this.scroll.state.traveling && this.scroll.state.chapter === k) return resolve();
+        if (performance.now() - started > 8000) return resolve();
+        window.setTimeout(tick, 120);
+      };
+      tick();
+    });
+    if (!this.stopped) this.openProject(slug);
+  }
+
   closeProject(): void {
     this.stage.close();
     this.pipeline.setScene(this.scene, this.rig.camera);
@@ -305,6 +373,11 @@ export class Experience {
 
     this.scroll.update(dt, raw);
     const st = this.scroll.state;
+    if (st.chapter !== this.lastChapter) {
+      this.lastChapter = st.chapter;
+      this.onChapter?.(this.chapters[st.chapter].id);
+    }
+    if (this.shadowTick++ % this.shadowEvery === 0) this.renderer.shadowMap.needsUpdate = true;
     this.updateHover();
     this.world.poseAt(st, this.pose);
     // Velocity in chambers-per-second terms for the rig's tilt: scale px/s down.
