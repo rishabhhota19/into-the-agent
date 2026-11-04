@@ -1,4 +1,5 @@
 import { ACESFilmicToneMapping, Color, DirectionalLight, Object3D, PCFShadowMap, Raycaster, Scene, SRGBColorSpace, Texture, Timer, Vector2, WebGLRenderer, WebGLRenderTarget } from 'three';
+import type { Move } from '../ui/Agent';
 import { Particles } from '../atmosphere/Particles';
 import { makePose, Rig } from '../camera/Rig';
 import content from '../content/site.json';
@@ -325,6 +326,21 @@ export class Experience {
     for (let i = this.built; i <= k; i++) await this.enqueueBuild(i);
     if (this.stopped) return;
     this.scroll.travel(k, c.texts[0]?.t ?? 0);
+  }
+
+  /** The chat's "next", "back", "scroll down": relative to where the visitor is, with no page named. */
+  move(what: Exclude<Move, 'written'>): void {
+    const k = this.scroll.state.chapter;
+    const last = this.chapters.length - 1;
+    if (this.window.isOpen && (what === 'back' || what === 'up' || what === 'down')) {
+      if (what === 'back') this.closeProject();
+      return;
+    }
+    if (what === 'next') void this.travelTo(Math.min(k + 1, last));
+    else if (what === 'previous' || what === 'back') void this.travelTo(Math.max(k - 1, 0));
+    else if (what === 'top') void this.travelTo(0);
+    else if (what === 'bottom') void this.travelTo(last);
+    else this.scroll.push(what === 'down' ? 700 : -700);
   }
 
   start(): void {

@@ -50,7 +50,11 @@ function navigate(exp: Experience, path: string): void {
 
 if (experience) {
   const exp = experience;
-  const agent = new Agent(pill, (path) => navigate(exp, path));
+  const agent = new Agent(
+    pill,
+    (path) => navigate(exp, path),
+    (what) => (what === 'written' ? location.assign(PORTFOLIO) : exp.move(what)),
+  );
   exp.onChapter = (id) => agent.page(`/3d#${id}`);
   exp.onTooSlow = () => {
     exp.stop();

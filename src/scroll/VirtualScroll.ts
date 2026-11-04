@@ -118,6 +118,9 @@ export class VirtualScroll {
     const rate = this.reducedMotion ? 10 : this.traveling ? 2.3 : this.state.plunging ? 3.4 : 2.6;
     const step = this.traveling ? Math.min(raw, 0.5) : dt;
     this.position += (this.target - this.position) * (1 - Math.exp(-step * rate));
+    // The chase never quite arrives: a warp to a chamber's first position stopped a hair short of it, still inside the
+    // plunge before, so the chamber never became the current one and its words never showed.
+    if (Math.abs(this.target - this.position) < 0.5) this.position = this.target;
     this.velocity = dt > 0 ? (this.position - prev) / dt : 0;
     if (this.traveling && Math.abs(this.target - this.position) < 40) this.traveling = false;
     this.compute();

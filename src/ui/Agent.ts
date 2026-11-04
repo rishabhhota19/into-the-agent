@@ -1,7 +1,14 @@
 /** The portfolio's origin: only there does the chat exist as a page this one may frame. */
 const SITE = 'https://rishabh-hota.vercel.app';
 
-type FromChat = { source: 'dumbledore'; type: 'ready' } | { source: 'dumbledore'; type: 'minimize' } | { source: 'dumbledore'; type: 'navigate'; path: string };
+/** A command about where the visitor already is, with no page named (the agent's pages.MOVES). */
+export type Move = 'back' | 'next' | 'previous' | 'top' | 'bottom' | 'down' | 'up' | 'written';
+
+type FromChat =
+  | { source: 'dumbledore'; type: 'ready' }
+  | { source: 'dumbledore'; type: 'minimize' }
+  | { source: 'dumbledore'; type: 'navigate'; path: string; focus?: boolean }
+  | { source: 'dumbledore'; type: 'ui'; move: Move };
 type ToChat = { type: 'ask'; question: string } | { type: 'page'; path: string };
 
 /**
@@ -22,6 +29,7 @@ export class Agent {
   constructor(
     private readonly pill: HTMLAnchorElement,
     private readonly onNavigate: (path: string) => void,
+    private readonly onMove: (what: Move) => void,
   ) {
     if (!this.enabled) return;
     pill.setAttribute('role', 'button');
@@ -42,8 +50,17 @@ export class Agent {
         this.setOpen(false);
       } else if (d.type === 'navigate' && typeof d.path === 'string') {
         this.onNavigate(d.path);
+        if (d.focus) this.stepAside();
+      } else if (d.type === 'ui') {
+        this.onMove(d.move);
+        this.stepAside();
       }
     });
+  }
+
+  /** The chat covers a phone: when it moves the visitor, it gets out of the way so they see where they went. */
+  private stepAside(): void {
+    if (window.matchMedia('(max-width: 639px)').matches) this.setOpen(false);
   }
 
   get isOpen(): boolean {
