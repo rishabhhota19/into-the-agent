@@ -51,7 +51,7 @@ export interface SiteContent {
     url: string;
   };
   home: { now: string; wins: string[]; roles: string };
-  assets: { rabbit: boolean; projects: Record<string, string> };
+  assets: { projects: Record<string, string> };
   /** The services chamber's own words: its label, intro and the stations after the pods. */
   dock: { label: string; intro: string; stations: DockStation[] };
   sections: Section[];

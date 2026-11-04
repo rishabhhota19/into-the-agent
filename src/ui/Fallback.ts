@@ -38,7 +38,7 @@ export function showFallback(content: SiteContent, chapters: Chapter[], reason: 
     }
     parts.push('</section>');
   }
-  parts.push('<p class="mono fallback__why">Rabbit: “Bobo” by riddle0104 (CC BY 4.0) · Ant: Poly by Google (CC BY) · Everything else is drawn in code.</p>');
+  parts.push('<p class="mono fallback__why">Ant: Poly by Google (CC BY) · Everything else is drawn in code.</p>');
   root.innerHTML = parts.join('');
   root.hidden = false;
   document.body.classList.add('is-fallback');

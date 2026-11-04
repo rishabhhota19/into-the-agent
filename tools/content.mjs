@@ -194,7 +194,7 @@ for (const p of projects) {
 const out = {
   site: { name: site.name, role: site.role, tagline: site.tagline, location: site.location, email: site.email, linkedin: site.linkedin, github: site.github, resume: abs(site.resume), url: site.url },
   // Which optional figures exist on disk, so the page never asks for a file that is not there.
-  assets: { rabbit: hasModel('rabbit'), projects: projectImages },
+  assets: { projects: projectImages },
   home: { now: trim(nowPara, 260), wins, roles },
   dock,
   sections: [

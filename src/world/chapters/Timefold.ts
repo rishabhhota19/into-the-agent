@@ -2,7 +2,6 @@ import {
   BoxGeometry,
   Color,
   DirectionalLight,
-  Group,
   HemisphereLight,
   InstancedMesh,
   Mesh,
@@ -19,7 +18,6 @@ import {
 } from 'three';
 import { LightShafts } from '../../atmosphere/LightShafts';
 import type { Section } from '../../content/types';
-import { loadRabbit } from '../../figures/Astronaut';
 import { noise1 } from '../../util/noise';
 import { BuildContext, Chapter, Grade } from '../Chapter';
 import { DUMMY, ENTRY_POSE, entryTube } from '../chambers/common';
@@ -47,7 +45,6 @@ export class Timefold extends Chapter {
   private paneFaces?: InstancedMesh;
   private readonly drift: Mesh[] = [];
   private shafts?: LightShafts;
-  private rabbit?: Group | null;
   private readonly windowMat = new MeshBasicMaterial({ color: 0xffffff });
 
   constructor(
@@ -215,18 +212,6 @@ export class Timefold extends Chapter {
     this.shafts.group.position.set(0, 0, -L + 4);
     this.shafts.group.scale.set(1.2, 0.8, 1.2);
     g.add(this.shafts.group);
-
-    try {
-      this.rabbit = await loadRabbit();
-      if (this.rabbit) {
-        // On the sill's step, looking out into the village.
-        this.rabbit.position.set(3.4, 0.5, this.windowZ + 2.6);
-        this.rabbit.rotation.y = 2.0;
-        g.add(this.rabbit);
-      }
-    } catch (err) {
-      console.warn('rabbit skipped', err);
-    }
   }
 
   /** True while the window is worth drawing: this chamber is current and its far half is near. */

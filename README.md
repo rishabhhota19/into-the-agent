@@ -18,6 +18,5 @@ one; on a build machine the committed file is used as is.
 
 ## Credits
 
-- Rabbit: "Bobo" by riddle0104, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), via the Objaverse mirror of Sketchfab.
 - Ant: Poly by Google, [CC BY](https://creativecommons.org/licenses/by/4.0/).
 - Everything else is drawn in code.

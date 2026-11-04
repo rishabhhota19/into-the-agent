@@ -6,8 +6,16 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(sys.argv[1]).resolve(); OUT = Path(sys.argv[2]).resolve()
 W, H = (int(x) for x in (sys.argv[3] if len(sys.argv) > 3 else "1100x700").split("x"))
+HEADERS = []
+_vj = ROOT.parent / "vercel.json" if (ROOT.parent / "vercel.json").exists() else Path("vercel.json")
+if _vj.exists():
+    import json
+    HEADERS = [(h["key"], h["value"]) for rule in json.loads(_vj.read_text(encoding="utf-8")).get("headers", []) for h in rule["headers"]]
 class Quiet(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a): pass
+    def end_headers(self):
+        for k, v in HEADERS: self.send_header(k, v)
+        super().end_headers()
 socketserver.ThreadingTCPServer.daemon_threads = True
 srv = socketserver.ThreadingTCPServer(("127.0.0.1", 0), functools.partial(Quiet, directory=str(ROOT)))
 port = srv.server_address[1]; threading.Thread(target=srv.serve_forever, daemon=True).start()
@@ -23,7 +31,7 @@ with sync_playwright() as p:
     pg.wait_for_selector("#gate-btn:not([disabled])", timeout=90000)
     print("gate:", pg.evaluate("() => document.getElementById('gate-btn').textContent"))
     pg.click("#gate-btn"); pg.wait_for_timeout(9000)
-    print(pg.evaluate("() => { const e = window.__ita; let rabbit = 0, meshes = 0; e.chapters[0].group.traverse(o => { if (o.isMesh) meshes++; if (o.isMesh && o.geometry && o.geometry.attributes.position && o.geometry.attributes.position.count > 5000) rabbit++; }); return { built: e.built, tier: e.quality.tier, fps: +e.fps.toFixed(1), meshes, bigMeshes: rabbit, fallback: !document.getElementById('fallback').hidden, chapter: e.scroll.state.chapter }; }"))
+    print(pg.evaluate("() => { const e = window.__ita; let meshes = 0; e.chapters[0].group.traverse(o => { if (o.isMesh) meshes++; }); return { built: e.built, tier: e.quality.tier, fps: +e.fps.toFixed(1), meshes, fallback: !document.getElementById('fallback').hidden, chapter: e.scroll.state.chapter }; }"))
     pg.screenshot(path=str(OUT))
     b.close()
 srv.shutdown()

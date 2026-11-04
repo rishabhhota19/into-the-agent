@@ -1,6 +1,4 @@
-import { Box3, Group, Mesh, MeshStandardMaterial, Vector3 } from 'three';
-import content from '../content/site.json';
-import type { SiteContent } from '../content/types';
+import { Group, Mesh, MeshStandardMaterial } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
@@ -26,42 +24,6 @@ export async function loadGLB(url: string): Promise<Group> {
   return new Promise((resolve, reject) => {
     loader.parse(buffer, '', (gltf) => resolve(gltf.scene), reject);
   });
-}
-
-/**
- * The rabbit: the one figure that travels the whole descent. Loads `models/rabbit.glb`
- * when it exists (drop a CC-licensed model there) and quietly returns null until then.
- */
-export async function loadRabbit(): Promise<Group | null> {
-  if (!(content as SiteContent).assets?.rabbit) return null;
-  const scene = await loadGLB('models/rabbit.glb');
-  // Fit any model to a 1.1-unit-tall figure standing on y = 0.
-  const box = new Box3().setFromObject(scene);
-  const size = new Vector3();
-  box.getSize(size);
-  const s = 1.1 / Math.max(size.y, 1e-3);
-  scene.scale.setScalar(s);
-  box.setFromObject(scene);
-  scene.position.y -= box.min.y;
-  scene.position.x -= (box.min.x + box.max.x) / 2;
-  scene.position.z -= (box.min.z + box.max.z) / 2;
-  const wrap = new Group();
-  wrap.add(scene);
-  scene.traverse((obj) => {
-    const mesh = obj as Mesh;
-    if (!mesh.isMesh) return;
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    for (const m of mats) {
-      const sm = m as MeshStandardMaterial;
-      if (!sm.isMeshStandardMaterial) continue;
-      sm.roughness = Math.max(sm.roughness, 0.75);
-      sm.envMapIntensity = 0.6;
-      sm.needsUpdate = true;
-    }
-  });
-  return wrap;
 }
 
 /** The ant: a dark chitin body; its eyes are the chamber's subject, so keep them readable. */

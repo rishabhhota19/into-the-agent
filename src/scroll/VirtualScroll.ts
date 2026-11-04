@@ -148,22 +148,27 @@ export class VirtualScroll {
   }
 
   private compute(): void {
-    const st = this.state;
+    this.stateAt(this.position, this.state);
+  }
+
+  /** The chamber, content progress and plunge progress at any pixel position of the route. */
+  stateAt(position: number, st: ScrollState): ScrollState {
     let k = 0;
-    for (let i = 0; i < this.bounds.length; i++) if (this.position >= this.bounds[i].start) k = i;
+    for (let i = 0; i < this.bounds.length; i++) if (position >= this.bounds[i].start) k = i;
     const b = this.bounds[k];
-    if (b.end > b.mid && this.position >= b.end && k < this.bounds.length - 1) k += 1;
+    if (b.end > b.mid && position >= b.end && k < this.bounds.length - 1) k += 1;
     const bb = this.bounds[k];
     st.chapter = k;
-    if (bb.end === bb.mid || this.position < bb.mid) {
-      st.t = clamp((this.position - bb.start) / Math.max(1, bb.mid - bb.start), 0, 1);
+    if (bb.end === bb.mid || position < bb.mid) {
+      st.t = clamp((position - bb.start) / Math.max(1, bb.mid - bb.start), 0, 1);
       st.u = 0;
       st.plunging = false;
     } else {
       st.t = 1;
-      st.u = clamp((this.position - bb.mid) / (bb.end - bb.mid), 0, 1);
+      st.u = clamp((position - bb.mid) / (bb.end - bb.mid), 0, 1);
       st.plunging = st.u > 0 && st.u < 1;
     }
+    return st;
   }
 
   private onWheel = (e: WheelEvent): void => {

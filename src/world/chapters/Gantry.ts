@@ -30,7 +30,6 @@ import {
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { LightShafts } from '../../atmosphere/LightShafts';
 import type { SiteContent } from '../../content/types';
-import { loadRabbit } from '../../figures/Astronaut';
 import { fbm2, noise1 } from '../../util/noise';
 import { BuildContext, Chapter, StationText } from '../Chapter';
 import { concreteMaterial, darkMetalMaterial, lacquerMaterial, metalMaterial } from '../materials';
@@ -48,7 +47,6 @@ export class Gantry extends Chapter {
   private core!: Mesh;
   private pupil!: Group;
   private readonly lamps: MeshStandardMaterial[] = [];
-  private rabbit?: Group | null;
   private shafts!: LightShafts;
   private readonly tmp = new Vector3();
   private readonly tmpDir = new Vector3();
@@ -318,20 +316,8 @@ export class Gantry extends Chapter {
     this.shafts = new LightShafts(ctx.quality.shafts);
     g.add(this.shafts.group);
 
-    // --- the rabbit, sitting on the rail where you arrive ---------------------------------------------
-    try {
-      this.rabbit = await loadRabbit();
-      if (this.rabbit) {
-        // On the central platform, beside the drop, where the edge station brings you close.
-        this.rabbit.scale.setScalar(1.45);
-        this.rabbit.position.set(1.7, 0.16, 2.3);
-        this.rabbit.rotation.y = 4.6;
-        g.add(this.rabbit);
-      }
-    } catch (err) {
-      console.warn('rabbit skipped', err);
-    }
   }
+
 
   private ringSegments(radius: number, y: number, count: number, w: number, h: number, mat: MeshStandardMaterial, dummy: Object3D): InstancedMesh {
     const len = ((Math.PI * 2 * radius) / count) * 1.06;
@@ -361,11 +347,6 @@ export class Gantry extends Chapter {
     this.lamps.forEach((mat, i) => {
       mat.emissiveIntensity = 2.6 + noise1(elapsed * 5.5, i + 10) * 0.45;
     });
-    if (this.rabbit) {
-      // A breath, and an ear-twitch of a turn toward you now and then.
-      this.rabbit.scale.y = 1.45 * (1 + Math.sin(elapsed * 1.6) * 0.012);
-      this.rabbit.rotation.y = 4.6 + Math.sin(elapsed * 0.23) * 0.08;
-    }
     this.shafts.update(elapsed);
   }
 }
