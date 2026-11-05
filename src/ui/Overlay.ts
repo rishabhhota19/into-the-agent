@@ -14,6 +14,8 @@ export class Overlay {
   private readonly texts = document.getElementById('texts') as HTMLDivElement;
   private readonly nodes: { chapter: number; t: number; half: number; el: HTMLElement }[] = [];
   private hintShown = false;
+  private canEnter = false;
+  private wantsIn = false;
   /** Fired when a station link points at a project window (`#project:slug`). */
   onProject?: (slug: string) => void;
   /** Fired when a station link points at another chamber (`#go:id`). */
@@ -41,7 +43,8 @@ export class Overlay {
       const half = Math.min(0.11, gap * 0.42);
       for (const txt of c.texts) {
         const el = document.createElement('div');
-        el.className = `text text--${txt.align}`;
+        const long = txt.title.replace(/<[^>]*>/g, '').length > 70;
+        el.className = `text text--${txt.align}${long ? ' text--long' : ''}`;
         el.style.setProperty('--accent', `#${c.accent.getHexString()}`);
         const tags = txt.tags?.length ? `<ul class="text__tags">${txt.tags.map((t) => `<li class="chip">${esc(t)}</li>`).join('')}</ul>` : '';
         const internal = txt.link?.href.startsWith('#') ?? false;
@@ -81,6 +84,14 @@ export class Overlay {
       },
       { once: true },
     );
+    this.canEnter = true;
+    if (this.wantsIn) this.btn.click();
+  }
+
+  /** Dumbledore is taking the visitor somewhere from the gate: go through it for them, as soon as it can open. */
+  enter(): void {
+    if (!this.canEnter) this.wantsIn = true;
+    else if (!this.gate.classList.contains('is-off')) this.btn.click();
   }
 
   fail(message: string): void {

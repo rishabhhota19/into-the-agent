@@ -30,6 +30,7 @@ try {
  * warp to the chamber that holds it; a page this descent has no room for opens on the written site.
  */
 function navigate(exp: Experience, path: string): void {
+  exp.overlay.enter();
   const clean = path.split(/[?#]/)[0] ?? '';
   const seg = clean.split('/').filter(Boolean);
   const go = (id: string): void => {
@@ -53,7 +54,11 @@ if (experience) {
   const agent = new Agent(
     pill,
     (path) => navigate(exp, path),
-    (what) => (what === 'written' ? location.assign(PORTFOLIO) : exp.move(what)),
+    (what) => {
+      if (what === 'written') return location.assign(PORTFOLIO);
+      exp.overlay.enter();
+      exp.move(what);
+    },
   );
   exp.onChapter = (id) => agent.page(`/3d#${id}`);
   exp.onTooSlow = () => {
