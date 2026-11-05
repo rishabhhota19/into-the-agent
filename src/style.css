@@ -188,16 +188,24 @@ body { touch-action: none; }
   height: 7px;
   border-radius: 50%;
   background: #ff3b4a;
-  box-shadow: 0 0 0 0 rgba(255, 59, 74, 0.55);
+  position: relative;
+}
+/* A ring out of the dot: transform and opacity only, so it costs no repaint. */
+.ask__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ff3b4a;
   animation: ask-pulse 2.4s ease-out infinite;
 }
 @keyframes ask-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 59, 74, 0.55); }
-  70% { box-shadow: 0 0 0 9px rgba(255, 59, 74, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 59, 74, 0); }
+  0% { transform: scale(1); opacity: 0.55; }
+  70%, 100% { transform: scale(3.5); opacity: 0; }
 }
 body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
-.ask.is-open .ask__dot { background: var(--ink-dim); box-shadow: none; animation: none; }
+.ask.is-open .ask__dot { background: var(--ink-dim); }
+.ask.is-open .ask__dot::after { animation: none; opacity: 0; }
 
 /* Dumbledore's window: glass over the scene in the lower right, a third of the screen, never a plain box */
 .agent {
@@ -250,7 +258,7 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
   .ask { top: calc(14px + env(safe-area-inset-top, 0px)); right: 16px; font-size: 10px; gap: 7px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ask__dot { animation: none; }
+  .ask__dot::after { animation: none; opacity: 0; }
 }
 
 /* rail: one button per chamber, in whichever lower corner the words leave free */
@@ -357,7 +365,7 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
 }
 .gate.is-off { opacity: 0; pointer-events: none; }
 .gate__inner { text-align: center; padding: 0 24px; max-width: 640px; }
-.gate__eyebrow { color: var(--ink-faint); margin: 0 0 18px; }
+.gate__eyebrow { color: var(--ink-dim); margin: 0 0 18px; }
 .gate__title {
   margin: 0;
   font-weight: 500;
@@ -394,7 +402,7 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
 .gate__btn:disabled { opacity: 0.45; cursor: default; }
 .gate__btn:not(:disabled):hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .gate__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.gate__note { color: var(--ink-faint); margin: 18px 0 0; min-height: 14px; }
+.gate__note { color: var(--ink-dim); margin: 18px 0 0; min-height: 14px; }
 
 /* project window */
 body.is-window .texts,
@@ -495,8 +503,8 @@ body.is-window #stage { cursor: default; }
 
 /* the written page */
 .gate__alt { margin: 26px 0 0; }
-.gate__credits { position: absolute; left: 24px; right: 24px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); color: var(--ink-faint); font-size: 10px; text-align: center; }
-.gate__alt a { color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid rgba(233, 241, 242, 0.2); padding-bottom: 2px; }
+.gate__credits { position: absolute; left: 24px; right: 24px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); color: var(--ink-dim); font-size: 10px; text-align: center; }
+.gate__alt a { color: var(--ink); text-decoration: none; border-bottom: 1px solid rgba(233, 241, 242, 0.4); padding-bottom: 2px; }
 .gate__alt a:hover, .gate__alt a:focus-visible { color: var(--ink); }
 .noscript {
   position: fixed;
