@@ -76,7 +76,8 @@ export class ProjectWindow {
     this.scroller.scrollTop = 0;
     document.body.classList.add('is-window');
     requestAnimationFrame(() => this.root.classList.add('is-on'));
-    this.closeBtn.focus({ preventScroll: true });
+    // Opened from the chat, the visitor is still typing there: their next Enter must reach Dumbledore, not this button.
+    if (document.activeElement?.tagName !== 'IFRAME') this.closeBtn.focus({ preventScroll: true });
   }
 
   close(): void {
