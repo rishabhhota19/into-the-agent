@@ -319,13 +319,14 @@ export class Experience {
   }
 
   /** Warp to a chamber from the rail or a station link, building anything on the way first. */
-  async travelTo(k: number): Promise<void> {
+  /** A warp to chamber k, landing on one item's words if the chat named it. */
+  async travelTo(k: number, slug?: string): Promise<void> {
     const c = this.chapters[k];
     if (!c || this.stopped) return;
     this.window.close(); // and its onClose brings the descent back: closeProject alone left the window on screen
     for (let i = this.built; i <= k; i++) await this.enqueueBuild(i);
     if (this.stopped) return;
-    this.scroll.travel(k, c.texts[0]?.t ?? 0);
+    this.scroll.travel(k, c.texts.find((x) => slug && x.slug === slug)?.t ?? c.texts[0]?.t ?? 0);
   }
 
   /** The chat's "next", "back", "scroll down": relative to where the visitor is, with no page named. */
@@ -413,7 +414,7 @@ export class Experience {
   /** Warp to the vault, then open this project's window when the travel has landed. */
   async goToProject(slug: string): Promise<void> {
     const k = this.chapters.findIndex((c) => c.id === 'projects');
-    if (k < 0) return;
+    if (k < 0 || this.window.slug === slug) return; // already showing it: a follow-up question shouldn't flicker
     await this.travelTo(k);
     await new Promise<void>((resolve) => {
       const started = performance.now();

@@ -43,6 +43,10 @@ export class ProjectWindow {
     return max > 0 ? Math.min(1, Math.max(0, this.scroller.scrollTop / max)) : 0;
   }
 
+  get slug(): string | undefined {
+    return this.current?.slug;
+  }
+
   open(item: Item, nextItem: Item | null): void {
     this.lastFocus = document.activeElement as HTMLElement | null;
     this.current = item;

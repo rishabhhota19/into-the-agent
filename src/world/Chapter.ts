@@ -15,6 +15,8 @@ export interface Grade {
 export interface StationText {
   /** Content-local position (0..1) where this text is fully on. */
   t: number;
+  /** The content item this text is about, the same slug the written site's anchors use. */
+  slug?: string;
   align: 'left' | 'right' | 'center';
   kicker?: string;
   /** May contain <em> for a dimmed run. */

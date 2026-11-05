@@ -33,9 +33,10 @@ function navigate(exp: Experience, path: string): void {
   exp.overlay.enter();
   const clean = path.split(/[?#]/)[0] ?? '';
   const seg = clean.split('/').filter(Boolean);
-  const go = (id: string): void => {
+  const item = path.split('#')[1];
+  const go = (id: string, slug = item): void => {
     const k = exp.chapters.findIndex((c) => c.id === id);
-    if (k >= 0) void exp.travelTo(k);
+    if (k >= 0) void exp.travelTo(k, slug);
   };
   if (seg.length === 0 || clean === '/3d') go('home');
   else if (seg[0] === 'projects') {
@@ -44,7 +45,7 @@ function navigate(exp: Experience, path: string): void {
   } else if (seg[0] === 'publications') go('research');
   else if (seg[0] === 'experience') go('experience');
   else if (seg[0] === 'services') go('services');
-  else if (seg[0] === 'blog') go('writing');
+  else if (seg[0] === 'blog') go('writing', seg[1]);
   else if (seg[0] === 'resume') go('contact');
   else location.assign(PORTFOLIO.replace(/\/$/, '') + path);
 }

@@ -73,7 +73,7 @@ export class Timefold extends Chapter {
     this.stations.push(0, ...fr.slice(1, 1 + n), fr[points.length - 1]);
     this.texts.push({ t: 0, align: 'left', kicker: `chamber · ${section.label.toLowerCase()}`, title: `${section.label}. <em>${section.intro}</em>`, body: 'Time runs down this corridor. Everything you passed is the AI era; the far end is before it.' });
     section.items.forEach((it, i) => {
-      this.texts.push({ t: fr[1 + i], align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary || it.body, link: it.link });
+      this.texts.push({ t: fr[1 + i], slug: it.slug, align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary || it.body, link: it.link });
     });
     this.texts.push({
       t: fr[points.length - 1],

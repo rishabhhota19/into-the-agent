@@ -83,6 +83,7 @@ export class Hall extends Chapter {
       const side = i % 2 === 0 ? 1 : -1;
       this.texts.push({
         t: fr[1 + i],
+        slug: it.slug,
         align: side > 0 ? 'left' : 'right',
         kicker: it.kicker || section.label,
         title: it.title,

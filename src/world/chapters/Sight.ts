@@ -94,7 +94,7 @@ export class Sight extends Chapter {
     this.texts.push({ t: fr[1], align: 'right', kicker: 'sight', title: 'Research starts by <em>looking closer.</em>', body: 'A compound eye: hundreds of lenses, one picture. The papers below each began as one narrow look at a hard problem.' });
     this.texts.push({ t: fr[2], align: 'left', kicker: 'the web', title: 'Every look <em>joins the web.</em>' });
     section.items.forEach((it, i) => {
-      this.texts.push({ t: fr[3 + i], align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary, link: it.link });
+      this.texts.push({ t: fr[3 + i], slug: it.slug, align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary, link: it.link });
     });
   }
 

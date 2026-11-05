@@ -119,6 +119,7 @@ export function sectionTexts(section: Section, fractions: number[], firstSide = 
     const side = i % 2 === 0 ? firstSide : -firstSide;
     texts.push({
       t: fractions[i],
+      slug: it.slug,
       align: side > 0 ? 'left' : 'right',
       kicker: it.kicker || section.label,
       title: it.title,

@@ -56,7 +56,7 @@ export class Well extends Chapter {
     this.stations.push(0, ...fr.slice(1, 1 + n));
     this.texts.push({ t: 0, align: 'left', kicker: `chamber · ${section.label.toLowerCase()}`, title: `${section.label}. <em>${section.intro}</em>` });
     section.items.forEach((it, i) => {
-      this.texts.push({ t: fr[1 + i], align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary, tags: it.tags, link: it.link });
+      this.texts.push({ t: fr[1 + i], slug: it.slug, align: i % 2 === 0 ? 'left' : 'right', kicker: it.kicker, title: it.title, body: it.summary, tags: it.tags, link: it.link });
     });
   }
 
