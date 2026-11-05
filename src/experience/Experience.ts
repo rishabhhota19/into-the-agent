@@ -322,7 +322,7 @@ export class Experience {
   async travelTo(k: number): Promise<void> {
     const c = this.chapters[k];
     if (!c || this.stopped) return;
-    if (this.window.isOpen) this.closeProject();
+    this.window.close(); // and its onClose brings the descent back: closeProject alone left the window on screen
     for (let i = this.built; i <= k; i++) await this.enqueueBuild(i);
     if (this.stopped) return;
     this.scroll.travel(k, c.texts[0]?.t ?? 0);
@@ -333,7 +333,7 @@ export class Experience {
     const k = this.scroll.state.chapter;
     const last = this.chapters.length - 1;
     if (this.window.isOpen && (what === 'back' || what === 'up' || what === 'down')) {
-      if (what === 'back') this.closeProject();
+      if (what === 'back') this.window.close();
       return;
     }
     if (what === 'next') void this.travelTo(Math.min(k + 1, last));
