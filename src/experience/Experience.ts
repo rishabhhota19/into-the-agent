@@ -23,7 +23,7 @@ import { Well } from '../world/chapters/Well';
 import { Village } from '../world/village/Village';
 import { makeEnvironment, ProceduralTextures } from '../world/materials';
 import { World } from '../world/World';
-import { averageFrame } from './frameAverage';
+import { FpsProbe, SweepMeter } from './frameAverage';
 import { detectQuality, makeQuality, Quality, stepDown } from './Quality';
 
 const WHITE = new Color(0xffffff);
@@ -82,7 +82,7 @@ export class Experience {
   private readonly pose = makePose();
   private readonly particleColor = new Color();
   private elapsed = 0;
-  private probe = { t: 0, frames: 0, busy: 0, done: false };
+  private probe = new FpsProbe();
   private readonly probeOff = new URLSearchParams(location.search).has('tier');
 
   constructor(canvas: HTMLCanvasElement) {
@@ -208,16 +208,22 @@ export class Experience {
     ];
     // At 60 Hz a frame that fits measures ~16.7 ms (vsync); one that does not measures 20 or more.
     const BUDGET = 17.6;
-    // A device that opened on a lower tier starts the ladder there.
-    const start = Math.max(0, ladder.findIndex((l) => l.tier === this.quality.tier));
-    for (let i = start; i < ladder.length; i++) {
-      const step = ladder[i];
+    // A device that opened on a lower tier starts the ladder there. One that opened below the ladder (a weak
+    // graphics chip, on the light tier) stays on its tier and only its scale is tried: it used to be sent to the
+    // top of the ladder, which put the heaviest setting on the weakest machines.
+    const at = ladder.findIndex((l) => l.tier === this.quality.tier);
+    const steps = at < 0 ? [1, 0.85, 0.75].map((scale) => ({ tier: this.quality.tier, scale })) : ladder.slice(at);
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i];
       if (step.tier !== this.quality.tier) this.setTier(step.tier);
       this.pipeline.setScale(step.scale);
-      onProgress((i - start + 0.2) / (ladder.length - start));
-      const avg = await this.sweep(1.6);
-      this.fps = 1000 / avg;
-      if (avg <= BUDGET || i === ladder.length - 1) break;
+      onProgress((i + 0.2) / steps.length);
+      let frame = await this.sweep(1.6);
+      // Most frames fit and a few long ones carried the average over: first-use hitches look like that, and so
+      // does a machine that really drops frames. One more sweep tells them apart, and the gate can wait for it.
+      if (frame.average > BUDGET && frame.median <= BUDGET && !this.stopped) frame = await this.sweep(1.6);
+      this.fps = 1000 / frame.average;
+      if (frame.average <= BUDGET) break;
     }
     // Back to the surface, standing still, for the gate to open on.
     this.scroll.position = 0;
@@ -226,43 +232,28 @@ export class Experience {
   }
 
   /**
-   * Run the camera through the whole route while frames draw, and return the average frame time,
-   * leaving out the first moments after a change.
-   *
-   * The sweep lasts `seconds` of time the tab was awake. A hidden tab draws no frames, and on the
-   * wall clock a page opened in a background tab came back to a sweep that had already "finished"
-   * with nothing measured: that read as a perfect score and kept the heaviest setting on any
-   * machine. Time asleep is skipped now, and the sweep carries on when the tab is seen.
+   * Run the camera through the whole route while frames draw, and return the average frame time.
+   * The sweep lasts `seconds` of time the page was awake (see SweepMeter): if the visitor is on another
+   * tab it waits for them, and carries on when the page is seen.
    */
-  private sweep(seconds: number): Promise<number> {
+  private sweep(seconds: number): Promise<{ average: number; median: number }> {
     return new Promise((resolve) => {
-      const SETTLE_MS = 300; // left out after a change of setting, and again after the tab wakes
-      const times: number[] = [];
+      const meter = new SweepMeter(seconds * 1000);
       const total = this.scroll.total;
       let last = performance.now();
-      let ran = 0; // ms of the sweep drawn so far
-      let frames = 0;
-      let settling = SETTLE_MS;
-      let slept = document.hidden;
-      const onSleep = (): void => {
-        if (document.hidden) slept = true;
+      // Was the page hidden at any moment since the last frame? Asked three ways, because browsers differ: the
+      // event, the state as this frame runs (some still run a frame or so a second in a hidden tab), and the
+      // state as the last one ran.
+      let hidden = document.hidden;
+      const onHide = (): void => {
+        if (document.hidden) hidden = true;
       };
-      document.addEventListener('visibilitychange', onSleep);
+      document.addEventListener('visibilitychange', onHide);
       const tick = (): void => {
         const now = performance.now();
-        const d = now - last;
+        const u = meter.frame(now - last, hidden || document.hidden);
         last = now;
-        if (slept) {
-          // This gap is the tab's sleep, not a frame.
-          slept = false;
-          settling = SETTLE_MS;
-        } else {
-          ran += d;
-          frames++;
-          if (settling > 0) settling -= d;
-          else times.push(d);
-        }
-        const u = Math.min(1, ran / (seconds * 1000));
+        hidden = document.hidden;
         // The route end to end, both ways, so every chamber is drawn from both sides.
         const back = u > 0.5 ? 1 - (u - 0.5) * 2 : u * 2;
         this.scroll.position = total * back;
@@ -271,8 +262,8 @@ export class Experience {
           requestAnimationFrame(tick);
           return;
         }
-        document.removeEventListener('visibilitychange', onSleep);
-        resolve(averageFrame(times, ran, frames));
+        document.removeEventListener('visibilitychange', onHide);
+        resolve({ average: meter.average, median: meter.median });
       };
       requestAnimationFrame(tick);
     });
@@ -515,20 +506,12 @@ export class Experience {
   private probeFps(): void {
     if (!this.started || this.probeOff) return;
     const raw = this.timer.getDelta();
-    if (raw > 0.5 || document.hidden) {
-      this.probe.t = 0;
-      this.probe.frames = 0;
-      this.probe.busy = 0;
+    if (document.hidden) {
+      this.probe.reset();
       return;
     }
-    this.probe.t += raw;
-    if (raw <= 0.1) {
-      this.probe.frames += 1;
-      this.probe.busy += raw;
-    }
-    if (this.probe.t < 5) return;
-    const fps = this.probe.busy > 0 ? this.probe.frames / this.probe.busy : 60;
-    this.probe = { t: 0, frames: 0, busy: 0, done: false };
+    const fps = this.probe.frame(raw);
+    if (fps === null) return;
     const next = stepDown(this.quality.tier);
     if (fps < 30 && next) this.setTier(next);
     else if (fps < 12 && !next) this.onTooSlow?.(fps);
