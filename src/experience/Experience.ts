@@ -23,6 +23,7 @@ import { Well } from '../world/chapters/Well';
 import { Village } from '../world/village/Village';
 import { makeEnvironment, ProceduralTextures } from '../world/materials';
 import { World } from '../world/World';
+import { averageFrame } from './frameAverage';
 import { detectQuality, makeQuality, Quality, stepDown } from './Quality';
 
 const WHITE = new Color(0xffffff);
@@ -225,27 +226,53 @@ export class Experience {
   }
 
   /**
-   * Run the camera through the whole route in `seconds` while frames draw, and return the average
-   * frame time, leaving out the first moments after a change and anything the tab was not awake for.
+   * Run the camera through the whole route while frames draw, and return the average frame time,
+   * leaving out the first moments after a change.
+   *
+   * The sweep lasts `seconds` of time the tab was awake. A hidden tab draws no frames, and on the
+   * wall clock a page opened in a background tab came back to a sweep that had already "finished"
+   * with nothing measured: that read as a perfect score and kept the heaviest setting on any
+   * machine. Time asleep is skipped now, and the sweep carries on when the tab is seen.
    */
   private sweep(seconds: number): Promise<number> {
     return new Promise((resolve) => {
+      const SETTLE_MS = 300; // left out after a change of setting, and again after the tab wakes
       const times: number[] = [];
-      let last = performance.now();
-      const t0 = last;
       const total = this.scroll.total;
+      let last = performance.now();
+      let ran = 0; // ms of the sweep drawn so far
+      let frames = 0;
+      let settling = SETTLE_MS;
+      let slept = document.hidden;
+      const onSleep = (): void => {
+        if (document.hidden) slept = true;
+      };
+      document.addEventListener('visibilitychange', onSleep);
       const tick = (): void => {
         const now = performance.now();
         const d = now - last;
         last = now;
-        const u = Math.min(1, (now - t0) / (seconds * 1000));
+        if (slept) {
+          // This gap is the tab's sleep, not a frame.
+          slept = false;
+          settling = SETTLE_MS;
+        } else {
+          ran += d;
+          frames++;
+          if (settling > 0) settling -= d;
+          else times.push(d);
+        }
+        const u = Math.min(1, ran / (seconds * 1000));
         // The route end to end, both ways, so every chamber is drawn from both sides.
         const back = u > 0.5 ? 1 - (u - 0.5) * 2 : u * 2;
         this.scroll.position = total * back;
         this.scroll.target = this.scroll.position;
-        if (now - t0 > 300 && d < 500) times.push(d);
-        if (u < 1 && !this.stopped) requestAnimationFrame(tick);
-        else resolve(times.length ? times.reduce((a, b) => a + b, 0) / times.length : 16);
+        if (u < 1 && !this.stopped) {
+          requestAnimationFrame(tick);
+          return;
+        }
+        document.removeEventListener('visibilitychange', onSleep);
+        resolve(averageFrame(times, ran, frames));
       };
       requestAnimationFrame(tick);
     });
