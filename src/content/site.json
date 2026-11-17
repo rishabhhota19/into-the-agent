@@ -131,7 +131,7 @@
           "title": "AI Engineer",
           "kicker": "OsteosConnect Inc · Feb 2024 – Mar 2025",
           "summary": "Led a team of clinicians and engineers to deliver an osteoarthritis pipeline that turns a knee X-ray into a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC,…",
-          "body": "Tested in a randomised controlled trial of OA patients at SRM, Chennai (supervised by Dr. Mahesh Magadum); deployed at Fortis Hospital, Nagarbhavi, Bengaluru. More than 90% concordance with radiologists; surpassed…",
+          "body": "Tested in a randomised controlled trial of OA patients at SRM, Trichy (supervised by Dr. Mahesh Magadum); deployed at Fortis Hospital, Nagarbhavi, Bengaluru. More than 90% concordance with radiologists; surpassed…",
           "tags": [
             "Remote, California"
           ],
@@ -324,7 +324,7 @@
             {
               "type": "list",
               "items": [
-                "Tested at SRM, Chennai as part of a randomised controlled trial of osteoarthritis patients, under the supervision of Dr. Mahesh Magadum.",
+                "Tested at SRM, Trichy as part of a randomised controlled trial of osteoarthritis patients, under the supervision of Dr. Mahesh Magadum.",
                 "More than 90% concordance with radiologists; outperformed competitor RBKnee.",
                 "Deployed and scaled at Fortis Hospital, Nagarbhavi, Bengaluru."
               ]
