@@ -157,6 +157,19 @@ export class World {
     });
     this.lightCounts.set(c, counts);
     this.balanceLights();
+    if (this.lightCounts.size === this.chapters.length) this.checkBudget();
+  }
+
+  /** Once every chamber is built: say so if any three neighbours (what can be in view together) need more lights
+   * than LIGHTS holds. Reordering the chambers changes the neighbours, and an overflow brings back the freezes. */
+  private checkBudget(): void {
+    for (let i = 0; i + 2 < this.chapters.length; i++) {
+      const trio = this.chapters.slice(i, i + 3);
+      for (const kind of KINDS) {
+        const need = trio.reduce((n, c) => n + (this.lightCounts.get(c)?.[kind] ?? 0), 0);
+        if (need > LIGHTS[kind]) console.warn(`[world] ${trio.map((c) => c.id).join(' + ')} need ${need} ${kind} lights; LIGHTS.${kind} is ${LIGHTS[kind]}`);
+      }
+    }
   }
 
   private balanceLights(): void {

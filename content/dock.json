@@ -12,8 +12,8 @@
         "full-time roles"
       ],
       "link": {
-        "label": "Book the call",
-        "href": "#go:contact"
+        "label": "Book a 30-min call",
+        "href": "https://rishabh-hota.vercel.app/?book=3d"
       }
     },
     {
@@ -53,8 +53,8 @@
         "measured results"
       ],
       "link": {
-        "label": "Start the conversation",
-        "href": "#go:contact"
+        "label": "Book a 30-min call",
+        "href": "https://rishabh-hota.vercel.app/?book=3d"
       }
     }
   ]

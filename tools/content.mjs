@@ -134,8 +134,12 @@ const projects = dir('projects').map((e) => ({
   // The full write-up, for the project window.
   blocks: e.blocks,
 }));
-// Featured first, each group in the site's own order.
-projects.sort((a, b) => Number(b.featured) - Number(a.featured));
+// Best first: the order a recruiter should meet them in (the entry chamber's showcase is the first three).
+// Anything not listed keeps its place after these.
+const BEST = ['collaterals-agent', 'oa-classification', 'portfolio-agent', 'turbotrade', 'gemma-3n-on-device', 'sales-training-chatbot',
+  'claude-health-doctor', 'ai-teddy-bear', 'news-research-tool', 'edtech-platform', 'covid-decision-support'];
+const rank = (slug) => (BEST.includes(slug) ? BEST.indexOf(slug) : BEST.length);
+projects.sort((a, b) => rank(a.slug) - rank(b.slug));
 
 const publications = dir('publications').map((e) => ({
   slug: e.slug,
@@ -185,7 +189,11 @@ const services = (fs.existsSync(servicesDir) ? dirAt(servicesDir) : []).map((e) 
 }));
 const dock = JSON.parse(read(path.join(LOCAL, 'dock.json')));
 
+// "Book a call" opens the 2D site with its booking card already open (the 3D page can't book by itself: the
+// booking API sits behind the 2D site's bot check).
+const BOOK = abs('/?book=3d');
 const contact = [
+  { slug: 'book', title: 'Book a 30-min call', kicker: 'best', summary: 'Pick a time on his calendar; he confirms it and Google sends the Meet invite.', body: 'Weekdays, 10 am to 9 pm India time.', tags: [], featured: true, link: { label: 'Pick a time', href: BOOK } },
   { slug: 'email', title: 'Email', kicker: 'fastest', summary: site.email, body: 'For roles, freelance builds, training and collaborations.', tags: [], featured: true, link: { label: site.email, href: `mailto:${site.email}` } },
   { slug: 'linkedin', title: 'LinkedIn', kicker: 'profile', summary: 'Connect and message.', body: '', tags: [], featured: false, link: { label: 'Open LinkedIn', href: site.linkedin } },
   { slug: 'github', title: 'GitHub', kicker: 'code', summary: 'Open-source work and this site.', body: '', tags: [], featured: false, link: { label: 'Open GitHub', href: site.github } },
@@ -213,9 +221,10 @@ const out = {
   home: { now: trim(nowPara, 260), wins, roles },
   dock,
   sections: [
+    // The pitch, in order: where he's worked, everything he built, the research under it, notes, what he sells, reach him.
+    { id: 'experience', label: 'Experience', path: abs('/experience'), intro: 'Three years turning research into systems that ship.', items: experience },
     { id: 'projects', label: 'Projects', path: abs('/projects'), intro: `${projects.length} builds, from a hospital pipeline to the agent on this site.`, items: projects },
     { id: 'research', label: 'Research', path: abs('/publications'), intro: `${publications.length} papers: medical imaging, quantum attention, decision support.`, items: publications },
-    { id: 'experience', label: 'Experience', path: abs('/experience'), intro: 'Three years turning research into systems that ship.', items: experience },
     { id: 'writing', label: 'Writing', path: abs('/blog'), intro: 'Notes from building.', items: blog },
     { id: 'services', label: dock.label || 'Services', path: abs('/'), intro: dock.intro, items: services },
     { id: 'contact', label: 'Contact', path: abs('/'), intro: 'Hire him, book a build, or bring a problem.', items: contact },

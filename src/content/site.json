@@ -36,8 +36,8 @@
           "full-time roles"
         ],
         "link": {
-          "label": "Book the call",
-          "href": "#go:contact"
+          "label": "Book a 30-min call",
+          "href": "https://rishabh-hota.vercel.app/?book=3d"
         }
       },
       {
@@ -77,13 +77,96 @@
           "measured results"
         ],
         "link": {
-          "label": "Start the conversation",
-          "href": "#go:contact"
+          "label": "Book a 30-min call",
+          "href": "https://rishabh-hota.vercel.app/?book=3d"
         }
       }
     ]
   },
   "sections": [
+    {
+      "id": "experience",
+      "label": "Experience",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "Three years turning research into systems that ship.",
+      "items": [
+        {
+          "slug": "01-simplilearn-sr-ai-researcher",
+          "title": "Sr. AI Researcher",
+          "kicker": "Simplilearn · Mar 2026 – Present",
+          "summary": "Rishabh's current role. He leads hands-on research into new AI technology and turns it into automation for the business.",
+          "body": "Agentic orchestration: designing how multiple agents, tools and human reviewers work together. Open-source work.",
+          "tags": [
+            "On-site, Bengaluru, Karnataka"
+          ],
+          "featured": true,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "02-simplilearn-ai-researcher",
+          "title": "AI Researcher",
+          "kicker": "Simplilearn · Mar 2025 – Mar 2026",
+          "summary": "Tracked and dissected emerging AI breakthroughs (MCP, agentic AI, LLMs, Gemini) and turned them into hands-on prototypes.",
+          "body": "Built, validated and documented research demos; curated a code-backed learning hub. Designed bite-sized, code-driven learning modules and influenced the roadmap for next-generation AI features.",
+          "tags": [
+            "On-site, Bengaluru, Karnataka"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "03-osteosconnect-ai-engineer",
+          "title": "AI Engineer",
+          "kicker": "OsteosConnect Inc · Feb 2024 – Mar 2025",
+          "summary": "Led a team of clinicians and engineers to deliver a 96%-accurate osteoarthritis classification pipeline: X-ray → S3 → Lambda → EC2 → prediction → Lambda → EMR.",
+          "body": "Surpassed competitor RBKnee and achieved more than 90% concordance with radiologists in SRM Trichy trials. Implemented a continuous feedback loop that retrains the model on doctor-validated ground truth.",
+          "tags": [
+            "Remote, California"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "04-osteosconnect-intern",
+          "title": "AI/ML Intern",
+          "kicker": "OsteosConnect Inc · Jul 2023 – Jan 2024",
+          "summary": "Hypothesized and prototyped ML approaches for automated osteoarthritis grading.",
+          "body": "Ran exploratory data analysis on DICOM imagery and set up baseline classifiers (logistic regression, random forest).",
+          "tags": [
+            "Remote, California"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        },
+        {
+          "slug": "05-smartknower-intern",
+          "title": "Data Science & ML Intern",
+          "kicker": "Smartknower Pvt Ltd · Nov 2020 – Jan 2021",
+          "summary": "Built a full ETL pipeline, feature engineering and predictive models.",
+          "body": "Developed Power BI dashboards for sales forecasting and presented actionable insights.",
+          "tags": [
+            "Bangalore"
+          ],
+          "featured": false,
+          "link": {
+            "label": "Full experience",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          }
+        }
+      ]
+    },
     {
       "id": "projects",
       "label": "Projects",
@@ -201,6 +284,44 @@
           ]
         },
         {
+          "slug": "portfolio-agent",
+          "title": "AI Portfolio Agent (this site)",
+          "kicker": "Personal · Oct 2026",
+          "summary": "Dumbledore, a Python LangGraph agent live on this site — hybrid RAG, a five-gate refusal pipeline, page navigation and 17 free LLMs on a ₹0/month stack.",
+          "body": "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its…",
+          "tags": [
+            "LangGraph",
+            "LangChain",
+            "RAG",
+            "FAISS",
+            "Python",
+            "RAGAS"
+          ],
+          "featured": true,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its interface.",
+                "Agent: a LangGraph graph in Python (FastAPI on Vercel):",
+                "route: greetings, contact questions and \"take me to …\" requests get an instant answer with no LLM call;",
+                "retrieve: hybrid search, combining FAISS for meaning (BAAI bge-small-en-v1.5 embeddings, run inside the server with the same model on Cloudflare as the backup) with BM25 for keywords, merged with Reciprocal Rank Fusion. A cross-encoder re-ranker was A/B-tested and kept off (MRR@4 0.885 vs 0.962);",
+                "respond: 17 free LLMs across Groq, Gemini, Cloudflare Workers AI and OpenRouter, picked by question difficulty (fact, standard, reasoning). Budgets are reserved atomically in Redis, so many visitors at once never overload one model, and the switch between models is invisible.",
+                "Refusal pipeline: five gates keep it on topic — rules, then a meaning check against on-topic and off-topic examples (both before any LLM), the prompt, an output check on every sentence before the visitor sees it (code and leaked instructions replaced; unknown links, phone numbers and other emails removed), and a cache that stores only clean answers. On 76 attack and off-topic prompts (follow-ups included): 0 leaks. On held-out prompts it refused 32 of 33, 24 of them before any LLM, with 0 false refusals on 47 real recruiter questions.",
+                "Agent actions: it takes visitors to the page they ask for (\"open the LCSNet paper\") and offers \"take me there\" buttons under answers. Targets come from an allow-list of the site's own pages, so no one can be sent elsewhere.",
+                "Answer bank: common questions, asked any way, are answered instantly from checked answers: an embedding match with a safety margin (0 wrong answers on held-out paraphrases).",
+                "Security: a Next.js gateway in front of the agent checks for bots, validates input, rate-limits per visitor and enforces a daily budget.",
+                "Memory: lives only in the visitor's open tab. When the chat or the site is closed, it's gone, and only a short AI summary is logged to a Google Sheet.",
+                "Evals: Python suites check retrieval, facts, guardrails, refusals, navigation and difficulty routing; RAGAS scores faithfulness, answer relevancy and context precision."
+              ]
+            }
+          ]
+        },
+        {
           "slug": "turbotrade",
           "title": "TurboTrade — Zerodha MCP trading copilot",
           "kicker": "Simplilearn (on-site project) · Apr – May 2025",
@@ -259,6 +380,93 @@
           ]
         },
         {
+          "slug": "gemma-3n-on-device",
+          "title": "Gemma 3n on Android — Google AI Edge Gallery",
+          "kicker": "Simplilearn (on-site research) · May – Jun 2025",
+          "summary": "Ran an Android-compatible Gemma 3n model inside a custom offline chatbot app.",
+          "body": "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure. Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone.",
+          "tags": [
+            "On-device AI",
+            "Gemma",
+            "Android",
+            "Edge"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure.",
+                "Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "sales-training-chatbot",
+          "title": "Scalable Sales Training Chatbot",
+          "kicker": "Simplilearn (on-site project) · Apr – May 2025",
+          "summary": "A high-throughput sales-enablement chatbot using FAISS retrieval, Gemini and Google ADK, with a Streamlit training UI.",
+          "body": "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK. Built a Streamlit interface for interactive training scenarios with real-time…",
+          "tags": [
+            "RAG",
+            "FAISS",
+            "Gemini",
+            "Google ADK",
+            "Streamlit"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK.",
+                "Built a Streamlit interface for interactive training scenarios with real-time feedback.",
+                "Engineered for horizontal scalability."
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "claude-health-doctor",
+          "title": "Claude Personal Health Doctor",
+          "kicker": "Personal",
+          "summary": "A Claude \"Doctor Skill\" plus a knowledge-graph second brain built from personal medical records.",
+          "body": "Built a Doctor Skill for Claude. It contains: medical resources and links the agent can visit for any query;",
+          "tags": [
+            "Claude Skills",
+            "Knowledge graph",
+            "Healthcare",
+            "Agents"
+          ],
+          "featured": false,
+          "link": {
+            "label": "All projects",
+            "href": "https://rishabh-hota.vercel.app/projects"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Built a Doctor Skill for Claude. It contains:",
+                "medical resources and links the agent can visit for any query;",
+                "guidance on how a doctor should behave and reason;",
+                "a strict workflow for investigating evidence against current information.",
+                "Organized personal medical documents into dated folders, then used Graphify to turn them into a knowledge-graph \"second brain\" for Claude, with documents processed into nodes and communities.",
+                "Result: a private, queryable health assistant grounded in his own records."
+              ]
+            }
+          ]
+        },
+        {
           "slug": "ai-teddy-bear",
           "title": "AI Teddy Bear (MVP)",
           "kicker": "Personal",
@@ -299,55 +507,15 @@
           ]
         },
         {
-          "slug": "portfolio-agent",
-          "title": "AI Portfolio Agent (this site)",
-          "kicker": "Personal · Oct 2026",
-          "summary": "Dumbledore, a Python LangGraph agent live on this site — hybrid RAG, a five-gate refusal pipeline, page navigation and 17 free LLMs on a ₹0/month stack.",
-          "body": "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its…",
-          "tags": [
-            "LangGraph",
-            "LangChain",
-            "RAG",
-            "FAISS",
-            "Python",
-            "RAGAS"
-          ],
-          "featured": true,
-          "link": {
-            "label": "All projects",
-            "href": "https://rishabh-hota.vercel.app/projects"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its interface.",
-                "Agent: a LangGraph graph in Python (FastAPI on Vercel):",
-                "route: greetings, contact questions and \"take me to …\" requests get an instant answer with no LLM call;",
-                "retrieve: hybrid search, combining FAISS for meaning (BAAI bge-small-en-v1.5 embeddings, run inside the server with the same model on Cloudflare as the backup) with BM25 for keywords, merged with Reciprocal Rank Fusion. A cross-encoder re-ranker was A/B-tested and kept off (MRR@4 0.885 vs 0.962);",
-                "respond: 17 free LLMs across Groq, Gemini, Cloudflare Workers AI and OpenRouter, picked by question difficulty (fact, standard, reasoning). Budgets are reserved atomically in Redis, so many visitors at once never overload one model, and the switch between models is invisible.",
-                "Refusal pipeline: five gates keep it on topic — rules, then a meaning check against on-topic and off-topic examples (both before any LLM), the prompt, an output check on every sentence before the visitor sees it (code and leaked instructions replaced; unknown links, phone numbers and other emails removed), and a cache that stores only clean answers. On 76 attack and off-topic prompts (follow-ups included): 0 leaks. On held-out prompts it refused 32 of 33, 24 of them before any LLM, with 0 false refusals on 47 real recruiter questions.",
-                "Agent actions: it takes visitors to the page they ask for (\"open the LCSNet paper\") and offers \"take me there\" buttons under answers. Targets come from an allow-list of the site's own pages, so no one can be sent elsewhere.",
-                "Answer bank: common questions, asked any way, are answered instantly from checked answers: an embedding match with a safety margin (0 wrong answers on held-out paraphrases).",
-                "Security: a Next.js gateway in front of the agent checks for bots, validates input, rate-limits per visitor and enforces a daily budget.",
-                "Memory: lives only in the visitor's open tab. When the chat or the site is closed, it's gone, and only a short AI summary is logged to a Google Sheet.",
-                "Evals: Python suites check retrieval, facts, guardrails, refusals, navigation and difficulty routing; RAGAS scores faithfulness, answer relevancy and context precision."
-              ]
-            }
-          ]
-        },
-        {
-          "slug": "sales-training-chatbot",
-          "title": "Scalable Sales Training Chatbot",
-          "kicker": "Simplilearn (on-site project) · Apr – May 2025",
-          "summary": "A high-throughput sales-enablement chatbot using FAISS retrieval, Gemini and Google ADK, with a Streamlit training UI.",
-          "body": "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK. Built a Streamlit interface for interactive training scenarios with real-time…",
+          "slug": "news-research-tool",
+          "title": "News Search & Research Tool",
+          "kicker": "Personal · Jan – Feb 2024",
+          "summary": "A GenAI pipeline that turns a question into a scraped, RAG-backed research answer.",
+          "body": "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface.",
           "tags": [
             "RAG",
-            "FAISS",
-            "Gemini",
-            "Google ADK",
-            "Streamlit"
+            "NLP",
+            "Web scraping"
           ],
           "featured": false,
           "link": {
@@ -358,9 +526,7 @@
             {
               "type": "list",
               "items": [
-                "Designed a high-throughput sales-enablement chatbot: the knowledge base is vector-indexed with FAISS, and Gemini is orchestrated through Google ADK.",
-                "Built a Streamlit interface for interactive training scenarios with real-time feedback.",
-                "Engineered for horizontal scalability."
+                "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface."
               ]
             }
           ]
@@ -399,64 +565,6 @@
           ]
         },
         {
-          "slug": "claude-health-doctor",
-          "title": "Claude Personal Health Doctor",
-          "kicker": "Personal",
-          "summary": "A Claude \"Doctor Skill\" plus a knowledge-graph second brain built from personal medical records.",
-          "body": "Built a Doctor Skill for Claude. It contains: medical resources and links the agent can visit for any query;",
-          "tags": [
-            "Claude Skills",
-            "Knowledge graph",
-            "Healthcare",
-            "Agents"
-          ],
-          "featured": false,
-          "link": {
-            "label": "All projects",
-            "href": "https://rishabh-hota.vercel.app/projects"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                "Built a Doctor Skill for Claude. It contains:",
-                "medical resources and links the agent can visit for any query;",
-                "guidance on how a doctor should behave and reason;",
-                "a strict workflow for investigating evidence against current information.",
-                "Organized personal medical documents into dated folders, then used Graphify to turn them into a knowledge-graph \"second brain\" for Claude, with documents processed into nodes and communities.",
-                "Result: a private, queryable health assistant grounded in his own records."
-              ]
-            }
-          ]
-        },
-        {
-          "slug": "gemma-3n-on-device",
-          "title": "Gemma 3n on Android — Google AI Edge Gallery",
-          "kicker": "Simplilearn (on-site research) · May – Jun 2025",
-          "summary": "Ran an Android-compatible Gemma 3n model inside a custom offline chatbot app.",
-          "body": "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure. Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone.",
-          "tags": [
-            "On-device AI",
-            "Gemma",
-            "Android",
-            "Edge"
-          ],
-          "featured": false,
-          "link": {
-            "label": "All projects",
-            "href": "https://rishabh-hota.vercel.app/projects"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure.",
-                "Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone."
-              ]
-            }
-          ]
-        },
-        {
           "slug": "covid-decision-support",
           "title": "COVID-19 Decision Support System",
           "kicker": "BMSCE, team of four · Oct 2022 – Apr 2023",
@@ -484,31 +592,6 @@
                 "Phase 2, if needed, asks for a chest X-ray upload.",
                 "A final rule-based engine combines all inputs into a report with recommended next steps.",
                 "Awarded 6th place college-wide. Related papers are listed under Publications."
-              ]
-            }
-          ]
-        },
-        {
-          "slug": "news-research-tool",
-          "title": "News Search & Research Tool",
-          "kicker": "Personal · Jan – Feb 2024",
-          "summary": "A GenAI pipeline that turns a question into a scraped, RAG-backed research answer.",
-          "body": "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface.",
-          "tags": [
-            "RAG",
-            "NLP",
-            "Web scraping"
-          ],
-          "featured": false,
-          "link": {
-            "label": "All projects",
-            "href": "https://rishabh-hota.vercel.app/projects"
-          },
-          "blocks": [
-            {
-              "type": "list",
-              "items": [
-                "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface."
               ]
             }
           ]
@@ -610,89 +693,6 @@
           "link": {
             "label": "All research",
             "href": "https://rishabh-hota.vercel.app/publications"
-          }
-        }
-      ]
-    },
-    {
-      "id": "experience",
-      "label": "Experience",
-      "path": "https://rishabh-hota.vercel.app/experience",
-      "intro": "Three years turning research into systems that ship.",
-      "items": [
-        {
-          "slug": "01-simplilearn-sr-ai-researcher",
-          "title": "Sr. AI Researcher",
-          "kicker": "Simplilearn · Mar 2026 – Present",
-          "summary": "Rishabh's current role. He leads hands-on research into new AI technology and turns it into automation for the business.",
-          "body": "Agentic orchestration: designing how multiple agents, tools and human reviewers work together. Open-source work.",
-          "tags": [
-            "On-site, Bengaluru, Karnataka"
-          ],
-          "featured": true,
-          "link": {
-            "label": "Full experience",
-            "href": "https://rishabh-hota.vercel.app/experience"
-          }
-        },
-        {
-          "slug": "02-simplilearn-ai-researcher",
-          "title": "AI Researcher",
-          "kicker": "Simplilearn · Mar 2025 – Mar 2026",
-          "summary": "Tracked and dissected emerging AI breakthroughs (MCP, agentic AI, LLMs, Gemini) and turned them into hands-on prototypes.",
-          "body": "Built, validated and documented research demos; curated a code-backed learning hub. Designed bite-sized, code-driven learning modules and influenced the roadmap for next-generation AI features.",
-          "tags": [
-            "On-site, Bengaluru, Karnataka"
-          ],
-          "featured": false,
-          "link": {
-            "label": "Full experience",
-            "href": "https://rishabh-hota.vercel.app/experience"
-          }
-        },
-        {
-          "slug": "03-osteosconnect-ai-engineer",
-          "title": "AI Engineer",
-          "kicker": "OsteosConnect Inc · Feb 2024 – Mar 2025",
-          "summary": "Led a team of clinicians and engineers to deliver a 96%-accurate osteoarthritis classification pipeline: X-ray → S3 → Lambda → EC2 → prediction → Lambda → EMR.",
-          "body": "Surpassed competitor RBKnee and achieved more than 90% concordance with radiologists in SRM Trichy trials. Implemented a continuous feedback loop that retrains the model on doctor-validated ground truth.",
-          "tags": [
-            "Remote, California"
-          ],
-          "featured": false,
-          "link": {
-            "label": "Full experience",
-            "href": "https://rishabh-hota.vercel.app/experience"
-          }
-        },
-        {
-          "slug": "04-osteosconnect-intern",
-          "title": "AI/ML Intern",
-          "kicker": "OsteosConnect Inc · Jul 2023 – Jan 2024",
-          "summary": "Hypothesized and prototyped ML approaches for automated osteoarthritis grading.",
-          "body": "Ran exploratory data analysis on DICOM imagery and set up baseline classifiers (logistic regression, random forest).",
-          "tags": [
-            "Remote, California"
-          ],
-          "featured": false,
-          "link": {
-            "label": "Full experience",
-            "href": "https://rishabh-hota.vercel.app/experience"
-          }
-        },
-        {
-          "slug": "05-smartknower-intern",
-          "title": "Data Science & ML Intern",
-          "kicker": "Smartknower Pvt Ltd · Nov 2020 – Jan 2021",
-          "summary": "Built a full ETL pipeline, feature engineering and predictive models.",
-          "body": "Developed Power BI dashboards for sales forecasting and presented actionable insights.",
-          "tags": [
-            "Bangalore"
-          ],
-          "featured": false,
-          "link": {
-            "label": "Full experience",
-            "href": "https://rishabh-hota.vercel.app/experience"
           }
         }
       ]
@@ -870,6 +870,19 @@
       "path": "https://rishabh-hota.vercel.app/",
       "intro": "Hire him, book a build, or bring a problem.",
       "items": [
+        {
+          "slug": "book",
+          "title": "Book a 30-min call",
+          "kicker": "best",
+          "summary": "Pick a time on his calendar; he confirms it and Google sends the Meet invite.",
+          "body": "Weekdays, 10 am to 9 pm India time.",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "Pick a time",
+            "href": "https://rishabh-hota.vercel.app/?book=3d"
+          }
+        },
         {
           "slug": "email",
           "title": "Email",

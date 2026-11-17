@@ -61,7 +61,16 @@ if (experience) {
       exp.move(what);
     },
   );
-  exp.onChapter = (id) => agent.page(`/3d#${id}`);
+  const book = document.getElementById('book') as HTMLAnchorElement | null;
+  book?.addEventListener('click', () => addAction('book_call'));
+  exp.onChapter = (id) => {
+    agent.page(`/3d#${id}`);
+    // Services and Contact are where people decide to pay: the booking pill stays on screen there.
+    const on = id === 'services' || id === 'contact';
+    book?.classList.toggle('is-on', on);
+    book?.setAttribute('aria-hidden', String(!on));
+    if (book) book.tabIndex = on ? 0 : -1;
+  };
   exp.onTooSlow = () => {
     exp.stop();
     leave();

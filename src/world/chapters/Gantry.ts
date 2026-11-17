@@ -55,18 +55,19 @@ export class Gantry extends Chapter {
     super();
     // The mouth tube reaches 70 below; the next chamber's entry tube meets it there.
     this.exit.set(0, -90, 0);
-    this.contentPx = 3300;
+    this.contentPx = 4600; // room for the three showcase stops
     this.definePath([
       [new Vector3(0, 7.5, 27), new Vector3(0, -3, 0)],
       [new Vector3(9.5, 4, 15.5), new Vector3(0, -6, 0)],
       [new Vector3(3.6, 1.4, 5.2), new Vector3(0, -10, 0)],
       [new Vector3(3.2, -2.6, 0.8), new Vector3(3.2, -40, 0.8)],
     ]);
-    this.stations.push(0, 0.42, 0.63, 0.82);
+    this.stations.push(0, 0.3, 0.43, 0.56, 0.69, 0.84);
 
     const { site, home, sections } = content;
     const [lead, rest] = splitTagline(site.tagline);
     const counts = Object.fromEntries(sections.map((s) => [s.id, s.items.length]));
+    const best = (sections.find((s) => s.id === 'projects')?.items ?? []).slice(0, 3);
     const texts: StationText[] = [
       {
         t: 0,
@@ -75,24 +76,27 @@ export class Gantry extends Chapter {
         title: rest ? `${lead} <em>${rest}</em>` : lead,
         body: home.now,
       },
+      // The best work, straight away: the first three projects in the site's best-first order, one stop each.
+      ...best.map((p, i): StationText => ({
+        t: [0.3, 0.43, 0.56][i],
+        align: i % 2 === 0 ? 'right' : 'left',
+        kicker: `best work · ${i + 1} of 3`,
+        title: p.title,
+        body: p.summary,
+        tags: p.tags.slice(0, 4),
+        link: { label: 'Open the project', href: `#project:${p.slug}` },
+      })),
       {
-        t: 0.42,
-        align: 'right',
-        kicker: 'headline wins',
-        title: 'Three wins, <em>three years.</em>',
-        body: home.wins.slice(0, 3).join(' '),
-      },
-      {
-        t: 0.63,
-        align: 'left',
+        t: 0.69,
+        align: best.length % 2 === 0 ? 'right' : 'left',
         kicker: 'for hire · freelance and full-time',
         title: 'Hire the builder, <em>not just the résumé.</em>',
         body: 'Intelligent, custom, autonomous systems that drive real-world value. Freelance builds, retainers and full-time roles: agents, RAG, fine-tuning and medical imaging, scoped in a call and shipped with evals.',
         tags: ['agentic systems', 'rag', 'fine-tuning', 'medical imaging', 'training'],
-        link: { label: 'See the services', href: '#go:services' },
+        link: { label: 'Book a 30-min call', href: `${site.url.replace(/\/$/, '')}/?book=3d` },
       },
       {
-        t: 0.82,
+        t: 0.84,
         align: 'center',
         kicker: 'the edge',
         title: 'Keep scrolling to go under.',
