@@ -136,7 +136,7 @@ const projects = dir('projects').map((e) => ({
 }));
 // Best first: the order a recruiter should meet them in (the entry chamber's showcase is the first three).
 // Anything not listed keeps its place after these.
-const BEST = ['collaterals-agent', 'oa-classification', 'portfolio-agent', 'turbotrade', 'gemma-3n-on-device', 'sales-training-chatbot',
+const BEST = ['product-launch-system', 'oa-classification', 'portfolio-agent', 'turbotrade', 'gemma-3n-on-device', 'sales-training-chatbot',
   'claude-health-doctor', 'ai-teddy-bear', 'news-research-tool', 'edtech-platform', 'covid-decision-support'];
 const rank = (slug) => (BEST.includes(slug) ? BEST.indexOf(slug) : BEST.length);
 projects.sort((a, b) => rank(a.slug) - rank(b.slug));

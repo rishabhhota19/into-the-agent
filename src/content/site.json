@@ -16,6 +16,7 @@
   "home": {
     "now": "Sr. AI Researcher at Simplilearn (on-site, Bengaluru), since Mar 2026. Works on automating complex workflows, agentic orchestration, open source, and hands-on research into new AI tech. Before that, AI Researcher at Simplilearn (Mar 2025 – Mar 2026).",
     "wins": [
+      "Built the Product Launch System as Sr. AI Researcher: one human-in-the-loop AI system that connects three teams (product, content review, design) from programme sheet to editable Illustrator artwork; 88 tested versions in eleven weeks; in use as an internal tool.",
       "Built an N8N-based multi-agent \"Collaterals Agent\" at Simplilearn that cut course-launch collateral creation from 7–10 days (2 teams of 4) to 1 day; won the Best Team Award (Q3).",
       "His novel LCSNet architecture was published in Intelligence-Based Medicine (Elsevier, IF 2.3, Oct 2025).",
       "Designed QFPViT, a quantum self-attention operator for Vision Transformers, starting from zero quantum background; paper communicated to Quantum Journal."
@@ -95,7 +96,7 @@
           "title": "Sr. AI Researcher",
           "kicker": "Simplilearn · Mar 2026 – Present",
           "summary": "Rishabh's current role. He leads hands-on research into new AI technology and turns it into automation for the business.",
-          "body": "Agentic orchestration: designing how multiple agents, tools and human reviewers work together. Open-source work.",
+          "body": "Automating complex, multi-step business workflows with AI agents. Agentic orchestration: designing how multiple agents, tools and human reviewers work together.",
           "tags": [
             "On-site, Bengaluru, Karnataka"
           ],
@@ -174,17 +175,19 @@
       "intro": "11 builds, from a hospital pipeline to the agent on this site.",
       "items": [
         {
-          "slug": "collaterals-agent",
-          "title": "Collaterals Agent",
-          "kicker": "Simplilearn · Jun – Aug 2025",
-          "summary": "An N8N-based multi-agent system that cut course-launch marketing collateral from 7–10 days to 1 day.",
-          "body": "Every new course launch needed SD/SL pages, brochures and seven types of emailers. Two teams of four people (eight in total) spent 7–10 days producing them.",
+          "slug": "product-launch-system",
+          "title": "Product Launch System",
+          "kicker": "On-site project · Sr. AI Researcher · Aug 2026 – present",
+          "summary": "AI automation with a human in the loop: one unified system that connects three teams, from programme sheet to print-ready, editable designer artwork. In use as an internal tool.",
+          "body": "Launching a new programme meant a brochure and its launch material, and that work moved between three teams that never shared one tool: product managers who own the facts and the story, a content team that reviews and approves…",
           "tags": [
             "Agentic AI",
+            "Human in the loop",
+            "Claude Agent Skills",
             "Multi-agent",
-            "N8N",
-            "Fine-tuned GPT",
-            "Google Docs"
+            "Adobe Illustrator",
+            "Evals",
+            "Python"
           ],
           "featured": true,
           "link": {
@@ -194,37 +197,70 @@
           "blocks": [
             {
               "type": "h",
-              "text": "Problem"
+              "text": "The problem"
             },
             {
               "type": "p",
-              "text": "Every new course launch needed SD/SL pages, brochures and seven types of emailers. Two teams of four people (eight in total) spent 7–10 days producing them."
+              "text": "Launching a new programme meant a brochure and its launch material, and that work moved between three teams that never shared one tool: product managers who own the facts and the story, a content team that reviews and approves every word, and designers who rebuild the approved pages by hand in Adobe Illustrator. Each hand-off was an email, a PDF and a round of corrections, and the same mistakes came back launch after launch."
             },
             {
               "type": "h",
               "text": "What Rishabh built"
             },
             {
+              "type": "p",
+              "text": "One unified system that runs the whole launch, end to end, with a person deciding at every step that needs judgement. It ships as a Claude Agent Skill (\"Steve, the AI Program launcher\") that each team runs in its own chair, on the same files, with the same rules."
+            },
+            {
               "type": "list",
               "items": [
-                "An N8N-based agentic system that drafts all collateral automatically and cuts turnaround to one day, including reviews and approvals.",
-                "A fine-tuned GPT model with deep course knowledge drafts accurate, relevant marketing content.",
-                "Architecture: one Head Agent coordinates two sub-agents:",
-                "a Researcher, which gathers and validates course information through SerpAPI;",
-                "an Analyst, which checks content structure and data accuracy and extracts the table of contents.",
-                "Integrated with Google Docs for automatic document creation and real-time updates throughout the workflow."
+                "Product manager's chair. The programme sheet is read in, a ten-question intake gate fills what is missing, and the market positioning is researched and recorded. Every section's words are drafted from the sources the PM gave (never invented: a doubt is asked, not guessed) and approved on a Page Content web page, where a fast, cheap agent makes each change the PM asks for. On page zero the PM picks up to three reference brochures from a library and says, in their own words, what to take from each.",
+                "The build. A design director turns those picks into a brief; the pages are built, measured and exported to a print-intent PDF. Page height is predicted to about 3% of the real render before anything is drawn, so nothing is clipped. A complete 29-page draft comes out in one pass.",
+                "Content team's chair. Draft 1 goes out for approval from the PM's own Gmail, and the reviewers' comments come back as tracked items, each closed or answered, never lost in a thread.",
+                "Designer's chair. The approved pages are handed over as a package and rebuilt natively in Adobe Illustrator behind identity and editability gates (live text, real layers, no flattened pictures of words), then finished in a pair room where Claude, Adobe and the designer work on the same file together."
               ]
             },
             {
               "type": "h",
-              "text": "Outcome"
+              "text": "How it holds quality"
             },
             {
               "type": "list",
               "items": [
-                "Launch collateral time fell from 7–10 days to 1 day.",
-                "The team won Simplilearn's Best Team Award (Q3)."
+                "Rules are build failures, not advice. House style, locked boilerplate, spelling, banned claims, copy floors per course, stat sources and their age: a draft that breaks one does not export.",
+                "Images are licensed or they do not ship. The design team's own assets come first; anything else is searched, judged on a contact sheet by a person, and recorded with its source, licence and credit, above a 2000 px print floor.",
+                "Every step is recorded in order. The flow lives in code: the next missing step is printed with its exact question, and Draft 1 is refused while a step is missing.",
+                "Model routing. Drafting runs on the session's own model; the Page Content edits run on a small, fast model; the learners, director and builders are separate agents that resume where they stopped instead of starting over."
               ]
+            },
+            {
+              "type": "h",
+              "text": "It learns from every team"
+            },
+            {
+              "type": "p",
+              "text": "Every person's edits, in every chair, are captured by a learning pipeline and turned into rules and references for the next launch: what a designer fixed by hand becomes a check the build makes itself. Tested versions are released to everyone at once, and each session updates itself to the latest release before it starts."
+            },
+            {
+              "type": "h",
+              "text": "In numbers"
+            },
+            {
+              "type": "list",
+              "items": [
+                "88 versions in eleven weeks (v1 in August 2026 to v88 in late October), each tested and released.",
+                "156 scripts and 166 tests behind one skill.",
+                "Three teams, one tool: product, content and design work from the same files, the same rules and the same history.",
+                "In use as an internal tool for programme launches."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Stack"
+            },
+            {
+              "type": "p",
+              "text": "Claude Agent Skills, Python, multi-agent orchestration (director, drafters, learners, builders), Haiku for fast edits, Google Drive, Sheets and Gmail, Adobe Illustrator through its connector, PyMuPDF for measuring PDFs, GitHub releases for versioning."
             }
           ]
         },

@@ -213,7 +213,7 @@ body { touch-action: none; }
   0% { transform: scale(1); opacity: 0.55; }
   70%, 100% { transform: scale(3.5); opacity: 0; }
 }
-/* The booking pill: under "Ask Dumbledore" while you are in Services or Contact. Opacity and transform only. */
+/* The booking button: fixed under "Ask Dumbledore" for the whole descent once you go down. */
 .book {
   position: absolute;
   top: calc(74px + env(safe-area-inset-top, 0px));
