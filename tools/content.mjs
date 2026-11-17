@@ -202,18 +202,19 @@ const contact = [
 
 const modelsDir = path.join(here, '..', 'public', 'models');
 const hasModel = (name) => fs.existsSync(path.join(modelsDir, `${name}.glb`)) || fs.existsSync(path.join(modelsDir, `${name}.glb.txt`));
-// Project pictures: drop `public/projects/<slug>.(webp|jpg|jpeg|png)` and the vault screen shows it.
-const projectsDir = path.join(here, '..', 'public', 'projects');
+// Project pictures: drop `public/assets/projects/<slug>.(webp|jpg|jpeg|png)` and the vault screen and project window show it.
+// Under assets/: the main site forwards /assets/* to this one, while /projects/* is the main site's own section.
+const projectsDir = path.join(here, '..', 'public', 'assets', 'projects');
 const projectImages = {};
 const projectCredits = {};
 for (const p of projects) {
   for (const ext of ['webp', 'jpg', 'jpeg', 'png']) {
     if (fs.existsSync(path.join(projectsDir, `${p.slug}.${ext}`))) {
-      projectImages[p.slug] = `projects/${p.slug}.${ext}`;
+      projectImages[p.slug] = `assets/projects/${p.slug}.${ext}`;
       break;
     }
   }
-  // A picture under licence carries its credit beside it: `public/projects/<slug>.credit.txt`.
+  // A picture under licence carries its credit beside it: `public/assets/projects/<slug>.credit.txt`.
   const credit = path.join(projectsDir, `${p.slug}.credit.txt`);
   if (projectImages[p.slug] && fs.existsSync(credit)) projectCredits[p.slug] = fs.readFileSync(credit, 'utf8').trim();
 }

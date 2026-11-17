@@ -51,7 +51,7 @@ export interface SiteContent {
     url: string;
   };
   home: { now: string; wins: string[]; roles: string };
-  /** Project pictures (public/projects/<slug>.*) and the credit a licensed one must carry. */
+  /** Project pictures (public/assets/projects/<slug>.*) and the credit a licensed one must carry. */
   assets: { projects: Record<string, string>; credits?: Record<string, string> };
   /** The services chamber's own words: its label, intro and the stations after the pods. */
   dock: { label: string; intro: string; stations: DockStation[] };
