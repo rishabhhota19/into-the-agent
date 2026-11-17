@@ -21,6 +21,7 @@ import {
   UniformsUtils,
   Vector3,
 } from 'three';
+import { emblem, floatEmblems } from '../emblems';
 import { LightShafts } from '../../atmosphere/LightShafts';
 import type { Section, SiteContent } from '../../content/types';
 import { noise1 } from '../../util/noise';
@@ -56,6 +57,7 @@ interface Pod {
  */
 export class Dock extends Chapter {
   readonly id: string;
+  private readonly emblems: { group: Group; y: number; phase: number }[] = [];
   readonly label: string;
   readonly fog = new Color(0x08201c);
   readonly fogDensity = 0.036;
@@ -128,7 +130,7 @@ export class Dock extends Chapter {
     this.texts.push(...texts);
   }
 
-  build(ctx: BuildContext): void {
+  async build(ctx: BuildContext): Promise<void> {
     const g = this.group;
     const L = this.length;
     const tex = ctx.textures;
@@ -288,6 +290,17 @@ export class Dock extends Chapter {
       });
     });
     this.lanterns = lamps;
+
+    // Each service's icon floats above its pod, in the bay's light.
+    const marks = await Promise.all(this.section.items.map((it) => emblem(it.slug, this.accent)));
+    marks.forEach((m, i) => {
+      if (!m) return;
+      const side = i % 2 === 0 ? 1 : -1;
+      const y = WATER_Y + 3.75;
+      m.position.set(side * POD_X, y, -(10 + SPACING * i) + 0.6);
+      g.add(m);
+      this.emblems.push({ group: m, y, phase: i * 1.3 });
+    });
     this.water.uniforms.uLampCount.value = Math.min(4, lamps.length);
 
     // --- the bay walls: tall ribs fading into the fog ---------------------------------------------
@@ -381,6 +394,7 @@ export class Dock extends Chapter {
   override update(dt: number, _t: number, elapsed: number, camera: PerspectiveCamera): void {
     void dt;
     this.shafts?.update(elapsed);
+    floatEmblems(this.emblems, elapsed);
     if (this.water) {
       this.water.uniforms.uTime.value = elapsed;
       // The four lanterns nearest you, in world space, for the glints.

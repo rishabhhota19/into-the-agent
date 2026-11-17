@@ -1,7 +1,7 @@
 // The same line icons as the 2D site (portfolio/components/site/icons.tsx), as SVG strings for the overlay's title
 // cards: one per service and one per way to reach him, keyed by the item's slug. Plain markup, nothing the 3D scene
 // draws, so they cost no frame time.
-const P: Record<string, string> = {
+export const ICON_PATHS: Record<string, string> = {
   'agentic-systems':
     '<circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.2 6h9.6M6.2 7.9l4.6 8.2M17.8 7.9l-4.6 8.2"/>',
   'rag-knowledge':
@@ -23,7 +23,9 @@ const P: Record<string, string> = {
 
 /** The card's icon tile for this item, or '' when it has none. */
 export function iconFor(slug?: string): string {
-  const paths = slug ? P[slug] : undefined;
+  // The ways to reach him float as their real logos in the last chamber instead (world/emblems.ts).
+  if (slug && ['email', 'linkedin', 'github', 'resume'].includes(slug)) return '';
+  const paths = slug ? ICON_PATHS[slug] : undefined;
   return paths
     ? `<span class="text__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${paths}</svg></span>`
     : '';

@@ -2,30 +2,31 @@ import {
   BoxGeometry,
   Color,
   DirectionalLight,
+  Group,
   HemisphereLight,
   InstancedMesh,
   Mesh,
   MeshBasicMaterial,
   MeshPhysicalMaterial,
-  MeshStandardMaterial,
-  Object3D,
   PerspectiveCamera,
   PlaneGeometry,
   PointLight,
+  Raycaster,
+  Sprite,
   Texture,
   TorusGeometry,
+  Vector2,
   Vector3,
 } from 'three';
 import { LightShafts } from '../../atmosphere/LightShafts';
 import type { Section } from '../../content/types';
-import { noise1 } from '../../util/noise';
 import { BuildContext, Chapter, Grade } from '../Chapter';
 import { DUMMY, ENTRY_POSE, entryTube } from '../chambers/common';
 import { concreteMaterial, darkMetalMaterial, metalMaterial } from '../materials';
+import { logo } from '../emblems';
 
 const SPACING = 9;
 const NEAR = new Color(0x7fd3e0);
-const FAR = new Color(0xffb86b);
 
 /**
  * The timefold: the last chamber. Time laid out as a direction you can walk:
@@ -42,10 +43,18 @@ export class Timefold extends Chapter {
   override readonly accent = new Color(0xffb86b);
   private readonly length: number;
   private readonly windowZ: number;
-  private paneFaces?: InstancedMesh;
-  private readonly drift: Mesh[] = [];
   private shafts?: LightShafts;
   private readonly windowMat = new MeshBasicMaterial({ color: 0xffffff });
+  private readonly slugs: string[];
+  private readonly hrefs: string[];
+  /** The official logos, one per way to reach him; `shown` eases from 0 to 1 as you come near. */
+  private readonly logos: { group: Group; y: number; phase: number; href: string; shown: number }[] = [];
+  private readonly ray = new Raycaster();
+  private readonly pointer = new Vector2();
+  private readonly here = new Vector3();
+  private camera?: PerspectiveCamera;
+  private live = 0; // when this chamber last drew, so clicks only count while you're in it
+  private hover = false;
 
   constructor(
     section: Section,
@@ -54,6 +63,8 @@ export class Timefold extends Chapter {
     super();
     this.id = section.id;
     this.label = section.label;
+    this.slugs = section.items.map((it) => it.slug);
+    this.hrefs = section.items.map((it) => it.link?.href ?? '');
     const n = section.items.length;
     this.length = 16 + SPACING * n;
     const L = this.length;
@@ -98,65 +109,9 @@ export class Timefold extends Chapter {
     floor.receiveShadow = true;
     g.add(floor);
 
-    // The lattice: panes on both walls and the ceiling, each a moment, colder near and warmer far.
     const rows = Math.ceil((L + 6) / 1.9);
-    const perRow = 4 + 4 + 5; // left wall, right wall, ceiling
-    const count = rows * perRow;
-    // Dark glass panes with glowing edges; the edge colour walks from this era's teal to the past's amber.
-    const faceMat = new MeshPhysicalMaterial({ color: 0x1a1f2c, roughness: 0.1, metalness: 0.1, transparent: true, opacity: 0.55, clearcoat: 1, envMapIntensity: 0.5 });
-    this.paneFaces = new InstancedMesh(new BoxGeometry(1.62, 1.1, 0.04), faceMat, count);
-    const BANDS = 5;
-    const edgeMeshes: InstancedMesh[] = [];
-    const edgeGeo = new BoxGeometry(1, 1, 0.03);
-    for (let b = 0; b < BANDS; b++) {
-      const c = NEAR.clone().lerp(FAR, b / (BANDS - 1));
-      const mat = new MeshStandardMaterial({ color: 0x0a0a0a, emissive: c, emissiveIntensity: 1.1, roughness: 0.5 });
-      edgeMeshes.push(new InstancedMesh(edgeGeo, mat, Math.ceil(count / BANDS + rows * perRow) * 4));
-    }
-    const edgeCount: number[] = new Array(BANDS).fill(0);
-    let k = 0;
-    const tmp = new Object3D();
-    for (let r = 0; r < rows; r++) {
-      const z = 4 - r * 1.9;
-      const depth = Math.min(1, Math.max(0, (-z - 2) / (L + 2)));
-      const band = Math.min(BANDS - 1, Math.round(depth * (BANDS - 1)));
-      const place = (x: number, y: number, ry: number, rx: number): void => {
-        DUMMY.position.set(x, y, z);
-        DUMMY.rotation.set(rx, ry, 0);
-        DUMMY.scale.set(1, 1, 1);
-        DUMMY.updateMatrix();
-        this.paneFaces!.setMatrixAt(k, DUMMY.matrix);
-        k += 1;
-        // Four bars around the pane, expressed in the pane's local frame.
-        const bars: [number, number, number, number][] = [
-          [0, 0.57, 1.7, 0.05],
-          [0, -0.57, 1.7, 0.05],
-          [-0.83, 0, 0.05, 1.18],
-          [0.83, 0, 0.05, 1.18],
-        ];
-        const m = edgeMeshes[band];
-        for (const [bx, by, bw, bh] of bars) {
-          tmp.position.set(bx, by, 0.03);
-          tmp.rotation.set(0, 0, 0);
-          tmp.scale.set(bw, bh, 1);
-          tmp.updateMatrix();
-          const world = DUMMY.matrix.clone().multiply(tmp.matrix);
-          m.setMatrixAt(edgeCount[band]++, world);
-        }
-      };
-      for (let i = 0; i < 4; i++) {
-        place(-7, 0.75 + i * 1.3, Math.PI / 2, 0);
-        place(7, 0.75 + i * 1.3, -Math.PI / 2, 0);
-      }
-      for (let i = 0; i < 5; i++) place(-4 + i * 2, 6.1, 0, Math.PI / 2);
-    }
-    edgeMeshes.forEach((m, b) => {
-      m.count = edgeCount[b];
-      g.add(m);
-    });
-    g.add(this.paneFaces);
 
-    // Ribs between the rows of panes.
+    // Arches along the corridor (the glass panes that lined it are gone: the logos are what you look at here).
     const ribs = new InstancedMesh(new TorusGeometry(7.6, 0.08, 6, 48, Math.PI), dark, Math.ceil(rows / 3));
     for (let i = 0; i < Math.ceil(rows / 3); i++) {
       DUMMY.position.set(0, 0.4, 4 - i * 5.7);
@@ -166,14 +121,6 @@ export class Timefold extends Chapter {
       ribs.setMatrixAt(i, DUMMY.matrix);
     }
     g.add(ribs);
-
-    // Loose moments drifting in the corridor.
-    for (let i = 0; i < 7; i++) {
-      const m = new Mesh(new BoxGeometry(2.2, 1.5, 0.05), new MeshPhysicalMaterial({ color: NEAR.clone().lerp(FAR, i / 6), roughness: 0.1, transparent: true, opacity: 0.4, clearcoat: 1, emissive: NEAR.clone().lerp(FAR, i / 6), emissiveIntensity: 0.25 }));
-      m.position.set(noise1(i, 41) * 3.5, 2 + Math.abs(noise1(i, 42)) * 2.5, -8 - i * (L / 7));
-      g.add(m);
-      this.drift.push(m);
-    }
 
     // The window at the end: an arch of metal around the living picture.
     const win = new Mesh(new PlaneGeometry(11.2, 6.3), this.windowMat);
@@ -199,6 +146,20 @@ export class Timefold extends Chapter {
     glow.position.set(0, 3.5, this.windowZ + 3);
     g.add(glow);
 
+    // Each way to reach him is its official logo, floating free by its station on the side the camera turns to.
+    // They appear one at a time as you come near (update), and a click opens it (click).
+    const marks = await Promise.all(this.slugs.map((slug) => logo(slug, this.accent, ctx.renderer)));
+    marks.forEach((m, i) => {
+      if (!m || !this.hrefs[i]) return;
+      const side = i % 2 === 0 ? 1 : -1;
+      const y = 3.1;
+      m.position.set(side * 2.3, y, -(10 + SPACING * i) - 5);
+      g.add(m);
+      this.logos.push({ group: m, y, phase: i * 1.7, href: this.hrefs[i], shown: 0 });
+    });
+    window.addEventListener('click', (e) => this.click(e));
+    window.addEventListener('pointermove', (e) => this.point(e), { passive: true });
+
     entryTube(g, ctx.textures, NEAR);
     const key = new DirectionalLight(0xd9d2f2, 1.6);
     key.position.set(6, 20, -L / 2);
@@ -219,11 +180,59 @@ export class Timefold extends Chapter {
     return t > 0.35;
   }
 
-  override update(dt: number, _t: number, elapsed: number, _camera: PerspectiveCamera): void {
-    this.drift.forEach((m, i) => {
-      m.rotation.y += dt * 0.08 * (i % 2 ? 1 : -1);
-      m.position.y = 2 + Math.abs(noise1(i, 42)) * 2.5 + Math.sin(elapsed * 0.4 + i) * 0.25;
-    });
+  override update(dt: number, _t: number, elapsed: number, camera: PerspectiveCamera): void {
     this.shafts?.update(elapsed);
+    this.camera = camera;
+    this.live = performance.now();
+    for (const l of this.logos) {
+      // Hidden until you are within 19 units, solid by 13 (where you stand at its station): one after another.
+      const d = l.group.getWorldPosition(this.here).distanceTo(camera.position);
+      const target = d < 13 ? 1 : d > 19 ? 0 : (19 - d) / 6;
+      l.shown += (target - l.shown) * Math.min(1, dt * 3);
+      const [halo, mark] = l.group.children as Sprite[];
+      const e = l.shown * l.shown * (3 - 2 * l.shown);
+      mark.material.opacity = e;
+      halo.material.opacity = 0.12 * e; // a whisper of light only: a strong glow washes the brand colours out
+      mark.scale.setScalar(3.6 * (0.6 + 0.4 * e) * (l === this.hovered ? 1.12 : 1));
+      // It rises into place as it appears, then floats.
+      l.group.position.y = l.y - (1 - e) * 0.8 + Math.sin(elapsed * 0.9 + l.phase) * 0.15;
+      mark.material.rotation = Math.sin(elapsed * 0.6 + l.phase) * 0.06;
+    }
+  }
+
+  private hovered?: (typeof this.logos)[number];
+
+  /** The logo under the pointer, if this chamber is on screen and the logo has appeared. */
+  private hit(e: { clientX: number; clientY: number }): (typeof this.logos)[number] | undefined {
+    if (!this.camera || performance.now() - this.live > 250) return undefined;
+    this.pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    this.ray.setFromCamera(this.pointer, this.camera);
+    const shown = this.logos.filter((l) => l.shown > 0.5);
+    const hits = this.ray.intersectObjects(shown.map((l) => l.group.children[1]), false);
+    return hits.length ? shown.find((l) => l.group.children[1] === hits[0].object) : undefined;
+  }
+
+  private point(e: PointerEvent): void {
+    if (!this.logos.length || performance.now() - this.live > 250) {
+      if (this.hover) {
+        this.hover = false;
+        document.body.style.cursor = '';
+      }
+      return;
+    }
+    this.hovered = this.hit(e);
+    const now = !!this.hovered;
+    if (now !== this.hover) {
+      this.hover = now;
+      document.body.style.cursor = now ? 'pointer' : '';
+    }
+  }
+
+  private click(e: MouseEvent): void {
+    if ((e.target as HTMLElement | null)?.closest('a, button, input, textarea')) return; // the page's own controls
+    const l = this.hit(e);
+    if (!l) return;
+    if (l.href.startsWith('mailto:')) location.href = l.href;
+    else window.open(l.href, '_blank', 'noopener');
   }
 }
