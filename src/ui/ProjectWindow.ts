@@ -1,4 +1,7 @@
-import type { Item } from '../content/types';
+import content from '../content/site.json';
+import type { Item, SiteContent } from '../content/types';
+
+const ASSETS = (content as SiteContent).assets;
 
 const esc = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -54,7 +57,15 @@ export class ProjectWindow {
     this.title.textContent = item.title;
     this.summary.textContent = item.summary;
     this.tags.innerHTML = item.tags.map((t) => `<li class="chip">${esc(t)}</li>`).join('');
-    this.blocks.innerHTML = (item.blocks ?? [])
+    // The project's picture, when it has one, opens the write-up, with its credit (a licensed picture must carry it).
+    const image = ASSETS.projects[item.slug];
+    const credit = ASSETS.credits?.[item.slug];
+    const figure = image
+      ? `<figure class="proj__figure"><img src="${esc(image)}" alt="${esc(item.title)}" loading="lazy" decoding="async">` +
+        (credit ? `<figcaption class="mono">${esc(credit)}</figcaption>` : '') +
+        '</figure>'
+      : '';
+    this.blocks.innerHTML = figure + (item.blocks ?? [])
       .map((b) => {
         if (b.type === 'h') return `<h3>${esc(b.text ?? '')}</h3>`;
         if (b.type === 'list') return `<ul>${(b.items ?? []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;

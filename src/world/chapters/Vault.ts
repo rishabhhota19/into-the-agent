@@ -163,7 +163,19 @@ export class Vault extends Chapter {
       const image = images[it.slug];
       let face: Mesh;
       if (image) {
-        const tex = loader.load(image);
+        // Cover the screen (crop, never stretch): a portrait X-ray keeps its proportions on a landscape screen.
+        const tex = loader.load(image, (t) => {
+          const img = t.image as { width: number; height: number };
+          const screen = W / H;
+          const pic = img.width / img.height;
+          if (pic < screen) {
+            t.repeat.set(1, pic / screen);
+            t.offset.set(0, (1 - pic / screen) / 2);
+          } else {
+            t.repeat.set(screen / pic, 1);
+            t.offset.set((1 - screen / pic) / 2, 0);
+          }
+        });
         tex.colorSpace = SRGBColorSpace;
         face = new Mesh(new PlaneGeometry(W, H), new MeshBasicMaterial({ map: tex }));
       } else {

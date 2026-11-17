@@ -11,7 +11,12 @@
     "url": "https://rishabh-hota.vercel.app"
   },
   "assets": {
-    "projects": {}
+    "projects": {
+      "oa-classification": "projects/oa-classification.jpg"
+    },
+    "credits": {
+      "oa-classification": "X-ray: \"Osteoarthritis left knee\" by James Heilman, MD, Wikimedia Commons, CC BY-SA 3.0"
+    }
   },
   "home": {
     "now": "Sr. AI Researcher at Simplilearn (on-site, Bengaluru), since Mar 2026. Works on automating complex workflows, agentic orchestration, open source, and hands-on research into new AI tech. Before that, AI Researcher at Simplilearn (Mar 2025 – Mar 2026).",
@@ -125,8 +130,8 @@
           "slug": "03-osteosconnect-ai-engineer",
           "title": "AI Engineer",
           "kicker": "OsteosConnect Inc · Feb 2024 – Mar 2025",
-          "summary": "Led a team of clinicians and engineers to deliver a 96%-accurate osteoarthritis classification pipeline: X-ray → S3 → Lambda → EC2 → prediction → Lambda → EMR.",
-          "body": "Surpassed competitor RBKnee and achieved more than 90% concordance with radiologists in SRM Trichy trials. Implemented a continuous feedback loop that retrains the model on doctor-validated ground truth.",
+          "summary": "Led a team of clinicians and engineers to deliver an osteoarthritis pipeline that turns a knee X-ray into a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC,…",
+          "body": "Tested in a randomised controlled trial of OA patients at SRM, Chennai (supervised by Dr. Mahesh Magadum); deployed at Fortis Hospital, Nagarbhavi, Bengaluru. More than 90% concordance with radiologists; surpassed…",
           "tags": [
             "Remote, California"
           ],
@@ -268,14 +273,17 @@
           "slug": "oa-classification",
           "title": "AI-Powered Osteoarthritis Classification & Reporting",
           "kicker": "OsteosConnect · Jan 2024 – Sep 2024",
-          "summary": "End-to-end knee X-ray grading on AWS — 96% accuracy, more than 90% concordance with radiologists, ahead of competitor RBKnee.",
-          "body": "Doctors capture a knee X-ray on a React web app or an Android app. The system grades osteoarthritis automatically and produces a web-based report.",
+          "summary": "Knee X-ray to a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC, double-checked by segmentation of the radiological findings, tested in a randomised controlled trial and deployed at Fortis.",
+          "body": "A doctor uploads a knee X-ray. In under two minutes the system grades the osteoarthritis, finds and measures every radiological finding, writes the report and forwards it to the doctor.",
           "tags": [
             "Computer Vision",
             "Medical Imaging",
+            "Segmentation",
+            "TensorFlow",
             "AWS",
-            "SageMaker",
-            "Feedback loop"
+            "EC2 H100",
+            "Lambda",
+            "API Gateway"
           ],
           "featured": true,
           "link": {
@@ -289,7 +297,7 @@
             },
             {
               "type": "p",
-              "text": "Doctors capture a knee X-ray on a React web app or an Android app. The system grades osteoarthritis automatically and produces a web-based report."
+              "text": "A doctor uploads a knee X-ray. In under two minutes the system grades the osteoarthritis, finds and measures every radiological finding, writes the report and forwards it to the doctor."
             },
             {
               "type": "h",
@@ -298,24 +306,48 @@
             {
               "type": "list",
               "items": [
-                "Flow: capture on React/Android → encrypted upload to S3 → Lambda trigger → SageMaker/EC2 inference → prediction → Lambda → report written to the EMR.",
-                "A closed feedback loop retrains the model on doctor-validated labels, so it keeps improving with real clinical use.",
-                "Earlier, as an intern, Rishabh ran EDA on DICOM images and built baseline classifiers (logistic regression, random forest) before moving to deep learning."
+                "Grade. A classification model grades the X-ray on the Kellgren–Lawrence (KL) scale at 98% accuracy and AUC.",
+                "Find. Purpose-built image segmentation models locate the radiological findings: osteophytes, subchondral sclerosis and the gap between the joints (joint-space narrowing).",
+                "Double-check. The findings are matched against the step-1 grade, so a grade the evidence doesn't support is caught before it reaches a doctor.",
+                "Measure. The system calculates the length and area of each finding.",
+                "Report. It writes the report and forwards it to the doctor, end to end in less than two minutes."
               ]
             },
             {
+              "type": "p",
+              "text": "Every model was custom-built in-house, with patent filings and FDA approval in mind."
+            },
+            {
               "type": "h",
-              "text": "Results"
+              "text": "Clinical validation and deployment"
             },
             {
               "type": "list",
               "items": [
-                "96% classification accuracy.",
-                "More than 90% concordance with radiologists in trials at SRM Trichy.",
-                "Outperformed competitor RBKnee.",
-                "Rishabh led the clinicians and engineers who delivered it.",
-                "Follow-on research, \"OA Classification and Reporting using Agentic AI and Deep Neural Networks\", is ongoing with OsteosConnect."
+                "Tested at SRM, Chennai as part of a randomised controlled trial of osteoarthritis patients, under the supervision of Dr. Mahesh Magadum.",
+                "More than 90% concordance with radiologists; outperformed competitor RBKnee.",
+                "Deployed and scaled at Fortis Hospital, Nagarbhavi, Bengaluru."
               ]
+            },
+            {
+              "type": "h",
+              "text": "Stack"
+            },
+            {
+              "type": "list",
+              "items": [
+                "TensorFlow for every model: the KL classifier and the segmentation models.",
+                "Training and inference on AWS EC2 with an H100 GPU cluster.",
+                "Serving through AWS Lambda functions behind API Gateway, with the report delivered to the doctor."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Rishabh's role"
+            },
+            {
+              "type": "p",
+              "text": "He led the clinicians and engineers who delivered it. Earlier, as an intern, he ran EDA on DICOM images and built the baseline classifiers (logistic regression, random forest) before the move to deep learning. Follow-on research, \"OA Classification and Reporting using Agentic AI and Deep Neural Networks\", is ongoing with OsteosConnect."
             }
           ]
         },
@@ -826,7 +858,7 @@
           "title": "Clinical imaging pipelines, from DICOM to report",
           "kicker": "build · medical imaging and vision",
           "summary": "X-ray and CT classification, segmentation and reporting on AWS, with doctor-validated feedback loops for retraining.",
-          "body": "Led clinicians and engineers at OsteosConnect to a 96%-accurate osteoarthritis pipeline (X-ray to S3, Lambda, SageMaker and the EMR) with over 90% concordance with radiologists in hospital trials, ahead of the competitor RBKnee. LCSNet, his lightweight caries segmentation network, is published in…",
+          "body": "Led clinicians and engineers at OsteosConnect to an osteoarthritis pipeline that grades a knee X-ray at 98% accuracy and AUC, double-checks it with segmentation and reports to the doctor in under two minutes; tested in a randomised controlled trial and deployed at Fortis Hospital, Bengaluru.…",
           "tags": [
             "computer vision",
             "DICOM",

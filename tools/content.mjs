@@ -205,6 +205,7 @@ const hasModel = (name) => fs.existsSync(path.join(modelsDir, `${name}.glb`)) ||
 // Project pictures: drop `public/projects/<slug>.(webp|jpg|jpeg|png)` and the vault screen shows it.
 const projectsDir = path.join(here, '..', 'public', 'projects');
 const projectImages = {};
+const projectCredits = {};
 for (const p of projects) {
   for (const ext of ['webp', 'jpg', 'jpeg', 'png']) {
     if (fs.existsSync(path.join(projectsDir, `${p.slug}.${ext}`))) {
@@ -212,12 +213,15 @@ for (const p of projects) {
       break;
     }
   }
+  // A picture under licence carries its credit beside it: `public/projects/<slug>.credit.txt`.
+  const credit = path.join(projectsDir, `${p.slug}.credit.txt`);
+  if (projectImages[p.slug] && fs.existsSync(credit)) projectCredits[p.slug] = fs.readFileSync(credit, 'utf8').trim();
 }
 
 const out = {
   site: { name: site.name, role: site.role, tagline: site.tagline, location: site.location, email: site.email, linkedin: site.linkedin, github: site.github, resume: abs(site.resume), url: site.url },
   // Which optional figures exist on disk, so the page never asks for a file that is not there.
-  assets: { projects: projectImages },
+  assets: { projects: projectImages, credits: projectCredits },
   home: { now: trim(nowPara, 260), wins, roles },
   dock,
   sections: [
