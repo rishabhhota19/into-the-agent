@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 // Reads the portfolio's content folder (the same Markdown the live site and the agent use)
 // and writes src/content/site.json: the chambers are built from this, nothing is typed twice.
 //   node tools/content.mjs [path/to/portfolio/content]
@@ -210,7 +211,9 @@ const projectCredits = {};
 for (const p of projects) {
   for (const ext of ['webp', 'jpg', 'jpeg', 'png']) {
     if (fs.existsSync(path.join(projectsDir, `${p.slug}.${ext}`))) {
-      projectImages[p.slug] = `assets/projects/${p.slug}.${ext}`;
+      // Its content hash in the address: a new or changed picture never meets a cached copy (or a cached 404).
+      const hash = crypto.createHash('sha1').update(fs.readFileSync(path.join(projectsDir, `${p.slug}.${ext}`))).digest('hex').slice(0, 10);
+      projectImages[p.slug] = `assets/projects/${p.slug}.${ext}?v=${hash}`;
       break;
     }
   }
