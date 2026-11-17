@@ -94,6 +94,16 @@ body { touch-action: none; }
 .text__kicker::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--accent); flex: none; }
 .text--right .text__kicker { flex-direction: row-reverse; }
 .text--center .text__kicker { justify-content: center; }
+/* An item's icon (src/ui/icons.ts): a glowing tile in the chamber's light above its title. */
+.text__icon {
+  display: grid; place-items: center; width: 56px; height: 56px; margin: 0 0 16px;
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent); border-radius: 18px;
+  background: color-mix(in oklab, var(--accent) 14%, transparent); color: var(--accent);
+  box-shadow: 0 0 28px -8px var(--accent);
+}
+.text__icon svg { width: 28px; height: 28px; }
+.text--right .text__icon { margin-left: auto; }
+.text--center .text__icon { margin-inline: auto; }
 .text__title {
   margin: 0;
   font-weight: 500;

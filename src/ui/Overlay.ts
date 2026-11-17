@@ -1,3 +1,4 @@
+import { iconFor } from './icons';
 import type { ScrollState } from '../scroll/VirtualScroll';
 import type { Chapter } from '../world/Chapter';
 
@@ -53,6 +54,7 @@ export class Overlay {
           : '';
         el.innerHTML =
           (txt.kicker ? `<p class="text__kicker mono">${esc(txt.kicker)}</p>` : '') +
+          iconFor(txt.slug) +
           `<h2 class="text__title">${txt.title}</h2>` +
           (txt.body ? `<p class="text__body">${esc(txt.body)}</p>` : '') +
           tags +
