@@ -9,6 +9,8 @@ repo: https://github.com/rishabhhota19/portfolio — `CLAUDE.md`, `docs/handoff/
 - Clone this repo **next to** `portfolio/`: `tools/content.mjs` reads `../portfolio/content` (projects, papers, roles,
   services) and writes `src/content/site.json` before every dev run and build.
 - `npm ci`, `npm run dev` (port 5177), `npm run build`. Add `?tier=high` to the URL in tests to skip the speed gate.
+- The gate has no button: it measures (a warm pass, one sweep, a predicted rung) and opens by itself; a test waits for
+  `#gate.is-off`. Measured 20 Nov 2026 on an M1 Pro: the descent begins ~6 s after navigation on the live site.
 - Chambers: `src/world/chapters/` (Gantry = entry with the hero, the work history and the best work; Well = experience,
   Vault = projects, Sight = research, Archive = writing, Dock = services, Timefold = contact). Any other section is a
   `Hall` (one lit slab per item: this site + Dumbledore, education, achievements, soft skills) or a `Wall` (cards on a
