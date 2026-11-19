@@ -29,6 +29,8 @@ import { detectQuality, makeQuality, Quality, stepDown } from './Quality';
 
 const WHITE = new Color(0xffffff);
 const SITE = content as SiteContent;
+/** The gate's measuring sweep: 1.6 s end to end and back was tuned for seven chambers; it scales with the route. */
+const SWEEP_SECONDS_PER_CHAMBER = 1.6 / 7;
 
 /** One look per chamber; the plunge cross-fades between them. */
 const PALETTES: Record<string, HallPalette> = {
@@ -214,6 +216,10 @@ export class Experience {
     ];
     // At 60 Hz a frame that fits measures ~16.7 ms (vsync); one that does not measures 20 or more.
     const BUDGET = 17.6;
+    // The sweep runs the whole route in a fixed time, so its length decides how long the camera dwells in each chamber:
+    // the same dwell whatever the route, else a longer descent (13 chambers, 20 Nov 2026) is measured faster through
+    // every chamber than a short one and steps down a tier it can hold (seen on an M1: full at 7 chambers, medium at 13).
+    const seconds = SWEEP_SECONDS_PER_CHAMBER * this.chapters.length;
     // A device that opened on a lower tier starts the ladder there. One that opened below the ladder (a weak
     // graphics chip, on the light tier) stays on its tier and only its scale is tried: it used to be sent to the
     // top of the ladder, which put the heaviest setting on the weakest machines.
@@ -224,10 +230,10 @@ export class Experience {
       if (step.tier !== this.quality.tier) this.setTier(step.tier);
       this.pipeline.setScale(step.scale);
       onProgress((i + 0.2) / steps.length);
-      let frame = await this.sweep(1.6);
+      let frame = await this.sweep(seconds);
       // Most frames fit and a few long ones carried the average over: first-use hitches look like that, and so
       // does a machine that really drops frames. One more sweep tells them apart, and the gate can wait for it.
-      if (frame.average > BUDGET && frame.median <= BUDGET && !this.stopped) frame = await this.sweep(1.6);
+      if (frame.average > BUDGET && frame.median <= BUDGET && !this.stopped) frame = await this.sweep(seconds);
       this.fps = 1000 / frame.average;
       if (frame.average <= BUDGET) break;
     }
