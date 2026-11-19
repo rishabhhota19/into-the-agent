@@ -31,6 +31,8 @@ const WHITE = new Color(0xffffff);
 const SITE = content as SiteContent;
 /** The gate's measuring sweep: 1.6 s end to end and back was tuned for seven chambers; it scales with the route. */
 const SWEEP_SECONDS_PER_CHAMBER = 1.6 / 7;
+/** The quick pass before it that takes every chamber's first-use work (a frame or two in each), not measured. */
+const WARM_SECONDS_PER_CHAMBER = 0.05;
 
 /** One look per chamber; the plunge cross-fades between them. */
 const PALETTES: Record<string, HallPalette> = {
@@ -202,9 +204,12 @@ export class Experience {
   }
 
   /**
-   * The ladder of settings tried under the gate. Each is measured on a fast sweep of the camera
-   * through every chamber at the real size (which also gives everything its first real frames):
-   * the first setting whose average frame fits a 60 Hz beat is kept for the whole descent.
+   * The ladder of settings the gate can pick from, measured on a sweep of the camera through every chamber at
+   * the real size. The first-use work (textures, first draws at size) is taken by a quick unmeasured pass first;
+   * then the top rung is measured once, and when it does not hold a 60 Hz beat the gate jumps to the rung the
+   * measurement predicts and confirms it with one more sweep. It used to try every rung in turn, each with a
+   * sweep, and often a second one because the first-use hitches had spoilt the first: six seconds on an M1 that
+   * holds the top rung, up to twenty-four on a machine that does not (20 Nov 2026).
    */
   private async settle(onProgress: (p: number) => void): Promise<void> {
     if (this.probeOff) return;
@@ -225,17 +230,23 @@ export class Experience {
     // top of the ladder, which put the heaviest setting on the weakest machines.
     const at = ladder.findIndex((l) => l.tier === this.quality.tier);
     const steps = at < 0 ? [1, 0.85, 0.75].map((scale) => ({ tier: this.quality.tier, scale })) : ladder.slice(at);
-    for (let i = 0; i < steps.length; i++) {
+    this.pipeline.setScale(steps[0].scale);
+    await this.sweep(WARM_SECONDS_PER_CHAMBER * this.chapters.length);
+    let i = 0;
+    while (i < steps.length && !this.stopped) {
       const step = steps[i];
       if (step.tier !== this.quality.tier) this.setTier(step.tier);
       this.pipeline.setScale(step.scale);
       onProgress((i + 0.2) / steps.length);
-      let frame = await this.sweep(seconds);
-      // Most frames fit and a few long ones carried the average over: first-use hitches look like that, and so
-      // does a machine that really drops frames. One more sweep tells them apart, and the gate can wait for it.
-      if (frame.average > BUDGET && frame.median <= BUDGET && !this.stopped) frame = await this.sweep(seconds);
-      this.fps = 1000 / frame.average;
-      if (frame.average <= BUDGET) break;
+      const frame = await this.sweep(seconds);
+      this.fps = 1000 / frame.steady;
+      if (frame.steady <= BUDGET) break;
+      // The GPU's share of a frame falls with the square of the render scale, so the scale that would fit is about
+      // scale·√(budget/steady); the next rung at or under it is tried next, the ones between are skipped. A frame
+      // that no scale of this tier would fit goes to the tier below.
+      const want = step.scale * Math.sqrt(BUDGET / frame.steady);
+      const next = steps.findIndex((s, j) => j > i && (s.tier !== step.tier || s.scale <= want));
+      i = next < 0 ? steps.length : next;
     }
     // Back to the surface, standing still, for the gate to open on.
     this.scroll.position = 0;
@@ -244,11 +255,11 @@ export class Experience {
   }
 
   /**
-   * Run the camera through the whole route while frames draw, and return the average frame time.
-   * The sweep lasts `seconds` of time the page was awake (see SweepMeter): if the visitor is on another
-   * tab it waits for them, and carries on when the page is seen.
+   * Run the camera through the whole route while frames draw, and return the frame times: the average, the
+   * median and the steady frame (SweepMeter). The sweep lasts `seconds` of time the page was awake: if the
+   * visitor is on another tab it waits for them, and carries on when the page is seen.
    */
-  private sweep(seconds: number): Promise<{ average: number; median: number }> {
+  private sweep(seconds: number): Promise<{ average: number; median: number; steady: number }> {
     return new Promise((resolve) => {
       const meter = new SweepMeter(seconds * 1000);
       const total = this.scroll.total;
@@ -275,7 +286,7 @@ export class Experience {
           return;
         }
         document.removeEventListener('visibilitychange', onHide);
-        resolve({ average: meter.average, median: meter.median });
+        resolve({ average: meter.average, median: meter.median, steady: meter.steady });
       };
       requestAnimationFrame(tick);
     });

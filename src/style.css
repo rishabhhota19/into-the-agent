@@ -427,19 +427,8 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
   background: var(--ink);
   transition: width 0.3s ease;
 }
-.gate__btn {
-  appearance: none;
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid rgba(233, 241, 242, 0.35);
-  padding: 14px 30px;
-  min-height: 48px;
-  cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
-}
-.gate__btn:disabled { opacity: 0.45; cursor: default; }
-.gate__btn:not(:disabled):hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.gate__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+/* What the gate is doing, in place of the button it used to wait at: the descent begins by itself when it is ready. */
+.gate__status { margin: 0; min-height: 48px; display: flex; align-items: center; justify-content: center; color: var(--ink-dim); }
 .gate__note { color: var(--ink-dim); margin: 18px 0 0; min-height: 14px; }
 
 /* project window */

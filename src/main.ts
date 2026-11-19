@@ -9,7 +9,7 @@ const leave = (): void => location.replace(PORTFOLIO);
 
 const canvas = document.getElementById('stage') as HTMLCanvasElement;
 const note = document.getElementById('gate-note') as HTMLParagraphElement;
-const btn = document.getElementById('gate-btn') as HTMLButtonElement;
+const status = document.getElementById('gate-status') as HTMLParagraphElement;
 
 startAnalytics();
 const pill = document.getElementById('ask') as HTMLAnchorElement;
@@ -20,7 +20,7 @@ try {
   experience = new Experience(canvas);
 } catch (err) {
   console.error(err);
-  btn.textContent = 'unavailable';
+  status.textContent = 'unavailable';
   note.textContent = 'This browser cannot run WebGL. Taking you to the written site.';
   leave();
 }
@@ -30,7 +30,6 @@ try {
  * warp to the chamber that holds it; a page this descent has no room for opens on the written site.
  */
 function navigate(exp: Experience, path: string): void {
-  exp.overlay.enter();
   const clean = path.split(/[?#]/)[0] ?? '';
   const seg = clean.split('/').filter(Boolean);
   const item = path.split('#')[1];
@@ -59,7 +58,6 @@ if (experience) {
     (path) => navigate(exp, path),
     (what) => {
       if (what === 'written') return location.assign(PORTFOLIO);
-      exp.overlay.enter();
       exp.move(what);
     },
   );

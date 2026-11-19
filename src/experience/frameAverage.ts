@@ -77,6 +77,19 @@ export class SweepMeter {
     const sorted = [...this.times].sort((a, b) => a - b);
     return sorted[Math.floor(sorted.length / 2)];
   }
+
+  /**
+   * The steady frame: the mean of the settled frames with the slowest twentieth left out. The mean alone was
+   * carried over the budget by the few frames that are not the machine's pace (a collection, the overlay's
+   * raster as a text appears) and sent a machine that holds 60 Hz down a rung, or through a second sweep.
+   * The same as `average` when nothing settled.
+   */
+  get steady(): number {
+    if (!this.times.length) return this.average;
+    const sorted = [...this.times].sort((a, b) => a - b);
+    const kept = sorted.slice(0, Math.max(1, Math.ceil(sorted.length * 0.95)));
+    return kept.reduce((a, b) => a + b, 0) / kept.length;
+  }
 }
 
 /** The descent's watch looks at this many seconds of frames at a time. */

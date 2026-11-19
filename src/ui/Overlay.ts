@@ -24,15 +24,13 @@ export function chipHtml(c: Chip | string): string {
 export class Overlay {
   private readonly gate = document.getElementById('gate') as HTMLDivElement;
   private readonly bar = document.getElementById('gate-bar') as HTMLSpanElement;
-  private readonly btn = document.getElementById('gate-btn') as HTMLButtonElement;
+  private readonly status = document.getElementById('gate-status') as HTMLParagraphElement;
   private readonly note = document.getElementById('gate-note') as HTMLParagraphElement;
   private readonly brand = document.querySelector('.brand') as HTMLElement;
   private readonly hint = document.getElementById('hint') as HTMLDivElement;
   private readonly texts = document.getElementById('texts') as HTMLDivElement;
   private readonly nodes: { chapter: number; t: number; half: number; el: HTMLElement }[] = [];
   private hintShown = false;
-  private canEnter = false;
-  private wantsIn = false;
   /** Fired for every link that points inside the descent (`#project:`, `#item:`, `#skill:`, `#go:`, `#ask`). */
   onLink?: (href: string) => void;
   /** The station text showing right now, for anything that must keep out of its way. */
@@ -78,38 +76,27 @@ export class Overlay {
   }
 
   progress(p: number): void {
-    this.btn.textContent = p < 0.72 ? 'building the chambers…' : p < 0.8 ? 'warming up…' : 'settling the picture…';
+    this.status.textContent = p < 0.72 ? 'building the chambers…' : p < 0.8 ? 'warming up…' : 'settling the picture…';
     this.bar.style.width = `${Math.round(p * 100)}%`;
     this.bar.parentElement?.setAttribute('aria-valuenow', String(Math.round(p * 100)));
   }
 
+  /** The descent is ready: the gate opens by itself (there is nothing to click), the brand corner comes on. */
   ready(onStart: () => void): void {
-    this.btn.disabled = false;
-    this.btn.textContent = 'descend';
-    this.btn.addEventListener(
-      'click',
-      () => {
-        this.gate.classList.add('is-off');
-        this.brand.classList.add('is-on');
-        onStart();
-        window.setTimeout(() => {
-          if (!this.hintShown) this.hint.classList.add('is-on');
-        }, 2200);
-      },
-      { once: true },
-    );
-    this.canEnter = true;
-    if (this.wantsIn) this.btn.click();
-  }
-
-  /** Dumbledore is taking the visitor somewhere from the gate: go through it for them, as soon as it can open. */
-  enter(): void {
-    if (!this.canEnter) this.wantsIn = true;
-    else if (!this.gate.classList.contains('is-off')) this.btn.click();
+    this.status.textContent = 'descending';
+    this.bar.style.width = '100%';
+    window.setTimeout(() => {
+      this.gate.classList.add('is-off');
+      this.brand.classList.add('is-on');
+      onStart();
+      window.setTimeout(() => {
+        if (!this.hintShown) this.hint.classList.add('is-on');
+      }, 2200);
+    }, 350);
   }
 
   fail(message: string): void {
-    this.btn.textContent = 'unavailable';
+    this.status.textContent = 'unavailable';
     this.note.textContent = message;
   }
 
