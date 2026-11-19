@@ -74,18 +74,19 @@ body { touch-action: none; }
   will-change: opacity, transform;
 }
 .text.is-on { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
-/* A feathered pool of dark behind the words: readable over any scene, never a box. */
+/* A feathered pool of dark behind the words: readable over any scene, never a box. Feathered in the gradient, not by
+   a blur filter: a filter is a layer the GPU rasterises the moment a text appears, in the same frame as the scene
+   (live, 20 Nov 2026: every frame over 50 ms came two frames after a text turned on; the blurs were most of it). */
 .text::before {
   content: '';
   position: absolute;
-  inset: -48px -72px -56px -72px;
-  background: radial-gradient(ellipse 70% 80% at 35% 55%, rgba(6, 22, 27, 0.82), rgba(6, 22, 27, 0.5) 45%, rgba(6, 22, 27, 0) 78%);
-  filter: blur(14px);
+  inset: -56px -84px -64px -84px;
+  background: radial-gradient(ellipse 70% 80% at 35% 55%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%);
   z-index: -1;
   pointer-events: none;
 }
-.text--right::before { background: radial-gradient(ellipse 70% 80% at 65% 55%, rgba(6, 22, 27, 0.82), rgba(6, 22, 27, 0.5) 45%, rgba(6, 22, 27, 0) 78%); }
-.text--center::before { background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 45%, rgba(6, 22, 27, 0) 78%); }
+.text--right::before { background: radial-gradient(ellipse 70% 80% at 65% 55%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%); }
+.text--center::before { background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(6, 22, 27, 0.78), rgba(6, 22, 27, 0.42) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%); }
 .text--left { left: calc(24px + env(safe-area-inset-left, 0px)); bottom: calc(15vh + env(safe-area-inset-bottom, 0px)); }
 .text--right { right: calc(24px + env(safe-area-inset-right, 0px)); bottom: calc(15vh + env(safe-area-inset-bottom, 0px)); text-align: right; }
 .text--center { left: 50%; top: 50%; width: min(560px, 80vw); transform: translate(-50%, calc(-50% + 14px)); text-align: center; }
@@ -321,13 +322,12 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
   content: '';
   position: absolute;
   inset: -36px -64px -34px -56px;
-  background: radial-gradient(ellipse 70% 72% at 38% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 45%, rgba(6, 22, 27, 0) 78%);
-  filter: blur(12px);
+  background: radial-gradient(ellipse 70% 72% at 38% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%);
   z-index: -1;
   pointer-events: none;
 }
 .rail--right { align-items: flex-end; }
-.rail--right::before { inset: -36px -56px -34px -64px; background: radial-gradient(ellipse 70% 72% at 62% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 45%, rgba(6, 22, 27, 0) 78%); }
+.rail--right::before { inset: -36px -56px -34px -64px; background: radial-gradient(ellipse 70% 72% at 62% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.45) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%); }
 .rail__btn {
   display: flex;
   align-items: center;
@@ -377,7 +377,7 @@ body.is-window .ask { right: calc(140px + env(safe-area-inset-right, 0px)); }
     gap: 2px;
     transform: translateX(-50%) !important;
   }
-  .rail::before, .rail--right::before { inset: -22px -30px -16px -30px; background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.4) 45%, rgba(6, 22, 27, 0) 78%); }
+  .rail::before, .rail--right::before { inset: -22px -30px -16px -30px; background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(6, 22, 27, 0.8), rgba(6, 22, 27, 0.4) 42%, rgba(6, 22, 27, 0.12) 68%, rgba(6, 22, 27, 0) 84%); }
   .rail--right { align-items: center; }
   .rail__btn, .rail--right .rail__btn { flex-direction: column; gap: 6px; min-height: 40px; padding: 0 7px; text-align: center; }
   .rail__tick { width: 14px; }
