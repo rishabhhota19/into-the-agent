@@ -3,7 +3,7 @@ import type { Move } from '../ui/Agent';
 import { Particles } from '../atmosphere/Particles';
 import { makePose, Rig } from '../camera/Rig';
 import content from '../content/site.json';
-import type { Item, SiteContent } from '../content/types';
+import type { Item, Link, SiteContent } from '../content/types';
 import { Pipeline } from '../post/Pipeline';
 import { VirtualScroll } from '../scroll/VirtualScroll';
 import { Overlay } from '../ui/Overlay';
@@ -19,6 +19,7 @@ import { Hall, HallPalette } from '../world/chapters/Hall';
 import { Sight } from '../world/chapters/Sight';
 import { Timefold } from '../world/chapters/Timefold';
 import { Vault } from '../world/chapters/Vault';
+import { Wall } from '../world/chapters/Wall';
 import { Well } from '../world/chapters/Well';
 import { Village } from '../world/village/Village';
 import { makeEnvironment, ProceduralTextures } from '../world/materials';
@@ -31,9 +32,15 @@ const SITE = content as SiteContent;
 
 /** One look per chamber; the plunge cross-fades between them. */
 const PALETTES: Record<string, HallPalette> = {
+  agent: { fog: 0x0a1f2a, accent: 0x7fd3e0, shadow: 0x0a2a33, highlight: 0xf2e6d2 },
+  experience: { fog: 0x1c1410, accent: 0xffb86b, shadow: 0x2a1a0c, highlight: 0xffe7c2 },
+  education: { fog: 0x141a12, accent: 0xb7d98b, shadow: 0x1a2412, highlight: 0xf0f4d8 },
+  skills: { fog: 0x0e1a2b, accent: 0x8fb8ff, shadow: 0x0c1a30, highlight: 0xe6ecff },
   projects: { fog: 0x0c2330, accent: 0x7fd3e0, shadow: 0x0a2a33, highlight: 0xf2e6d2 },
   research: { fog: 0x0b1b2c, accent: 0xa6c8ff, shadow: 0x0a1e3a, highlight: 0xeae4ff },
-  experience: { fog: 0x1c1410, accent: 0xffb86b, shadow: 0x2a1a0c, highlight: 0xffe7c2 },
+  certifications: { fog: 0x1a1710, accent: 0xe8c872, shadow: 0x2a2210, highlight: 0xfff1c8 },
+  achievements: { fog: 0x1c1012, accent: 0xf2a48b, shadow: 0x2a1012, highlight: 0xffe2d2 },
+  softskills: { fog: 0x101a1a, accent: 0x9fe0c8, shadow: 0x0c2420, highlight: 0xe0fff4 },
   writing: { fog: 0x14101f, accent: 0xc9a6ff, shadow: 0x1c1030, highlight: 0xf0e4ff },
   contact: { fog: 0x1f0609, accent: 0xff3b4a, shadow: 0x2a0810, highlight: 0xf4d7b0 },
 };
@@ -115,6 +122,9 @@ export class Experience {
       writing: (s) => new Archive(s),
       services: (s) => new Dock(s, SITE.dock),
       contact: (s) => new Timefold(s, this.village.target.texture),
+      // Walls of cards: the skills (each opening the work that used it) and the certificates.
+      skills: (s) => new Wall(s, PALETTES.skills),
+      certifications: (s) => new Wall(s, PALETTES.certifications),
     };
     this.chapters = [new Gantry(SITE), ...SITE.sections.map((s) => (worlds[s.id] ?? ((x) => new Hall(x, PALETTES[x.id] ?? PALETTES.projects)))(s))];
     this.world = new World(this.scene, this.chapters);
@@ -130,18 +140,14 @@ export class Experience {
 
     this.pipeline = new Pipeline(this.renderer, this.scene, this.rig.camera, this.quality);
     this.overlay = new Overlay(this.chapters);
-    this.overlay.onProject = (slug) => this.openProject(slug);
-    this.overlay.onGo = (id) => {
-      const k = this.chapters.findIndex((c) => c.id === id);
-      if (k >= 0) void this.travelTo(k);
-    };
+    this.overlay.onLink = (href) => this.follow(href);
     this.rail = new Rail(this.chapters, (k) => void this.travelTo(k));
 
     this.stage = new ProjectStage(window.innerWidth / window.innerHeight, this.env);
     this.stageAtmosphere = { fog: new Color(0x08161c), density: 0.05, grade: this.stage.grade };
     this.window = new ProjectWindow();
     this.window.onClose = () => this.closeProject();
-    this.window.onNext = (slug) => this.openProject(slug);
+    this.window.onLink = (href) => this.follow(href);
 
     canvas.addEventListener('pointerdown', (e) => {
       this.pointerDown = { x: e.clientX, y: e.clientY, t: performance.now() };
@@ -377,12 +383,52 @@ export class Experience {
     this.scroll.detach();
   }
 
-  // --- project windows ------------------------------------------------------------------------
+  // --- windows --------------------------------------------------------------------------------
 
   private hoverDirty = false;
+  /** Set by main: open the chat (a station's "Ask Dumbledore"). */
+  onAsk?: () => void;
 
-  private get projects(): Item[] {
-    return SITE.sections.find((s) => s.id === 'projects')?.items ?? [];
+  private section(id: string): Item[] {
+    return SITE.sections.find((s) => s.id === id)?.items ?? [];
+  }
+
+  /**
+   * Every address inside the descent, wherever it was clicked: a station link, a chip, a line in a window.
+   *   #project:slug      a project's window        #item:chamber/slug   any other item's window
+   *   #skill:slug        a skill: the work that used it      #go:chamber   warp there      #ask   the chat
+   */
+  follow(href: string): void {
+    if (href.startsWith('#project:')) this.openProject(href.slice('#project:'.length));
+    else if (href.startsWith('#item:')) {
+      const [id, slug] = href.slice('#item:'.length).split('/');
+      this.openItem(id, slug);
+    } else if (href.startsWith('#skill:')) this.openSkill(href.slice('#skill:'.length));
+    else if (href.startsWith('#go:')) {
+      const k = this.chapters.findIndex((c) => c.id === href.slice('#go:'.length));
+      if (k >= 0) void this.travelTo(k);
+    } else if (href === '#ask') this.onAsk?.();
+  }
+
+  /** Any item's window, with "next" running through its chamber. */
+  openItem(id: string, slug: string): void {
+    const items = this.section(id);
+    const i = items.findIndex((x) => x.slug === slug);
+    if (i < 0) return;
+    const next = items.length > 1 ? items[(i + 1) % items.length] : null;
+    this.show(items[i], next ? { label: next.title, href: id === 'projects' ? `#project:${next.slug}` : `#item:${id}/${next.slug}` } : null);
+  }
+
+  /** A skill's window: the projects, papers and roles that list it, each a line that opens. */
+  openSkill(key: string): void {
+    const skill = SITE.skills[key];
+    if (!skill) return;
+    const kinds = ['project', 'paper', 'role'].map((k) => [k, skill.uses.filter((u) => u.note === k).length] as const).filter(([, n]) => n > 0);
+    const summary = `Used in ${kinds.map(([k, n]) => `${n} ${k}${n > 1 ? 's' : ''}`).join(', ')} on this site. Open one.`;
+    this.show(
+      { slug: `skill:${key}`, title: skill.label, kicker: 'skill', summary, body: '', tags: [], featured: false, blocks: [{ type: 'links', links: skill.uses }] },
+      null,
+    );
   }
 
   /** The gems of the vault, when the vault is the current chamber. */
@@ -416,12 +462,14 @@ export class Experience {
   }
 
   openProject(slug: string): void {
-    const items = this.projects;
-    const i = items.findIndex((p) => p.slug === slug);
-    if (i < 0) return;
-    this.stage.open(presetFor(slug));
+    this.openItem('projects', slug);
+  }
+
+  /** Raise the window over the stage, with the descent paused underneath. */
+  private show(item: Item, next: Link | null): void {
+    this.stage.open(presetFor(item.slug));
     this.stage.resize(window.innerWidth / window.innerHeight);
-    this.window.open(items[i], items[(i + 1) % items.length] ?? null);
+    this.window.open(item, next);
     this.scroll.enabled = false;
     this.pipeline.setScene(this.stage.scene, this.stage.camera);
     this.burst = 1;

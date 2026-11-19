@@ -1,13 +1,15 @@
 import content from '../content/site.json';
-import type { Item, SiteContent } from '../content/types';
+import type { Item, Link, SiteContent } from '../content/types';
+import { chipHtml } from './Overlay';
 
 const ASSETS = (content as SiteContent).assets;
 
 const esc = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /**
- * The project window: a 3D stage you scroll through, then the write-up. The
- * descent pauses underneath; Escape, the close button or "next" move on.
+ * The window: a 3D stage you scroll through, then the write-up of a project, a
+ * role, a story or a skill. The descent pauses underneath; Escape, the close
+ * button or "next" move on, and every link inside it stays inside the descent.
  */
 export class ProjectWindow {
   private readonly root = document.getElementById('proj') as HTMLElement;
@@ -23,13 +25,20 @@ export class ProjectWindow {
   private lastFocus: HTMLElement | null = null;
   current: Item | null = null;
   onClose?: () => void;
-  onNext?: (slug: string) => void;
+  /** A link inside the window that points inside the descent: the next button, a skill chip, a use of a skill. */
+  onLink?: (href: string) => void;
 
   constructor() {
     this.closeBtn.addEventListener('click', () => this.close());
     this.next.addEventListener('click', () => {
-      const slug = this.next.dataset.slug;
-      if (slug) this.onNext?.(slug);
+      const href = this.next.dataset.href;
+      if (href) this.onLink?.(href);
+    });
+    this.root.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!a) return;
+      e.preventDefault();
+      this.onLink?.(a.getAttribute('href') ?? '');
     });
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.current) this.close();
@@ -50,13 +59,14 @@ export class ProjectWindow {
     return this.current?.slug;
   }
 
-  open(item: Item, nextItem: Item | null): void {
+  open(item: Item, next: Link | null): void {
     this.lastFocus = document.activeElement as HTMLElement | null;
     this.current = item;
     this.kicker.textContent = item.kicker;
     this.title.textContent = item.title;
     this.summary.textContent = item.summary;
-    this.tags.innerHTML = item.tags.map((t) => `<li class="chip">${esc(t)}</li>`).join('');
+    // Its words, then its skills: each skill opens onto everything else that used it.
+    this.tags.innerHTML = [...item.tags, ...(item.skills ?? [])].map(chipHtml).join('');
     // The project's picture, when it has one, opens the write-up, with its credit (a licensed picture must carry it).
     const image = ASSETS.projects[item.slug];
     const credit = ASSETS.credits?.[item.slug];
@@ -69,23 +79,37 @@ export class ProjectWindow {
       .map((b) => {
         if (b.type === 'h') return `<h3>${esc(b.text ?? '')}</h3>`;
         if (b.type === 'list') return `<ul>${(b.items ?? []).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
+        if (b.type === 'links')
+          return `<ul class="proj__uses">${(b.links ?? [])
+            .map((l) => `<li><a class="text__link" href="${esc(l.href ?? '#')}">${esc(l.label)} →</a>${l.note ? `<span class="mono">${esc(l.note)}</span>` : ''}</li>`)
+            .join('')}</ul>`;
         return `<p>${esc(b.text ?? '')}</p>`;
       })
       .join('');
-    if (item.link) {
-      this.link.href = item.link.href;
-      this.link.textContent = `${item.link.label} →`;
+    // The window's link: the work behind a story when there is one, else the item's own.
+    const link = item.related ?? item.link;
+    if (link) {
+      const internal = link.href.startsWith('#');
+      this.link.href = link.href;
+      this.link.textContent = `${link.label} →`;
+      if (internal) {
+        this.link.removeAttribute('target');
+        this.link.removeAttribute('rel');
+      } else {
+        this.link.target = '_blank';
+        this.link.rel = 'noopener';
+      }
       this.link.hidden = false;
     } else {
       this.link.hidden = true;
     }
-    if (nextItem) {
-      this.next.textContent = `Next: ${nextItem.title}`;
-      this.next.dataset.slug = nextItem.slug;
+    if (next) {
+      this.next.textContent = `Next: ${next.label}`;
+      this.next.dataset.href = next.href;
       this.next.hidden = false;
     } else {
       this.next.hidden = true;
-      delete this.next.dataset.slug;
+      delete this.next.dataset.href;
     }
     this.root.hidden = false;
     this.scroller.scrollTop = 0;

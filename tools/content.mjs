@@ -117,10 +117,54 @@ const abs = (p) => (p.startsWith('http') || p.startsWith('mailto:') ? p : site.u
 
 // --- home: the core profile ---------------------------------------------------------------------
 const core = blocks(matter(read(path.join(ROOT, 'profile', 'core.md'))).content);
-const nowPara = core.find((b) => b.type === 'p' && b.text.startsWith('Now:'))?.text.replace(/^Now:\s*/, '') ?? '';
+const corePara = (start) => core.find((b) => b.type === 'p' && b.text.startsWith(start))?.text.replace(new RegExp(`^${start}\\s*`), '') ?? '';
+const nowPara = corePara('Now:');
 const winsIdx = core.findIndex((b) => b.type === 'p' && b.text.startsWith('Headline wins'));
 const wins = winsIdx >= 0 && core[winsIdx + 1]?.type === 'list' ? core[winsIdx + 1].items : [];
-const roles = core.find((b) => b.type === 'p' && b.text.startsWith('Roles he fits:'))?.text.replace(/^Roles he fits:\s*/, '') ?? '';
+const roles = corePara('Roles he fits:');
+
+// --- addresses inside the descent -----------------------------------------------------------------
+// Chambers that hold a written-site section, by the section's folder.
+const CHAMBER_OF = { projects: 'projects', publications: 'research', experience: 'experience', blog: 'writing', services: 'services' };
+/** A path on the written site as an address in this descent: a chamber, or an item's window. */
+function hrefFor(p) {
+  const [, dir, slug] = p.match(/^\/([^/#?]+)(?:\/([^/#?]+))?/) ?? [];
+  const id = CHAMBER_OF[dir];
+  if (!id) return abs(p);
+  if (!slug) return `#go:${id}`;
+  return id === 'projects' ? `#project:${slug}` : `#item:${id}/${slug}`;
+}
+const itemHref = (id, slug) => (id === 'projects' ? `#project:${slug}` : `#item:${id}/${slug}`);
+/** The first link to the written site inside a raw Markdown line, before `clean` drops it. */
+const internalLink = (raw) => raw.match(/\]\((\/[^)\s]+)\)/)?.[1] ?? null;
+const slugify = (s) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const skillList = (data) => (Array.isArray(data.skills) ? data.skills.map(String) : []);
+
+/** Raw bullet lines (continuations joined) under a heading, or of the first list when no heading is given. */
+function rawList(md, heading) {
+  const lines = md.split('\n');
+  const out = [];
+  let on = !heading;
+  for (const line of lines) {
+    const h = line.match(/^(#{1,6})\s+(.*)/);
+    if (h) {
+      if (on && out.length) break;
+      on = !heading || h[2].trim().toLowerCase().startsWith(heading.toLowerCase());
+      continue;
+    }
+    if (!on) continue;
+    const b = line.match(/^\s*[-*]\s+(.*)/);
+    if (b) out.push(b[1].trim());
+    else if (line.trim() && out.length) out[out.length - 1] += ' ' + line.trim();
+  }
+  return out;
+}
+/** `**Title** — the rest` → [title, rest]; a line without the dash is all title. */
+function split(raw) {
+  const text = clean(raw);
+  const i = text.indexOf(' — ');
+  return i < 0 ? [text, ''] : [text.slice(0, i).trim(), text.slice(i + 3).trim()];
+}
 
 // --- sections -------------------------------------------------------------------------------------
 const projects = dir('projects').map((e) => ({
@@ -134,6 +178,7 @@ const projects = dir('projects').map((e) => ({
   link: { label: 'All projects', href: abs('/projects') },
   // The full write-up, for the project window.
   blocks: e.blocks,
+  skills: skillList(e.data),
 }));
 // Best first: the order a recruiter should meet them in (the entry chamber's showcase is the first three).
 // Anything not listed keeps its place after these.
@@ -148,9 +193,11 @@ const publications = dir('publications').map((e) => ({
   kicker: [str(e.data.status), trim(str(e.data.venue), 70)].filter(Boolean).join(' · '),
   summary: trim(firstText(e.blocks, 1), 200),
   body: trim(bullets(e.blocks, 3).slice(1).join(' '), 200),
-  tags: Array.isArray(e.data.authors) ? [] : [],
+  tags: [],
   featured: str(e.data.status) === 'Published',
   link: str(e.data.link) ? { label: 'Read the paper', href: str(e.data.link) } : { label: 'All research', href: abs('/publications') },
+  blocks: e.blocks,
+  skills: skillList(e.data),
 }));
 
 const experience = dir('experience').map((e) => ({
@@ -161,8 +208,21 @@ const experience = dir('experience').map((e) => ({
   body: trim(bullets(e.blocks, 3).slice(1).join(' '), 220),
   tags: [str(e.data.location)].filter(Boolean),
   featured: str(e.data.end) === 'Present',
-  link: { label: 'Full experience', href: abs('/experience') },
+  // The role in detail opens in a window, like a project; the window itself points at the written timeline.
+  link: { label: 'The role in detail', href: itemHref('experience', e.slug) },
+  related: { label: 'The written timeline', href: abs('/experience') },
+  blocks: e.blocks,
+  skills: skillList(e.data),
+  company: str(e.data.company),
+  start: str(e.data.start),
+  end: str(e.data.end),
 }));
+// The one-glance work history for the entry chamber: role, company, years.
+const years = (start, end) => `${start.slice(-4)}–${end === 'Present' ? 'now' : end.slice(-2)}`;
+const history = {
+  body: corePara('Experience:'),
+  roles: experience.map((e) => ({ title: e.title, company: e.company, years: years(e.start, e.end) })),
+};
 
 const blog = dir('blog').map((e) => ({
   slug: e.slug,
@@ -189,6 +249,134 @@ const services = (fs.existsSync(servicesDir) ? dirAt(servicesDir) : []).map((e) 
   link: { label: 'Ask about this', href: `mailto:${site.email}?subject=${encodeURIComponent(`Build: ${str(e.data.title)}`)}` },
 }));
 const dock = JSON.parse(read(path.join(LOCAL, 'dock.json')));
+// The entry chamber's hero: this site's own words (what he has done, what he is open to), beside the dock's.
+const hero = JSON.parse(read(path.join(LOCAL, 'hero.json')));
+// The chamber about this site and Dumbledore: this site's own words too.
+const about = JSON.parse(read(path.join(LOCAL, 'about.json')));
+const agent = about.items.map((it, i) => ({ ...it, body: str(it.body), tags: it.tags ?? [], featured: i < 2 }));
+
+// --- skills: the groups in skills.md, each skill joined to the work that lists it ------------------
+// A skill's address is its slug; a project, paper or role that names the skill in its `skills:` list is a use.
+const splitSkills = (s) => s.replace(/\.$/, '').split(/,(?![^()]*\))/).map((x) => x.trim()).filter(Boolean);
+const groups = [];
+for (const b of blocks(matter(read(path.join(ROOT, 'profile', 'skills.md'))).content)) {
+  if (b.type === 'h') groups.push({ title: b.text, skills: [] });
+  else if (b.type === 'p' && groups.length) groups[groups.length - 1].skills.push(...splitSkills(b.text));
+}
+const uses = {};
+const known = new Set(groups.flatMap((g) => g.skills.map(slugify)));
+const unknown = new Set();
+for (const [id, items, kind] of [['projects', projects, 'project'], ['research', publications, 'paper'], ['experience', experience, 'role']]) {
+  for (const it of items) {
+    for (const s of it.skills) {
+      const key = slugify(s);
+      if (!known.has(key)) unknown.add(s);
+      (uses[key] ??= { label: s, uses: [] }).uses.push({ label: it.title, href: itemHref(id, it.slug), note: kind });
+    }
+    // The item's own skills, as chips that open the skill (and from there everything else that used it).
+    it.skills = it.skills.map((s) => ({ label: s, href: `#skill:${slugify(s)}` }));
+  }
+}
+if (unknown.size) console.warn(`content: skills listed on items but not in skills.md: ${[...unknown].join('; ')}`);
+const chip = (s) => {
+  const key = slugify(s);
+  const u = uses[key];
+  return u ? { label: s, href: `#skill:${key}`, n: u.uses.length } : { label: s };
+};
+const technical = groups.filter((g) => g.title !== 'Soft skills');
+const skills = technical.map((g, i) => {
+  const chips = g.skills.map(chip);
+  const linked = chips.filter((c) => c.href).length;
+  return {
+    slug: slugify(g.title),
+    title: g.title,
+    kicker: `skills · ${i + 1} of ${technical.length}`,
+    summary: linked ? `${chips.length} skills; ${linked} open the work that used them.` : `${chips.length} skills.`,
+    body: '',
+    tags: [],
+    chips,
+    featured: i === 0,
+  };
+});
+const skillCount = technical.reduce((n, g) => n + g.skills.length, 0);
+const linkedCount = technical.reduce((n, g) => n + g.skills.filter((s) => uses[slugify(s)]).length, 0);
+
+// --- education, certifications, achievements, soft skills ------------------------------------------
+const eduMd = matter(read(path.join(ROOT, 'profile', 'education.md'))).content;
+const education = rawList(eduMd, 'education').map((raw, i) => {
+  const [title, rest] = split(raw);
+  // "School, City (dates). Grade."
+  const m = rest.match(/^(.*?)\s*\(([^)]*)\)\.?\s*(.*)$/);
+  const grade = m ? m[3].replace(/\.$/, '') : '';
+  return {
+    slug: slugify(title),
+    title,
+    kicker: m ? m[2] : 'education',
+    summary: m ? m[1] : rest,
+    body: '',
+    tags: grade ? [grade] : [],
+    featured: i === 0,
+    link: i === 0 ? { label: 'The written timeline', href: abs('/experience') } : undefined,
+  };
+});
+
+const certificates = rawList(eduMd, 'certifications').map((raw) => {
+  let [title, issuer] = split(raw);
+  const year = (issuer || title).match(/\((\d{4})\)/)?.[1] ?? '';
+  issuer = issuer.replace(/\s*\(\d{4}\)/, '').trim();
+  title = title.replace(/\s*\(\d{4}\)/, '').trim();
+  if (!issuer && title.includes(':')) [issuer, title] = title.split(':').map((s) => s.trim());
+  return { title, issuer, year };
+});
+// Three to a wall, in the file's order.
+const certifications = [];
+for (let i = 0; i < certificates.length; i += 3) {
+  const trio = certificates.slice(i, i + 3);
+  const k = certifications.length;
+  certifications.push({
+    slug: `certificates-${k + 1}`,
+    title: trio.map((c) => c.issuer || c.title).join(' · '),
+    kicker: `certifications · ${i + 1}–${i + trio.length} of ${certificates.length}`,
+    summary: '',
+    body: '',
+    tags: [],
+    chips: trio.map((c) => ({ label: c.title, note: [c.issuer, c.year].filter(Boolean).join(' · ') })),
+    featured: k === 0,
+  });
+}
+
+const achMd = matter(read(path.join(ROOT, 'profile', 'achievements.md'))).content;
+const achievements = rawList(achMd).map((raw, i, all) => {
+  const [title, story] = split(raw);
+  const related = internalLink(raw);
+  const href = related ? hrefFor(related) : null;
+  const label = href?.startsWith('#project:') ? 'Open the project' : href?.startsWith('#item:research/') ? 'Open the paper' : 'Open';
+  const slug = slugify(title);
+  const long = story.length > 230;
+  return {
+    slug,
+    title,
+    kicker: `achievement · ${i + 1} of ${all.length}`,
+    summary: trim(story, 230),
+    body: '',
+    tags: [],
+    featured: i < 3,
+    // A long story opens in full; a short one links straight to the work behind it, if there is any.
+    link: long ? { label: 'The story', href: itemHref('achievements', slug) } : href ? { label, href } : undefined,
+    blocks: [{ type: 'p', text: story }],
+    // The work behind the story, for the window's link.
+    related: href ? { label, href } : undefined,
+  };
+});
+
+const softMd = matter(read(path.join(ROOT, 'profile', 'soft-skills.md'))).content;
+const softskills = rawList(softMd).map((raw, i) => {
+  const [title, proof] = split(raw);
+  return { slug: slugify(title), title, kicker: `soft skill · ${i + 1} of 5`, summary: proof, body: '', tags: [], featured: i === 0 };
+});
+const softBlocks = blocks(softMd);
+const interestsIdx = softBlocks.findIndex((b) => b.type === 'h' && /interests/i.test(b.text));
+const interests = interestsIdx >= 0 ? softBlocks[interestsIdx + 1]?.text ?? '' : '';
 
 // "Book a call" opens the 2D site with its booking card already open (the 3D page can't book by itself: the
 // booking API sits behind the 2D site's bot check).
@@ -222,17 +410,29 @@ for (const p of projects) {
   if (projectImages[p.slug] && fs.existsSync(credit)) projectCredits[p.slug] = fs.readFileSync(credit, 'utf8').trim();
 }
 
+// Build-only fields stay out of the file.
+const pub = ({ company, start, end, ...it }) => it;
+
 const out = {
   site: { name: site.name, role: site.role, tagline: site.tagline, location: site.location, email: site.email, linkedin: site.linkedin, github: site.github, resume: abs(site.resume), url: site.url },
   // Which optional figures exist on disk, so the page never asks for a file that is not there.
   assets: { projects: projectImages, credits: projectCredits },
-  home: { now: trim(nowPara, 260), wins, roles },
+  home: { now: trim(nowPara, 260), wins, roles, hero, history },
   dock,
+  // Every skill by slug, with the work that lists it: the skill window.
+  skills: uses,
   sections: [
-    // The pitch, in order: where he's worked, everything he built, the research under it, notes, what he sells, reach him.
-    { id: 'experience', label: 'Experience', path: abs('/experience'), intro: 'Three years turning research into systems that ship.', items: experience },
+    // His order: the site and its agent, the roles in detail, education, the skills (each opening the work that used
+    // it), the builds, the papers, certificates, achievements with their stories, how he works, notes, what he sells, reach him.
+    { id: 'agent', label: 'This site', path: abs('/'), intro: about.intro, items: agent },
+    { id: 'experience', label: 'Experience', path: abs('/experience'), intro: 'Three years turning research into systems that ship.', items: experience.map(pub) },
+    { id: 'education', label: 'Education', path: abs('/experience'), intro: 'An engineer by degree; everything after it, by building.', items: education },
+    { id: 'skills', label: 'Skills', path: abs('/experience'), intro: `${skillCount} skills in ${technical.length} areas; ${linkedCount} open the work that used them.`, items: skills },
     { id: 'projects', label: 'Projects', path: abs('/projects'), intro: `${projects.length} builds, from a hospital pipeline to the agent on this site.`, items: projects },
     { id: 'research', label: 'Research', path: abs('/publications'), intro: `${publications.length} papers: medical imaging, quantum attention, decision support.`, items: publications },
+    { id: 'certifications', label: 'Certificates', path: abs('/experience'), intro: `${certificates.length} certifications, from LLM fine-tuning to the foundations.`, items: certifications },
+    { id: 'achievements', label: 'Achievements', path: abs('/experience'), intro: `${achievements.length} things he is proud of, and the stories behind them.`, items: achievements },
+    { id: 'softskills', label: 'Soft skills', path: abs('/experience'), intro: `How he works, each with its proof.${interests ? ` Off the clock: ${interests.replace(/\.$/, '')}.` : ''}`, items: softskills },
     { id: 'writing', label: 'Writing', path: abs('/blog'), intro: 'Notes from building.', items: blog },
     { id: 'services', label: dock.label || 'Services', path: abs('/'), intro: dock.intro, items: services },
     { id: 'contact', label: 'Contact', path: abs('/'), intro: 'Hire him, book a build, or bring a problem.', items: contact },
@@ -241,4 +441,4 @@ const out = {
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2) + '\n');
-console.log(`content: ${out.sections.map((s) => `${s.id} ${s.items.length}`).join(', ')} → ${path.relative(process.cwd(), OUT)}`);
+console.log(`content: ${out.sections.map((s) => `${s.id} ${s.items.length}`).join(', ')}; ${Object.keys(uses).length} skills with uses → ${path.relative(process.cwd(), OUT)}`);

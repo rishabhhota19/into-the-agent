@@ -38,11 +38,13 @@ function navigate(exp: Experience, path: string): void {
     const k = exp.chapters.findIndex((c) => c.id === id);
     if (k >= 0) void exp.travelTo(k, slug);
   };
-  if (seg.length === 0 || clean === '/3d') go('home');
+  // A hash that names a chamber (skills, education, achievements…) wins: the written site keeps those on one page.
+  if (item && exp.chapters.some((c) => c.id === item)) go(item, undefined);
+  else if (seg.length === 0 || clean === '/3d') go('home');
   else if (seg[0] === 'projects') {
     if (seg[1]) void exp.goToProject(seg[1]);
     else go('projects');
-  } else if (seg[0] === 'publications') go('research');
+  } else if (seg[0] === 'publications') go('research', seg[1] ?? item);
   else if (seg[0] === 'experience') go('experience');
   else if (seg[0] === 'services') go('services');
   else if (seg[0] === 'blog') go('writing', seg[1]);
@@ -64,6 +66,8 @@ if (experience) {
   const book = document.getElementById('book') as HTMLAnchorElement | null;
   book?.addEventListener('click', () => addAction('book_call'));
   exp.onChapter = (id) => agent.page(`/3d#${id}`);
+  // A station's "Ask Dumbledore": the same pill the corner shows (the chat here, the written site's chat elsewhere).
+  exp.onAsk = () => pill.click();
   exp.onTooSlow = () => {
     exp.stop();
     leave();

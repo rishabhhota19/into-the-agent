@@ -23,10 +23,45 @@
     "wins": [
       "Built the Product Launch System as Sr. AI Researcher: one human-in-the-loop AI system that connects three teams (product, content review, design) from programme sheet to editable Illustrator artwork; 88 tested versions in eleven weeks; in use as an internal tool.",
       "Built an N8N-based multi-agent \"Collaterals Agent\" at Simplilearn that cut course-launch collateral creation from 7–10 days (2 teams of 4) to 1 day; won the Best Team Award (Q3).",
-      "His novel LCSNet architecture was published in Intelligence-Based Medicine (Elsevier, IF 2.3, Oct 2025).",
+      "His novel LCSNet architecture — a lightweight network for dental caries segmentation from smartphone photos (F1 71.7%, IoU 56.8%; nothing to do with the osteoarthritis X-ray work) — was published in Intelligence-Based Medicine (Elsevier, IF 2.3, Oct 2025).",
       "Designed QFPViT, a quantum self-attention operator for Vision Transformers, starting from zero quantum background; paper communicated to Quantum Journal."
     ],
-    "roles": "AI Engineer, GenAI / LLM Engineer, Agentic AI Engineer, Forward Deployed Engineer, Applied / Research Engineer (ML, medical imaging, efficient attention)."
+    "roles": "AI Engineer, GenAI / LLM Engineer, Agentic AI Engineer, Forward Deployed Engineer, Applied / Research Engineer (ML, medical imaging, efficient attention).",
+    "hero": {
+      "kicker": "Sr. AI Researcher · Simplilearn · Bengaluru",
+      "title": "I turn new AI research into <em>systems that ship.</em>",
+      "body": "Three years from paper to production: an agentic Product Launch System in daily use, a knee-X-ray pipeline grading at 98% and deployed at Fortis, LCSNet published in Elsevier's Intelligence-Based Medicine. Open to AI, GenAI/LLM, agentic and forward-deployed engineering roles — full-time or freelance."
+    },
+    "history": {
+      "body": "3+ years turning AI research into production prototypes and AWS-hosted pipelines.",
+      "roles": [
+        {
+          "title": "Sr. AI Researcher",
+          "company": "Simplilearn",
+          "years": "2026–now"
+        },
+        {
+          "title": "AI Researcher",
+          "company": "Simplilearn",
+          "years": "2025–26"
+        },
+        {
+          "title": "AI Engineer",
+          "company": "OsteosConnect Inc",
+          "years": "2024–25"
+        },
+        {
+          "title": "AI/ML Intern",
+          "company": "OsteosConnect Inc",
+          "years": "2023–24"
+        },
+        {
+          "title": "Data Science & ML Intern",
+          "company": "Smartknower Pvt Ltd",
+          "years": "2020–21"
+        }
+      ]
+    }
   },
   "dock": {
     "label": "Services",
@@ -89,7 +124,1152 @@
       }
     ]
   },
+  "skills": {
+    "python": {
+      "label": "Python",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        },
+        {
+          "label": "News Search & Research Tool",
+          "href": "#project:news-research-tool",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        }
+      ]
+    },
+    "agentic-ai-and-harness-engineering": {
+      "label": "agentic AI and harness engineering",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "href": "#item:research/oa-agentic",
+          "note": "paper"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "ai-and-agentic-ai-orchestration": {
+      "label": "AI and agentic AI orchestration",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "multi-agent-systems": {
+      "label": "multi-agent systems",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        }
+      ]
+    },
+    "claude-code": {
+      "label": "Claude Code",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "claude-science-and-claude-skills": {
+      "label": "Claude Science and Claude Skills",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        }
+      ]
+    },
+    "agent-and-llm-evaluation": {
+      "label": "agent and LLM evaluation",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "agent-and-llm-guardrailing-and-deployment": {
+      "label": "agent and LLM guardrailing and deployment",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        }
+      ]
+    },
+    "automation-engineering": {
+      "label": "automation engineering",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "Ed-Tech Web App",
+          "href": "#project:edtech-platform",
+          "note": "project"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "loop-engineering": {
+      "label": "loop engineering",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        }
+      ]
+    },
+    "system-design": {
+      "label": "system design",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "Ed-Tech Web App",
+          "href": "#project:edtech-platform",
+          "note": "project"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "generative-ai": {
+      "label": "Generative AI",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Gemma 3n on Android — Google AI Edge Gallery",
+          "href": "#project:gemma-3n-on-device",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        },
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        },
+        {
+          "label": "News Search & Research Tool",
+          "href": "#project:news-research-tool",
+          "note": "project"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "genai-applications": {
+      "label": "GenAI applications",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        },
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Gemma 3n on Android — Google AI Edge Gallery",
+          "href": "#project:gemma-3n-on-device",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        },
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        },
+        {
+          "label": "News Search & Research Tool",
+          "href": "#project:news-research-tool",
+          "note": "project"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "oop": {
+      "label": "OOP",
+      "uses": [
+        {
+          "label": "Product Launch System",
+          "href": "#project:product-launch-system",
+          "note": "project"
+        }
+      ]
+    },
+    "tensorflow": {
+      "label": "TensorFlow",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "computer-vision": {
+      "label": "computer vision",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "href": "#item:research/lcsnet",
+          "note": "paper"
+        },
+        {
+          "label": "COVID-19 Classification with Chest CT",
+          "href": "#item:research/covid-ct",
+          "note": "paper"
+        },
+        {
+          "label": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "href": "#item:research/oa-agentic",
+          "note": "paper"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "deep-learning": {
+      "label": "deep learning",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "href": "#item:research/lcsnet",
+          "note": "paper"
+        },
+        {
+          "label": "QFPViT: A Fidelity-Phase Quantum Self-Attention Operator for Vision Transformers — Design and Evaluation on MedMNIST",
+          "href": "#item:research/qfpvit",
+          "note": "paper"
+        },
+        {
+          "label": "Do Quantum-Inspired Feature Maps Help Vision Transformer Attention? A Matched-Budget Dequantization Study",
+          "href": "#item:research/quantum-feature-maps",
+          "note": "paper"
+        },
+        {
+          "label": "COVID-19 Classification with Chest CT",
+          "href": "#item:research/covid-ct",
+          "note": "paper"
+        },
+        {
+          "label": "Multi-Modal Decision Support for COVID-19 Prediction",
+          "href": "#item:research/covid-multimodal",
+          "note": "paper"
+        },
+        {
+          "label": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "href": "#item:research/oa-agentic",
+          "note": "paper"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "cnns": {
+      "label": "CNNs",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "href": "#item:research/lcsnet",
+          "note": "paper"
+        },
+        {
+          "label": "COVID-19 Classification with Chest CT",
+          "href": "#item:research/covid-ct",
+          "note": "paper"
+        }
+      ]
+    },
+    "segmentation-models": {
+      "label": "segmentation models",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "href": "#item:research/lcsnet",
+          "note": "paper"
+        }
+      ]
+    },
+    "x-ray-annotation": {
+      "label": "X-ray annotation",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "classification": {
+      "label": "classification",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "COVID-19 Classification with Chest CT",
+          "href": "#item:research/covid-ct",
+          "note": "paper"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "aws-s3-lambda-sagemaker-ec2-bedrock": {
+      "label": "AWS (S3, Lambda, SageMaker, EC2, Bedrock)",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "healthcare-automation": {
+      "label": "healthcare automation",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        },
+        {
+          "label": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "href": "#item:research/oa-agentic",
+          "note": "paper"
+        },
+        {
+          "label": "AI Engineer",
+          "href": "#item:experience/03-osteosconnect-ai-engineer",
+          "note": "role"
+        }
+      ]
+    },
+    "dicom-processing": {
+      "label": "DICOM processing",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "pydicom": {
+      "label": "PyDICOM",
+      "uses": [
+        {
+          "label": "AI-Powered Osteoarthritis Classification & Reporting",
+          "href": "#project:oa-classification",
+          "note": "project"
+        },
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "langgraph": {
+      "label": "LangGraph",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "langchain": {
+      "label": "LangChain",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        }
+      ]
+    },
+    "fastapi": {
+      "label": "FastAPI",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "pydantic": {
+      "label": "Pydantic",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "asyncio": {
+      "label": "asyncio",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "rag-in-production": {
+      "label": "RAG in production",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "retrieval-augmented-generation-rag-and-graph-rag": {
+      "label": "retrieval-augmented generation (RAG and Graph RAG)",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "Claude Personal Health Doctor",
+          "href": "#project:claude-health-doctor",
+          "note": "project"
+        },
+        {
+          "label": "News Search & Research Tool",
+          "href": "#project:news-research-tool",
+          "note": "project"
+        }
+      ]
+    },
+    "token-optimization": {
+      "label": "token optimization",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "chatbot-design": {
+      "label": "chatbot design",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "chatbots": {
+      "label": "chatbots",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "Gemma 3n on Android — Google AI Edge Gallery",
+          "href": "#project:gemma-3n-on-device",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        }
+      ]
+    },
+    "vector-databases-redis-faiss-and-others": {
+      "label": "vector databases (Redis, FAISS and others)",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        }
+      ]
+    },
+    "openai-compatible-api-serving": {
+      "label": "OpenAI-compatible API serving",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        }
+      ]
+    },
+    "system-design-for-ai": {
+      "label": "system design for AI",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        }
+      ]
+    },
+    "nlp": {
+      "label": "NLP",
+      "uses": [
+        {
+          "label": "AI Portfolio Agent (this site)",
+          "href": "#project:portfolio-agent",
+          "note": "project"
+        },
+        {
+          "label": "News Search & Research Tool",
+          "href": "#project:news-research-tool",
+          "note": "project"
+        }
+      ]
+    },
+    "model-context-protocol-mcp": {
+      "label": "Model Context Protocol (MCP)",
+      "uses": [
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "mcp": {
+      "label": "MCP",
+      "uses": [
+        {
+          "label": "TurboTrade — Zerodha MCP trading copilot",
+          "href": "#project:turbotrade",
+          "note": "project"
+        }
+      ]
+    },
+    "google-adk": {
+      "label": "Google ADK",
+      "uses": [
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        }
+      ]
+    },
+    "google-gemini-apis": {
+      "label": "Google Gemini APIs",
+      "uses": [
+        {
+          "label": "Scalable Sales Training Chatbot",
+          "href": "#project:sales-training-chatbot",
+          "note": "project"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "speech-generation": {
+      "label": "speech generation",
+      "uses": [
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        }
+      ]
+    },
+    "open-source": {
+      "label": "open source",
+      "uses": [
+        {
+          "label": "AI Teddy Bear (MVP)",
+          "href": "#project:ai-teddy-bear",
+          "note": "project"
+        },
+        {
+          "label": "Sr. AI Researcher",
+          "href": "#item:experience/01-simplilearn-sr-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "dbms": {
+      "label": "DBMS",
+      "uses": [
+        {
+          "label": "Ed-Tech Web App",
+          "href": "#project:edtech-platform",
+          "note": "project"
+        }
+      ]
+    },
+    "machine-learning": {
+      "label": "machine learning",
+      "uses": [
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "QFPViT: A Fidelity-Phase Quantum Self-Attention Operator for Vision Transformers — Design and Evaluation on MedMNIST",
+          "href": "#item:research/qfpvit",
+          "note": "paper"
+        },
+        {
+          "label": "Do Quantum-Inspired Feature Maps Help Vision Transformer Attention? A Matched-Budget Dequantization Study",
+          "href": "#item:research/quantum-feature-maps",
+          "note": "paper"
+        },
+        {
+          "label": "Depression Identification Decision Support System (DIDSS)",
+          "href": "#item:research/didss",
+          "note": "paper"
+        },
+        {
+          "label": "Multi-Modal Decision Support for COVID-19 Prediction",
+          "href": "#item:research/covid-multimodal",
+          "note": "paper"
+        },
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "predictive-modeling": {
+      "label": "predictive modeling",
+      "uses": [
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "Depression Identification Decision Support System (DIDSS)",
+          "href": "#item:research/didss",
+          "note": "paper"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "data-science": {
+      "label": "data science",
+      "uses": [
+        {
+          "label": "COVID-19 Decision Support System",
+          "href": "#project:covid-decision-support",
+          "note": "project"
+        },
+        {
+          "label": "Depression Identification Decision Support System (DIDSS)",
+          "href": "#item:research/didss",
+          "note": "paper"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "research-publication": {
+      "label": "research publication",
+      "uses": [
+        {
+          "label": "LCSNet: Lightweight Caries Segmentation Network for dental caries segmentation from smartphone photographs",
+          "href": "#item:research/lcsnet",
+          "note": "paper"
+        },
+        {
+          "label": "QFPViT: A Fidelity-Phase Quantum Self-Attention Operator for Vision Transformers — Design and Evaluation on MedMNIST",
+          "href": "#item:research/qfpvit",
+          "note": "paper"
+        },
+        {
+          "label": "Do Quantum-Inspired Feature Maps Help Vision Transformer Attention? A Matched-Budget Dequantization Study",
+          "href": "#item:research/quantum-feature-maps",
+          "note": "paper"
+        },
+        {
+          "label": "Depression Identification Decision Support System (DIDSS)",
+          "href": "#item:research/didss",
+          "note": "paper"
+        },
+        {
+          "label": "COVID-19 Classification with Chest CT",
+          "href": "#item:research/covid-ct",
+          "note": "paper"
+        },
+        {
+          "label": "Multi-Modal Decision Support for COVID-19 Prediction",
+          "href": "#item:research/covid-multimodal",
+          "note": "paper"
+        },
+        {
+          "label": "OA Classification and Reporting using Agentic AI and Deep Neural Networks",
+          "href": "#item:research/oa-agentic",
+          "note": "paper"
+        },
+        {
+          "label": "AI Researcher",
+          "href": "#item:experience/02-simplilearn-ai-researcher",
+          "note": "role"
+        }
+      ]
+    },
+    "transformers": {
+      "label": "transformers",
+      "uses": [
+        {
+          "label": "QFPViT: A Fidelity-Phase Quantum Self-Attention Operator for Vision Transformers — Design and Evaluation on MedMNIST",
+          "href": "#item:research/qfpvit",
+          "note": "paper"
+        },
+        {
+          "label": "Do Quantum-Inspired Feature Maps Help Vision Transformer Attention? A Matched-Budget Dequantization Study",
+          "href": "#item:research/quantum-feature-maps",
+          "note": "paper"
+        }
+      ]
+    },
+    "eda": {
+      "label": "EDA",
+      "uses": [
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "scikit-learn": {
+      "label": "scikit-learn",
+      "uses": [
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "pandas": {
+      "label": "Pandas",
+      "uses": [
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "numpy": {
+      "label": "NumPy",
+      "uses": [
+        {
+          "label": "AI/ML Intern",
+          "href": "#item:experience/04-osteosconnect-intern",
+          "note": "role"
+        },
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "etl": {
+      "label": "ETL",
+      "uses": [
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    },
+    "power-bi": {
+      "label": "Power BI",
+      "uses": [
+        {
+          "label": "Data Science & ML Intern",
+          "href": "#item:experience/05-smartknower-intern",
+          "note": "role"
+        }
+      ]
+    }
+  },
   "sections": [
+    {
+      "id": "agent",
+      "label": "This site",
+      "path": "https://rishabh-hota.vercel.app/",
+      "intro": "What you are inside, and the agent that answers for him.",
+      "items": [
+        {
+          "slug": "into-the-agent",
+          "title": "Into the Agent",
+          "kicker": "this site",
+          "summary": "A descent through his work, drawn in code: thirteen chambers under one scroll, built with three.js and TypeScript, every chamber read from the same Markdown the written site and the agent use.",
+          "body": "Nothing here is typed twice. The chambers are generated from the portfolio's content files, so a new project, paper or role appears here on the next build. It measures itself before the gate opens and picks the render setting that holds a steady frame on your machine; a machine that cannot hold one is sent to the written site.",
+          "tags": [
+            "three.js",
+            "TypeScript",
+            "Vite",
+            "WebGL"
+          ],
+          "link": {
+            "label": "The written site",
+            "href": "https://rishabh-hota.vercel.app/"
+          },
+          "featured": true
+        },
+        {
+          "slug": "dumbledore",
+          "title": "Dumbledore",
+          "kicker": "his AI agent",
+          "summary": "The agent that answers questions about him on both sites: a Python LangGraph graph with measured retrieval, a reranker vote, a grounding check and a five-gate refusal pipeline, on a ₹0/month stack of free models.",
+          "body": "Ask it about a project, a paper or a number and it reads the same content these chambers are built from, then a second model checks the answer against the passages it came from. It can take you to a page: say \"open the LCSNet paper\" and you are there.",
+          "tags": [
+            "LangGraph",
+            "RAG",
+            "ONNX",
+            "FastAPI",
+            "Python"
+          ],
+          "link": {
+            "label": "How it is built",
+            "href": "#project:portfolio-agent"
+          },
+          "featured": true
+        },
+        {
+          "slug": "ask",
+          "title": "Ask it anything about him.",
+          "kicker": "try it",
+          "summary": "Where he has worked, what the knee X-ray pipeline does, which paper came first, what he would bring to your team. It answers from his record and says so when something is not in it.",
+          "body": "",
+          "tags": [],
+          "link": {
+            "label": "Ask Dumbledore",
+            "href": "#ask"
+          },
+          "featured": false
+        }
+      ]
+    },
     {
       "id": "experience",
       "label": "Experience",
@@ -107,9 +1287,55 @@
           ],
           "featured": true,
           "link": {
-            "label": "Full experience",
+            "label": "The role in detail",
+            "href": "#item:experience/01-simplilearn-sr-ai-researcher"
+          },
+          "related": {
+            "label": "The written timeline",
             "href": "https://rishabh-hota.vercel.app/experience"
-          }
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Rishabh's current role. He leads hands-on research into new AI technology and turns it into automation for the business."
+            },
+            {
+              "type": "list",
+              "items": [
+                "Built the Product Launch System: AI automation with a human in the loop that connects the product, content and design teams in one tool, from programme sheet to editable Illustrator artwork; in use as an internal tool.",
+                "Automating complex, multi-step business workflows with AI agents.",
+                "Agentic orchestration: designing how multiple agents, tools and human reviewers work together.",
+                "Open-source work.",
+                "Hands-on research on new technology as it emerges, turned into working prototypes."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "agentic AI and harness engineering",
+              "href": "#skill:agentic-ai-and-harness-engineering"
+            },
+            {
+              "label": "AI and agentic AI orchestration",
+              "href": "#skill:ai-and-agentic-ai-orchestration"
+            },
+            {
+              "label": "automation engineering",
+              "href": "#skill:automation-engineering"
+            },
+            {
+              "label": "open source",
+              "href": "#skill:open-source"
+            },
+            {
+              "label": "system design",
+              "href": "#skill:system-design"
+            },
+            {
+              "label": "Claude Code",
+              "href": "#skill:claude-code"
+            }
+          ]
         },
         {
           "slug": "02-simplilearn-ai-researcher",
@@ -122,9 +1348,51 @@
           ],
           "featured": false,
           "link": {
-            "label": "Full experience",
+            "label": "The role in detail",
+            "href": "#item:experience/02-simplilearn-ai-researcher"
+          },
+          "related": {
+            "label": "The written timeline",
             "href": "https://rishabh-hota.vercel.app/experience"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Tracked and dissected emerging AI breakthroughs (MCP, agentic AI, LLMs, Gemini) and turned them into hands-on prototypes.",
+                "Built, validated and documented research demos; curated a code-backed learning hub.",
+                "Designed bite-sized, code-driven learning modules and influenced the roadmap for next-generation AI features.",
+                "Built scalable GenAI applications around the research.",
+                "Projects in this role include the Collaterals Agent (Best Team Award), TurboTrade (Zerodha MCP copilot), a scalable sales-training chatbot, and Gemma 3n on-device research."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "Model Context Protocol (MCP)",
+              "href": "#skill:model-context-protocol-mcp"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "Google Gemini APIs",
+              "href": "#skill:google-gemini-apis"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            },
+            {
+              "label": "chatbot design",
+              "href": "#skill:chatbot-design"
+            }
+          ]
         },
         {
           "slug": "03-osteosconnect-ai-engineer",
@@ -137,9 +1405,53 @@
           ],
           "featured": false,
           "link": {
-            "label": "Full experience",
+            "label": "The role in detail",
+            "href": "#item:experience/03-osteosconnect-ai-engineer"
+          },
+          "related": {
+            "label": "The written timeline",
             "href": "https://rishabh-hota.vercel.app/experience"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Led a team of clinicians and engineers to deliver an osteoarthritis pipeline that turns a knee X-ray into a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC, custom segmentation of osteophytes, sclerosis and joint space to double-check the grade, and measured findings (TensorFlow; AWS EC2 H100 cluster, Lambda, API Gateway).",
+                "Tested in a randomised controlled trial of OA patients at SRM, Trichy (supervised by Dr. Mahesh Magadum); deployed at Fortis Hospital, Nagarbhavi, Bengaluru. More than 90% concordance with radiologists; surpassed competitor RBKnee.",
+                "Implemented a continuous feedback loop that retrains the model on doctor-validated ground truth."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "classification",
+              "href": "#skill:classification"
+            },
+            {
+              "label": "AWS (S3, Lambda, SageMaker, EC2, Bedrock)",
+              "href": "#skill:aws-s3-lambda-sagemaker-ec2-bedrock"
+            },
+            {
+              "label": "healthcare automation",
+              "href": "#skill:healthcare-automation"
+            },
+            {
+              "label": "TensorFlow",
+              "href": "#skill:tensorflow"
+            },
+            {
+              "label": "X-ray annotation",
+              "href": "#skill:x-ray-annotation"
+            }
+          ]
         },
         {
           "slug": "04-osteosconnect-intern",
@@ -152,9 +1464,52 @@
           ],
           "featured": false,
           "link": {
-            "label": "Full experience",
+            "label": "The role in detail",
+            "href": "#item:experience/04-osteosconnect-intern"
+          },
+          "related": {
+            "label": "The written timeline",
             "href": "https://rishabh-hota.vercel.app/experience"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Hypothesized and prototyped ML approaches for automated osteoarthritis grading.",
+                "Ran exploratory data analysis on DICOM imagery and set up baseline classifiers (logistic regression, random forest)."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "EDA",
+              "href": "#skill:eda"
+            },
+            {
+              "label": "DICOM processing",
+              "href": "#skill:dicom-processing"
+            },
+            {
+              "label": "PyDICOM",
+              "href": "#skill:pydicom"
+            },
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "scikit-learn",
+              "href": "#skill:scikit-learn"
+            },
+            {
+              "label": "Pandas",
+              "href": "#skill:pandas"
+            },
+            {
+              "label": "NumPy",
+              "href": "#skill:numpy"
+            }
+          ]
         },
         {
           "slug": "05-smartknower-intern",
@@ -167,9 +1522,569 @@
           ],
           "featured": false,
           "link": {
-            "label": "Full experience",
+            "label": "The role in detail",
+            "href": "#item:experience/05-smartknower-intern"
+          },
+          "related": {
+            "label": "The written timeline",
+            "href": "https://rishabh-hota.vercel.app/experience"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Built a full ETL pipeline, feature engineering and predictive models.",
+                "Developed Power BI dashboards for sales forecasting and presented actionable insights."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "ETL",
+              "href": "#skill:etl"
+            },
+            {
+              "label": "Power BI",
+              "href": "#skill:power-bi"
+            },
+            {
+              "label": "predictive modeling",
+              "href": "#skill:predictive-modeling"
+            },
+            {
+              "label": "data science",
+              "href": "#skill:data-science"
+            },
+            {
+              "label": "Pandas",
+              "href": "#skill:pandas"
+            },
+            {
+              "label": "NumPy",
+              "href": "#skill:numpy"
+            },
+            {
+              "label": "EDA",
+              "href": "#skill:eda"
+            },
+            {
+              "label": "scikit-learn",
+              "href": "#skill:scikit-learn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "An engineer by degree; everything after it, by building.",
+      "items": [
+        {
+          "slug": "b-e-electronics-and-communication",
+          "title": "B.E., Electronics & Communication",
+          "kicker": "Aug 2019 – Aug 2023",
+          "summary": "B.M.S. College of Engineering, Bangalore",
+          "body": "",
+          "tags": [
+            "GPA 7.65/10"
+          ],
+          "featured": true,
+          "link": {
+            "label": "The written timeline",
             "href": "https://rishabh-hota.vercel.app/experience"
           }
+        },
+        {
+          "slug": "intermediate-pcm",
+          "title": "Intermediate (PCM)",
+          "kicker": "2017–2018",
+          "summary": "Shiv Jyoti Convent School, Kota",
+          "body": "",
+          "tags": [
+            "80%"
+          ],
+          "featured": false
+        },
+        {
+          "slug": "matriculation",
+          "title": "Matriculation",
+          "kicker": "2015–2016",
+          "summary": "Sri Chaitanya Techno School, Vizag",
+          "body": "",
+          "tags": [
+            "CGPA 10"
+          ],
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "label": "Skills",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "86 skills in 8 areas; 57 open the work that used them.",
+      "items": [
+        {
+          "slug": "key-skills",
+          "title": "Key skills",
+          "kicker": "skills · 1 of 8",
+          "summary": "23 skills; 19 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Forward Deployed Engineering"
+            },
+            {
+              "label": "system design",
+              "href": "#skill:system-design",
+              "n": 3
+            },
+            {
+              "label": "open source",
+              "href": "#skill:open-source",
+              "n": 2
+            },
+            {
+              "label": "Azure AI Foundry"
+            },
+            {
+              "label": "AWS Bedrock"
+            },
+            {
+              "label": "agent and LLM evaluation",
+              "href": "#skill:agent-and-llm-evaluation",
+              "n": 2
+            },
+            {
+              "label": "agent and LLM guardrailing and deployment",
+              "href": "#skill:agent-and-llm-guardrailing-and-deployment",
+              "n": 3
+            },
+            {
+              "label": "token optimization",
+              "href": "#skill:token-optimization",
+              "n": 1
+            },
+            {
+              "label": "agentic AI and harness engineering",
+              "href": "#skill:agentic-ai-and-harness-engineering",
+              "n": 3
+            },
+            {
+              "label": "loop engineering",
+              "href": "#skill:loop-engineering",
+              "n": 1
+            },
+            {
+              "label": "automation engineering",
+              "href": "#skill:automation-engineering",
+              "n": 3
+            },
+            {
+              "label": "chatbot design",
+              "href": "#skill:chatbot-design",
+              "n": 4
+            },
+            {
+              "label": "AI and agentic AI orchestration",
+              "href": "#skill:ai-and-agentic-ai-orchestration",
+              "n": 3
+            },
+            {
+              "label": "LLM architecture and fine-tuning"
+            },
+            {
+              "label": "RAG in production",
+              "href": "#skill:rag-in-production",
+              "n": 1
+            },
+            {
+              "label": "Model Context Protocol (MCP)",
+              "href": "#skill:model-context-protocol-mcp",
+              "n": 2
+            },
+            {
+              "label": "healthcare automation",
+              "href": "#skill:healthcare-automation",
+              "n": 4
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication",
+              "n": 8
+            },
+            {
+              "label": "Claude Code",
+              "href": "#skill:claude-code",
+              "n": 3
+            },
+            {
+              "label": "Claude Science and Claude Skills",
+              "href": "#skill:claude-science-and-claude-skills",
+              "n": 2
+            },
+            {
+              "label": "speech generation",
+              "href": "#skill:speech-generation",
+              "n": 1
+            },
+            {
+              "label": "classification",
+              "href": "#skill:classification",
+              "n": 4
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications",
+              "n": 9
+            }
+          ],
+          "featured": true
+        },
+        {
+          "slug": "ai-and-ml",
+          "title": "AI and ML",
+          "kicker": "skills · 2 of 8",
+          "summary": "15 skills; 14 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai",
+              "n": 9
+            },
+            {
+              "label": "agentic AI and agentic RAG"
+            },
+            {
+              "label": "multi-agent systems",
+              "href": "#skill:multi-agent-systems",
+              "n": 1
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag",
+              "n": 5
+            },
+            {
+              "label": "MCP",
+              "href": "#skill:mcp",
+              "n": 1
+            },
+            {
+              "label": "chatbots",
+              "href": "#skill:chatbots",
+              "n": 4
+            },
+            {
+              "label": "vector databases (Redis, FAISS and others)",
+              "href": "#skill:vector-databases-redis-faiss-and-others",
+              "n": 2
+            },
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning",
+              "n": 6
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning",
+              "n": 9
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision",
+              "n": 6
+            },
+            {
+              "label": "CNNs",
+              "href": "#skill:cnns",
+              "n": 4
+            },
+            {
+              "label": "NLP",
+              "href": "#skill:nlp",
+              "n": 2
+            },
+            {
+              "label": "transformers",
+              "href": "#skill:transformers",
+              "n": 2
+            },
+            {
+              "label": "segmentation models",
+              "href": "#skill:segmentation-models",
+              "n": 2
+            },
+            {
+              "label": "X-ray annotation",
+              "href": "#skill:x-ray-annotation",
+              "n": 2
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "languages-and-frameworks",
+          "title": "Languages and frameworks",
+          "kicker": "skills · 3 of 8",
+          "summary": "20 skills; 13 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Python",
+              "href": "#skill:python",
+              "n": 8
+            },
+            {
+              "label": "scikit-learn",
+              "href": "#skill:scikit-learn",
+              "n": 2
+            },
+            {
+              "label": "TensorFlow",
+              "href": "#skill:tensorflow",
+              "n": 2
+            },
+            {
+              "label": "PyTorch"
+            },
+            {
+              "label": "PyTorch Lightning"
+            },
+            {
+              "label": "LangChain",
+              "href": "#skill:langchain",
+              "n": 2
+            },
+            {
+              "label": "LangGraph",
+              "href": "#skill:langgraph",
+              "n": 1
+            },
+            {
+              "label": "Google ADK",
+              "href": "#skill:google-adk",
+              "n": 1
+            },
+            {
+              "label": "Google Gemini APIs",
+              "href": "#skill:google-gemini-apis",
+              "n": 2
+            },
+            {
+              "label": "OpenAI SDK"
+            },
+            {
+              "label": "CrewAI"
+            },
+            {
+              "label": "Pandas",
+              "href": "#skill:pandas",
+              "n": 2
+            },
+            {
+              "label": "NumPy",
+              "href": "#skill:numpy",
+              "n": 2
+            },
+            {
+              "label": "asyncio",
+              "href": "#skill:asyncio",
+              "n": 1
+            },
+            {
+              "label": "FastAPI",
+              "href": "#skill:fastapi",
+              "n": 1
+            },
+            {
+              "label": "Flask"
+            },
+            {
+              "label": "FastMCP"
+            },
+            {
+              "label": "gRPC"
+            },
+            {
+              "label": "Pydantic",
+              "href": "#skill:pydantic",
+              "n": 1
+            },
+            {
+              "label": "PyDICOM",
+              "href": "#skill:pydicom",
+              "n": 2
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "llm-fine-tuning-and-small-models",
+          "title": "LLM fine-tuning and small models",
+          "kicker": "skills · 4 of 8",
+          "summary": "6 skills.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Unsloth"
+            },
+            {
+              "label": "LoRA and QLoRA (PEFT)"
+            },
+            {
+              "label": "supervised fine-tuning (SFT)"
+            },
+            {
+              "label": "Hugging Face Transformers and TRL"
+            },
+            {
+              "label": "4-bit and 8-bit quantized fine-tuning"
+            },
+            {
+              "label": "fine-tuning small models (Gemma, Llama, Phi)"
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "llm-inference-and-serving",
+          "title": "LLM inference and serving",
+          "kicker": "skills · 5 of 8",
+          "summary": "7 skills; 1 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "vLLM"
+            },
+            {
+              "label": "Ollama"
+            },
+            {
+              "label": "llama.cpp"
+            },
+            {
+              "label": "model quantization (GGUF, AWQ)"
+            },
+            {
+              "label": "KV-cache optimization"
+            },
+            {
+              "label": "batching and streaming inference"
+            },
+            {
+              "label": "OpenAI-compatible API serving",
+              "href": "#skill:openai-compatible-api-serving",
+              "n": 1
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "cloud-and-devops",
+          "title": "Cloud and DevOps",
+          "kicker": "skills · 6 of 8",
+          "summary": "3 skills; 1 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "AWS (S3, Lambda, SageMaker, EC2, Bedrock)",
+              "href": "#skill:aws-s3-lambda-sagemaker-ec2-bedrock",
+              "n": 2
+            },
+            {
+              "label": "Docker"
+            },
+            {
+              "label": "Azure AI"
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "data-and-analytics",
+          "title": "Data and analytics",
+          "kicker": "skills · 7 of 8",
+          "summary": "6 skills; 6 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Data science",
+              "href": "#skill:data-science",
+              "n": 3
+            },
+            {
+              "label": "predictive modeling",
+              "href": "#skill:predictive-modeling",
+              "n": 3
+            },
+            {
+              "label": "EDA",
+              "href": "#skill:eda",
+              "n": 2
+            },
+            {
+              "label": "ETL",
+              "href": "#skill:etl",
+              "n": 1
+            },
+            {
+              "label": "DICOM processing",
+              "href": "#skill:dicom-processing",
+              "n": 2
+            },
+            {
+              "label": "Power BI",
+              "href": "#skill:power-bi",
+              "n": 1
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "computer-science-foundations",
+          "title": "Computer science foundations",
+          "kicker": "skills · 8 of 8",
+          "summary": "6 skills; 3 open the work that used them.",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Algorithms"
+            },
+            {
+              "label": "data structures"
+            },
+            {
+              "label": "OOP",
+              "href": "#skill:oop",
+              "n": 1
+            },
+            {
+              "label": "DBMS",
+              "href": "#skill:dbms",
+              "n": 1
+            },
+            {
+              "label": "computer networks"
+            },
+            {
+              "label": "system design for AI",
+              "href": "#skill:system-design-for-ai",
+              "n": 2
+            }
+          ],
+          "featured": false
         }
       ]
     },
@@ -267,6 +2182,64 @@
               "type": "p",
               "text": "Claude Agent Skills, Python, multi-agent orchestration (director, drafters, learners, builders), Haiku for fast edits, Google Drive, Sheets and Gmail, Adobe Illustrator through its connector, PyMuPDF for measuring PDFs, GitHub releases for versioning."
             }
+          ],
+          "skills": [
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "agentic AI and harness engineering",
+              "href": "#skill:agentic-ai-and-harness-engineering"
+            },
+            {
+              "label": "AI and agentic AI orchestration",
+              "href": "#skill:ai-and-agentic-ai-orchestration"
+            },
+            {
+              "label": "multi-agent systems",
+              "href": "#skill:multi-agent-systems"
+            },
+            {
+              "label": "Claude Code",
+              "href": "#skill:claude-code"
+            },
+            {
+              "label": "Claude Science and Claude Skills",
+              "href": "#skill:claude-science-and-claude-skills"
+            },
+            {
+              "label": "agent and LLM evaluation",
+              "href": "#skill:agent-and-llm-evaluation"
+            },
+            {
+              "label": "agent and LLM guardrailing and deployment",
+              "href": "#skill:agent-and-llm-guardrailing-and-deployment"
+            },
+            {
+              "label": "automation engineering",
+              "href": "#skill:automation-engineering"
+            },
+            {
+              "label": "loop engineering",
+              "href": "#skill:loop-engineering"
+            },
+            {
+              "label": "system design",
+              "href": "#skill:system-design"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "OOP",
+              "href": "#skill:oop"
+            }
           ]
         },
         {
@@ -349,19 +2322,69 @@
               "type": "p",
               "text": "He led the clinicians and engineers who delivered it. Earlier, as an intern, he ran EDA on DICOM images and built the baseline classifiers (logistic regression, random forest) before the move to deep learning. Follow-on research, \"OA Classification and Reporting using Agentic AI and Deep Neural Networks\", is ongoing with OsteosConnect."
             }
+          ],
+          "skills": [
+            {
+              "label": "TensorFlow",
+              "href": "#skill:tensorflow"
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "CNNs",
+              "href": "#skill:cnns"
+            },
+            {
+              "label": "segmentation models",
+              "href": "#skill:segmentation-models"
+            },
+            {
+              "label": "X-ray annotation",
+              "href": "#skill:x-ray-annotation"
+            },
+            {
+              "label": "classification",
+              "href": "#skill:classification"
+            },
+            {
+              "label": "AWS (S3, Lambda, SageMaker, EC2, Bedrock)",
+              "href": "#skill:aws-s3-lambda-sagemaker-ec2-bedrock"
+            },
+            {
+              "label": "healthcare automation",
+              "href": "#skill:healthcare-automation"
+            },
+            {
+              "label": "DICOM processing",
+              "href": "#skill:dicom-processing"
+            },
+            {
+              "label": "PyDICOM",
+              "href": "#skill:pydicom"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            }
           ]
         },
         {
           "slug": "portfolio-agent",
           "title": "AI Portfolio Agent (this site)",
           "kicker": "Personal · Oct 2026",
-          "summary": "Dumbledore, a Python LangGraph agent live on this site — hybrid RAG, a five-gate refusal pipeline, page navigation and 17 free LLMs on a ₹0/month stack.",
+          "summary": "Dumbledore, a Python LangGraph agent live on this site — retrieval measured at the depth the writer reads, a grounding check, a five-gate refusal pipeline, page navigation and 17 free LLMs on a ₹0/month stack.",
           "body": "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its…",
           "tags": [
             "LangGraph",
             "LangChain",
             "RAG",
-            "FAISS",
+            "ONNX",
             "Python",
             "RAGAS"
           ],
@@ -377,15 +2400,95 @@
                 "Status: live in production on this site (rishabh-hota.vercel.app) since October 2026, serving real visitors, with error monitoring (Sentry) and evals on every push. The agent is called Dumbledore; the chat window is just its interface.",
                 "Agent: a LangGraph graph in Python (FastAPI on Vercel):",
                 "route: greetings, contact questions and \"take me to …\" requests get an instant answer with no LLM call;",
-                "retrieve: hybrid search, combining FAISS for meaning (BAAI bge-small-en-v1.5 embeddings, run inside the server with the same model on Cloudflare as the backup) with BM25 for keywords, merged with Reciprocal Rank Fusion. A cross-encoder re-ranker was A/B-tested and kept off (MRR@4 0.885 vs 0.962);",
-                "respond: 17 free LLMs across Groq, Gemini, Cloudflare Workers AI and OpenRouter, picked by question difficulty (fact, standard, reasoning). Budgets are reserved atomically in Redis, so many visitors at once never overload one model, and the switch between models is invisible.",
+                "retrieve: the question is embedded once (BAAI bge-small-en-v1.5, 8-bit ONNX inside the server, the same model on Cloudflare as the backup) and the 8 chunks closest in meaning are the candidates; BM25 keyword search is the fallback when nothing can embed the question. Measured at the depth the writer reads, fusing BM25 into every ranking pulled keyword collisions up, so the vectors rank alone, and one page-sized document per section answers questions about a whole section;",
+                "rerank: a 4 MB cross-encoder (ms-marco-TinyBERT-L-2, 8-bit) votes on the order, fused 1:2 with the vectors. Eight cross-encoders were measured; deciding alone, every one ranked below the vectors, so it votes rather than decides;",
+                "respond: 17 free LLMs across Groq, Gemini, Cloudflare Workers AI and OpenRouter, picked by question difficulty (fact, standard, reasoning). Budgets are reserved atomically in Redis, so many visitors at once never overload one model, and the switch between models is invisible;",
+                "check: a second model reads the finished answer against the passages it was written from and corrects a number, date or result they don't support — the commonest slip being one project's result given to another. The answer streams meanwhile and is replaced if corrected.",
                 "Refusal pipeline: five gates keep it on topic — rules, then a meaning check against on-topic and off-topic examples (both before any LLM), the prompt, an output check on every sentence before the visitor sees it (code and leaked instructions replaced; unknown links, phone numbers and other emails removed), and a cache that stores only clean answers. On 76 attack and off-topic prompts (follow-ups included): 0 leaks. On held-out prompts it refused 32 of 33, 24 of them before any LLM, with 0 false refusals on 47 real recruiter questions.",
                 "Agent actions: it takes visitors to the page they ask for (\"open the LCSNet paper\") and offers \"take me there\" buttons under answers. Targets come from an allow-list of the site's own pages, so no one can be sent elsewhere.",
                 "Answer bank: common questions, asked any way, are answered instantly from checked answers: an embedding match with a safety margin (0 wrong answers on held-out paraphrases).",
                 "Security: a Next.js gateway in front of the agent checks for bots, validates input, rate-limits per visitor and enforces a daily budget.",
                 "Memory: lives only in the visitor's open tab. When the chat or the site is closed, it's gone, and only a short AI summary is logged to a Google Sheet.",
-                "Evals: Python suites check retrieval, facts, guardrails, refusals, navigation and difficulty routing; RAGAS scores faithfulness, answer relevancy and context precision."
+                "Evals: Python suites check retrieval on the chunks the writer actually reads, facts (never another project's numbers), guardrails, refusals, navigation and difficulty routing; RAGAS scores faithfulness, answer relevancy and context precision. Every retrieval choice was a measurement before it was a change."
               ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "LangGraph",
+              "href": "#skill:langgraph"
+            },
+            {
+              "label": "LangChain",
+              "href": "#skill:langchain"
+            },
+            {
+              "label": "FastAPI",
+              "href": "#skill:fastapi"
+            },
+            {
+              "label": "Pydantic",
+              "href": "#skill:pydantic"
+            },
+            {
+              "label": "asyncio",
+              "href": "#skill:asyncio"
+            },
+            {
+              "label": "RAG in production",
+              "href": "#skill:rag-in-production"
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag"
+            },
+            {
+              "label": "agent and LLM evaluation",
+              "href": "#skill:agent-and-llm-evaluation"
+            },
+            {
+              "label": "agent and LLM guardrailing and deployment",
+              "href": "#skill:agent-and-llm-guardrailing-and-deployment"
+            },
+            {
+              "label": "token optimization",
+              "href": "#skill:token-optimization"
+            },
+            {
+              "label": "chatbot design",
+              "href": "#skill:chatbot-design"
+            },
+            {
+              "label": "chatbots",
+              "href": "#skill:chatbots"
+            },
+            {
+              "label": "vector databases (Redis, FAISS and others)",
+              "href": "#skill:vector-databases-redis-faiss-and-others"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "OpenAI-compatible API serving",
+              "href": "#skill:openai-compatible-api-serving"
+            },
+            {
+              "label": "system design for AI",
+              "href": "#skill:system-design-for-ai"
+            },
+            {
+              "label": "NLP",
+              "href": "#skill:nlp"
             }
           ]
         },
@@ -445,6 +2548,44 @@
                 "Built to stay compliant with Indian rules."
               ]
             }
+          ],
+          "skills": [
+            {
+              "label": "Model Context Protocol (MCP)",
+              "href": "#skill:model-context-protocol-mcp"
+            },
+            {
+              "label": "MCP",
+              "href": "#skill:mcp"
+            },
+            {
+              "label": "LangChain",
+              "href": "#skill:langchain"
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "chatbot design",
+              "href": "#skill:chatbot-design"
+            },
+            {
+              "label": "AI and agentic AI orchestration",
+              "href": "#skill:ai-and-agentic-ai-orchestration"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            }
           ]
         },
         {
@@ -471,6 +2612,20 @@
                 "Tested Google's AI Edge Gallery in Android Studio and worked through its project structure.",
                 "Hosted an Android-compatible Gemma 3n model in a custom chatbot app, exploring what fully offline intelligence makes possible on a phone."
               ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "chatbots",
+              "href": "#skill:chatbots"
             }
           ]
         },
@@ -500,6 +2655,48 @@
                 "Built a Streamlit interface for interactive training scenarios with real-time feedback.",
                 "Engineered for horizontal scalability."
               ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "vector databases (Redis, FAISS and others)",
+              "href": "#skill:vector-databases-redis-faiss-and-others"
+            },
+            {
+              "label": "Google ADK",
+              "href": "#skill:google-adk"
+            },
+            {
+              "label": "Google Gemini APIs",
+              "href": "#skill:google-gemini-apis"
+            },
+            {
+              "label": "chatbots",
+              "href": "#skill:chatbots"
+            },
+            {
+              "label": "chatbot design",
+              "href": "#skill:chatbot-design"
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "system design for AI",
+              "href": "#skill:system-design-for-ai"
             }
           ]
         },
@@ -531,6 +2728,32 @@
                 "Organized personal medical documents into dated folders, then used Graphify to turn them into a knowledge-graph \"second brain\" for Claude, with documents processed into nodes and communities.",
                 "Result: a private, queryable health assistant grounded in his own records."
               ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "Claude Code",
+              "href": "#skill:claude-code"
+            },
+            {
+              "label": "Claude Science and Claude Skills",
+              "href": "#skill:claude-science-and-claude-skills"
+            },
+            {
+              "label": "healthcare automation",
+              "href": "#skill:healthcare-automation"
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
             }
           ]
         },
@@ -572,6 +2795,36 @@
                 "Many details are confidential. If a recruiter asks for specifics beyond this, the agent should say Rishabh can share more directly."
               ]
             }
+          ],
+          "skills": [
+            {
+              "label": "speech generation",
+              "href": "#skill:speech-generation"
+            },
+            {
+              "label": "agent and LLM guardrailing and deployment",
+              "href": "#skill:agent-and-llm-guardrailing-and-deployment"
+            },
+            {
+              "label": "open source",
+              "href": "#skill:open-source"
+            },
+            {
+              "label": "chatbots",
+              "href": "#skill:chatbots"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            }
           ]
         },
         {
@@ -596,6 +2849,28 @@
               "items": [
                 "Pipeline: NLP-driven query parsing → web scraping → corpus assembly → RAG → prompt-based Q&A interface."
               ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "NLP",
+              "href": "#skill:nlp"
+            },
+            {
+              "label": "retrieval-augmented generation (RAG and Graph RAG)",
+              "href": "#skill:retrieval-augmented-generation-rag-and-graph-rag"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "Generative AI",
+              "href": "#skill:generative-ai"
+            },
+            {
+              "label": "GenAI applications",
+              "href": "#skill:genai-applications"
             }
           ]
         },
@@ -630,6 +2905,20 @@
                 "Admin dashboard: all analytics, cohort creation, instructor pool, payroll and live error tracking."
               ]
             }
+          ],
+          "skills": [
+            {
+              "label": "automation engineering",
+              "href": "#skill:automation-engineering"
+            },
+            {
+              "label": "system design",
+              "href": "#skill:system-design"
+            },
+            {
+              "label": "DBMS",
+              "href": "#skill:dbms"
+            }
           ]
         },
         {
@@ -662,6 +2951,40 @@
                 "Awarded 6th place college-wide. Related papers are listed under Publications."
               ]
             }
+          ],
+          "skills": [
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "CNNs",
+              "href": "#skill:cnns"
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "classification",
+              "href": "#skill:classification"
+            },
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "Python",
+              "href": "#skill:python"
+            },
+            {
+              "label": "predictive modeling",
+              "href": "#skill:predictive-modeling"
+            },
+            {
+              "label": "data science",
+              "href": "#skill:data-science"
+            }
           ]
         }
       ]
@@ -683,7 +3006,40 @@
           "link": {
             "label": "Read the paper",
             "href": "https://www.sciencedirect.com/science/article/pii/S2666521225001085"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Built a dataset of smartphone photos of teeth with varying resolution and lighting.",
+                "Proposed LCSNet, a new lightweight segmentation architecture for dental caries. It reached an F1-score of 71.7% and IoU of 56.8% with significantly fewer parameters and FLOPs than heavier baselines.",
+                "Results were validated by expert dentists.",
+                "Published October 9, 2025."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "segmentation models",
+              "href": "#skill:segmentation-models"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "CNNs",
+              "href": "#skill:cnns"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "qfpvit",
@@ -696,7 +3052,35 @@
           "link": {
             "label": "All research",
             "href": "https://rishabh-hota.vercel.app/publications"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Designs a fidelity-phase quantum self-attention operator for Vision Transformers and evaluates it on MedMNIST medical-imaging benchmarks.",
+                "Rishabh started with no quantum-computing background, with the goal of building a better attention mechanism using quantum algorithms. QFPViT is the result.",
+                "Communicated to the journal Quantum."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "transformers",
+              "href": "#skill:transformers"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "quantum-feature-maps",
@@ -709,7 +3093,34 @@
           "link": {
             "label": "All research",
             "href": "https://rishabh-hota.vercel.app/publications"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Tests whether quantum-inspired feature maps actually improve Vision Transformer attention when compared at a matched compute and parameter budget. This dequantization study separates real gains from the effect of simply using more resources.",
+                "Communicated to Quantum Machine Intelligence (Springer)."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "transformers",
+              "href": "#skill:transformers"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "didss",
@@ -722,7 +3133,34 @@
           "link": {
             "label": "Read the paper",
             "href": "https://link.springer.com/chapter/10.1007/978-981-97-1900-6_4"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "A decision support system for identifying depression, published as a chapter in Springer's Advanced Machine Learning for Real World Applications.",
+                "Authors: Hota R.K. and Verma N."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "predictive modeling",
+              "href": "#skill:predictive-modeling"
+            },
+            {
+              "label": "data science",
+              "href": "#skill:data-science"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "covid-ct",
@@ -735,7 +3173,38 @@
           "link": {
             "label": "Read the paper",
             "href": "https://ieeexplore.ieee.org/document/10957133"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Deep-learning classification of COVID-19 from chest CT scans.",
+                "Authors: Hota R.K. and Akhilesh S."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "classification",
+              "href": "#skill:classification"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "CNNs",
+              "href": "#skill:cnns"
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "covid-multimodal",
@@ -748,7 +3217,30 @@
           "link": {
             "label": "All research",
             "href": "https://rishabh-hota.vercel.app/publications"
-          }
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "A multi-modal decision support approach that combines vitals, symptoms and imaging to predict COVID-19, building on his COVID-19 Decision Support System project.",
+                "Communicated to Inderscience."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "machine learning",
+              "href": "#skill:machine-learning"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
         },
         {
           "slug": "oa-agentic",
@@ -761,7 +3253,362 @@
           "link": {
             "label": "All research",
             "href": "https://rishabh-hota.vercel.app/publications"
+          },
+          "blocks": [
+            {
+              "type": "list",
+              "items": [
+                "Ongoing research with OsteosConnect. It extends his osteoarthritis X-ray classification work with agentic AI that generates clinical reports."
+              ]
+            }
+          ],
+          "skills": [
+            {
+              "label": "agentic AI and harness engineering",
+              "href": "#skill:agentic-ai-and-harness-engineering"
+            },
+            {
+              "label": "deep learning",
+              "href": "#skill:deep-learning"
+            },
+            {
+              "label": "computer vision",
+              "href": "#skill:computer-vision"
+            },
+            {
+              "label": "healthcare automation",
+              "href": "#skill:healthcare-automation"
+            },
+            {
+              "label": "research publication",
+              "href": "#skill:research-publication"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "certifications",
+      "label": "Certificates",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "9 certifications, from LLM fine-tuning to the foundations.",
+      "items": [
+        {
+          "slug": "certificates-1",
+          "title": "DeepLearning.AI · Databricks · NVIDIA Deep Learning Institute",
+          "kicker": "certifications · 1–3 of 9",
+          "summary": "",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "LLM Fine-tuning",
+              "note": "DeepLearning.AI"
+            },
+            {
+              "label": "Fundamentals of Generative AI",
+              "note": "Databricks · 2024"
+            },
+            {
+              "label": "Vision & Multi-Modal",
+              "note": "NVIDIA Deep Learning Institute · 2020"
+            }
+          ],
+          "featured": true
+        },
+        {
+          "slug": "certificates-2",
+          "title": "University of Michigan (Coursera) · Intel (Coursera) · E&ICT, NIT Warangal",
+          "kicker": "certifications · 4–6 of 9",
+          "summary": "",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "Python 3 Programming Specialization",
+              "note": "University of Michigan (Coursera)"
+            },
+            {
+              "label": "Practical Deep Learning",
+              "note": "Intel (Coursera)"
+            },
+            {
+              "label": "Data Science for All",
+              "note": "E&ICT, NIT Warangal"
+            }
+          ],
+          "featured": false
+        },
+        {
+          "slug": "certificates-3",
+          "title": "E&ICT, IIITDM · University of Washington (Coursera) · University of London (Coursera)",
+          "kicker": "certifications · 7–9 of 9",
+          "summary": "",
+          "body": "",
+          "tags": [],
+          "chips": [
+            {
+              "label": "AI & Deep Learning",
+              "note": "E&ICT, IIITDM"
+            },
+            {
+              "label": "ML Foundations: A Case Study Approach",
+              "note": "University of Washington (Coursera)"
+            },
+            {
+              "label": "Machine Learning for All",
+              "note": "University of London (Coursera)"
+            }
+          ],
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "achievements",
+      "label": "Achievements",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "9 things he is proud of, and the stories behind them.",
+      "items": [
+        {
+          "slug": "qfpvit-from-zero-quantum",
+          "title": "QFPViT, from zero quantum",
+          "kicker": "achievement · 1 of 9",
+          "summary": "He started with no quantum-computing background and one goal: a better attention mechanism using quantum algorithms. The result is QFPViT, a fidelity-phase quantum self-attention operator for Vision Transformers, evaluated on…",
+          "body": "",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/qfpvit-from-zero-quantum"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "He started with no quantum-computing background and one goal: a better attention mechanism using quantum algorithms. The result is QFPViT, a fidelity-phase quantum self-attention operator for Vision Transformers, evaluated on the MedMNIST medical-imaging benchmarks and communicated to the journal Quantum. A second paper, a matched-budget dequantization study, then asked the harder question: do quantum-inspired feature maps help at all when compute and parameters are held equal? Communicated to Quantum Machine Intelligence (Springer)."
+            }
+          ],
+          "related": {
+            "label": "Open the paper",
+            "href": "#item:research/qfpvit"
           }
+        },
+        {
+          "slug": "best-team-award-simplilearn-q3",
+          "title": "Best Team Award, Simplilearn (Q3)",
+          "kicker": "achievement · 2 of 9",
+          "summary": "Launching a course used to take two teams of four between seven and ten days: landing pages, brochures and seven kinds of emailer. He built an N8N-based agentic system — a head agent coordinating a researcher that gathers and…",
+          "body": "",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/best-team-award-simplilearn-q3"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Launching a course used to take two teams of four between seven and ten days: landing pages, brochures and seven kinds of emailer. He built an N8N-based agentic system — a head agent coordinating a researcher that gathers and validates course facts and an analyst that checks structure and data — with Google Docs created and updated automatically, and the turnaround fell to one day, reviews and approvals included."
+            }
+          ]
+        },
+        {
+          "slug": "lcsnet-published-in-elsevier-s-intelligence-based-medicine",
+          "title": "LCSNet, published in Elsevier's Intelligence-Based Medicine",
+          "kicker": "achievement · 3 of 9",
+          "summary": "A dataset of smartphone photos of teeth, shot at varying resolution and lighting, and a new lightweight segmentation architecture for dental caries that reached an F1-score of 71.7% and IoU of 56.8% with far fewer parameters and…",
+          "body": "",
+          "tags": [],
+          "featured": true,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/lcsnet-published-in-elsevier-s-intelligence-based-medicine"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "A dataset of smartphone photos of teeth, shot at varying resolution and lighting, and a new lightweight segmentation architecture for dental caries that reached an F1-score of 71.7% and IoU of 56.8% with far fewer parameters and FLOPs than heavier baselines; results validated by expert dentists. Published 9 October 2025 (Impact Factor 2.3)."
+            }
+          ],
+          "related": {
+            "label": "Open the paper",
+            "href": "#item:research/lcsnet"
+          }
+        },
+        {
+          "slug": "a-sales-training-system-that-scales",
+          "title": "A sales-training system that scales",
+          "kicker": "achievement · 4 of 9",
+          "summary": "A high-throughput sales-enablement chatbot for Simplilearn: a FAISS-indexed knowledge base, Gemini orchestrated through Google ADK, and a Streamlit interface for interactive training scenarios with real-time feedback, engineered…",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/a-sales-training-system-that-scales"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "A high-throughput sales-enablement chatbot for Simplilearn: a FAISS-indexed knowledge base, Gemini orchestrated through Google ADK, and a Streamlit interface for interactive training scenarios with real-time feedback, engineered for horizontal scalability."
+            }
+          ],
+          "related": {
+            "label": "Open the project",
+            "href": "#project:sales-training-chatbot"
+          }
+        },
+        {
+          "slug": "beat-rbknee",
+          "title": "Beat RBKnee",
+          "kicker": "achievement · 5 of 9",
+          "summary": "He led clinicians and engineers at OsteosConnect to an osteoarthritis pipeline that turns a knee X-ray into a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC, double-checked by…",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/beat-rbknee"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "He led clinicians and engineers at OsteosConnect to an osteoarthritis pipeline that turns a knee X-ray into a doctor's report in under two minutes: Kellgren–Lawrence grading at 98% accuracy and AUC, double-checked by segmentation, tested in a randomised controlled trial at SRM Trichy and deployed at Fortis Nagarbhavi, with more than 90% concordance with radiologists — ahead of the competitor RBKnee."
+            }
+          ],
+          "related": {
+            "label": "Open the project",
+            "href": "#project:oa-classification"
+          }
+        },
+        {
+          "slug": "6th-place-college-wide-bmsce",
+          "title": "6th place, college-wide, BMSCE",
+          "kicker": "achievement · 6 of 9",
+          "summary": "The final-year COVID-19 Decision Support System, built by a team of four: an IoT-enabled home assessment that combines vitals, symptom checklists and chest X-ray or CT analysis in a two-stage pipeline, with a guided interface…",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "The story",
+            "href": "#item:achievements/6th-place-college-wide-bmsce"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "The final-year COVID-19 Decision Support System, built by a team of four: an IoT-enabled home assessment that combines vitals, symptom checklists and chest X-ray or CT analysis in a two-stage pipeline, with a guided interface that asks screening questions first and an X-ray only when the first stage calls for it."
+            }
+          ],
+          "related": {
+            "label": "Open the project",
+            "href": "#project:covid-decision-support"
+          }
+        },
+        {
+          "slug": "published-in-springer-and-inderscience",
+          "title": "Published in Springer and Inderscience",
+          "kicker": "achievement · 7 of 9",
+          "summary": "A chapter in Springer's Advanced Machine Learning for Real World Applications (the Depression Identification Decision Support System, with N. Verma) and COVID-19 work communicated to Inderscience journals.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "link": {
+            "label": "Open the paper",
+            "href": "#item:research/didss"
+          },
+          "blocks": [
+            {
+              "type": "p",
+              "text": "A chapter in Springer's Advanced Machine Learning for Real World Applications (the Depression Identification Decision Support System, with N. Verma) and COVID-19 work communicated to Inderscience journals."
+            }
+          ],
+          "related": {
+            "label": "Open the paper",
+            "href": "#item:research/didss"
+          }
+        },
+        {
+          "slug": "2nd-prize-coca-cola-cup-district-level-football",
+          "title": "2nd prize, Coca-Cola Cup, district-level football",
+          "kicker": "achievement · 8 of 9",
+          "summary": "Competitive football is the other half of his week.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Competitive football is the other half of his week."
+            }
+          ]
+        },
+        {
+          "slug": "poetry-in-the-hindi-daily-amar-ujala",
+          "title": "Poetry in the Hindi daily Amar Ujala",
+          "kicker": "achievement · 9 of 9",
+          "summary": "Published verse, in Hindi.",
+          "body": "",
+          "tags": [],
+          "featured": false,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Published verse, in Hindi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "softskills",
+      "label": "Soft skills",
+      "path": "https://rishabh-hota.vercel.app/experience",
+      "intro": "How he works, each with its proof. Off the clock: AI research, competitive football, poetry.",
+      "items": [
+        {
+          "slug": "team-management-and-leadership",
+          "title": "Team management and leadership",
+          "kicker": "soft skill · 1 of 5",
+          "summary": "Led clinicians and engineers at OsteosConnect from an MVP to a pipeline tested in a randomised controlled trial and deployed in a hospital.",
+          "body": "",
+          "tags": [],
+          "featured": true
+        },
+        {
+          "slug": "teamwork",
+          "title": "Teamwork",
+          "kicker": "soft skill · 2 of 5",
+          "summary": "The Best Team Award at Simplilearn came from connecting three teams — product, content review and design — in one system, and from a final-year project built by four.",
+          "body": "",
+          "tags": [],
+          "featured": false
+        },
+        {
+          "slug": "problem-solving",
+          "title": "Problem solving",
+          "kicker": "soft skill · 3 of 5",
+          "summary": "Set out with no quantum background to build a better attention mechanism, and came back with QFPViT and a paper that tests whether the idea holds at a matched budget.",
+          "body": "",
+          "tags": [],
+          "featured": false
+        },
+        {
+          "slug": "communication",
+          "title": "Communication",
+          "kicker": "soft skill · 4 of 5",
+          "summary": "Turned emerging research into a code-backed learning hub and bite-sized, code-driven modules for engineering and product teams.",
+          "body": "",
+          "tags": [],
+          "featured": false
+        },
+        {
+          "slug": "curiosity",
+          "title": "Curiosity",
+          "kicker": "soft skill · 5 of 5",
+          "summary": "Tracks and dissects new AI breakthroughs — MCP, agentic AI, new model families — and turns them into hands-on prototypes within days.",
+          "body": "",
+          "tags": [],
+          "featured": false
         }
       ]
     },
@@ -775,7 +3622,7 @@
           "slug": "how-my-portfolio-agent-works",
           "title": "How the AI agent on this site works (and why it costs ₹0)",
           "kicker": "Writing · Oct 2026",
-          "summary": "Dumbledore, a Python LangGraph agent — hybrid RAG, a five-gate refusal pipeline, page navigation, and free LLMs with fallbacks.",
+          "summary": "Dumbledore, a Python LangGraph agent — retrieval measured at the depth the writer reads, a grounding check, a five-gate refusal pipeline, page navigation, and free LLMs with fallbacks.",
           "body": "Recruiters rarely have time to read a whole portfolio, so I put an agent on this site that answers questions about my work. It's called Dumbledore; the chat window is only its interface. Here's how it's built.",
           "tags": [],
           "featured": true,
@@ -818,11 +3665,11 @@
           "title": "Retrieval systems that are measured, not assumed",
           "kicker": "build · rag and knowledge",
           "summary": "Production RAG and Graph RAG over your documents: hybrid search, re-ranking, and an eval suite that runs in CI so quality is a number.",
-          "body": "Hybrid retrieval (FAISS and BM25 fused by reciprocal rank, then cross-encoder re-ranking), a free-model fallback chain and a security gateway. Built sales-enablement platforms on agentic RAG that generate learning content, scripts and playbooks adapting in real time. The agent on his own site runs…",
+          "body": "Retrieval decided by measurement, not habit: embedding search, keyword search, re-ranking and a grounding check each earn their place with a number at the depth the writer actually reads, with a free-model fallback chain and a security gateway around them. Built sales-enablement platforms on…",
           "tags": [
             "RAG",
             "Graph RAG",
-            "FAISS",
+            "Embeddings",
             "BM25",
             "RAGAS",
             "FastAPI"

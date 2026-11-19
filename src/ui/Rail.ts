@@ -29,6 +29,7 @@ export class Rail {
     private readonly chapters: Chapter[],
     private readonly onGo: (k: number) => void,
   ) {
+    this.el.classList.toggle('rail--dense', chapters.length > 8);
     chapters.forEach((c, k) => {
       const b = document.createElement('button');
       b.type = 'button';

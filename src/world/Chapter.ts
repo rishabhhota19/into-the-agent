@@ -1,6 +1,6 @@
 import { CatmullRomCurve3, Color, Group, PerspectiveCamera, Texture, Vector3, WebGLRenderer } from 'three';
 import type { Pose } from '../camera/Rig';
-import type { Link } from '../content/types';
+import type { Chip, Link } from '../content/types';
 import type { Quality } from '../experience/Quality';
 import type { ProceduralTextures } from './materials';
 
@@ -22,7 +22,8 @@ export interface StationText {
   /** May contain <em> for a dimmed run. */
   title: string;
   body?: string;
-  tags?: string[];
+  /** Chips under the body: words, or things to open. */
+  tags?: (Chip | string)[];
   link?: Link;
 }
 

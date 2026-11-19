@@ -1,8 +1,24 @@
 import { iconFor } from './icons';
+import type { Chip } from '../content/types';
 import type { ScrollState } from '../scroll/VirtualScroll';
 import type { Chapter } from '../world/Chapter';
 
 const esc = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** A chip: a word, or a card that opens something, with its second line and its count when it has them. */
+export function chipHtml(c: Chip | string): string {
+  const chip = typeof c === 'string' ? { label: c } : c;
+  const inner =
+    esc(chip.label) +
+    (chip.n && chip.n > 1 ? `<span class="chip__n">${chip.n}</span>` : '') +
+    (chip.note ? `<span class="chip__note">${esc(chip.note)}</span>` : '');
+  const card = chip.note ? ' chip--card' : '';
+  if (chip.href) {
+    const internal = chip.href.startsWith('#');
+    return `<li><a class="chip chip--link${card}" href="${esc(chip.href)}"${internal ? '' : ' target="_blank" rel="noopener"'}>${inner}</a></li>`;
+  }
+  return `<li class="chip${card}">${inner}</li>`;
+}
 
 /** The HTML layer: gate, loader, brand corner, station texts, scroll hint. No meters, no counters. */
 export class Overlay {
@@ -17,25 +33,19 @@ export class Overlay {
   private hintShown = false;
   private canEnter = false;
   private wantsIn = false;
-  /** Fired when a station link points at a project window (`#project:slug`). */
-  onProject?: (slug: string) => void;
-  /** Fired when a station link points at another chamber (`#go:id`). */
-  onGo?: (id: string) => void;
+  /** Fired for every link that points inside the descent (`#project:`, `#item:`, `#skill:`, `#go:`, `#ask`). */
+  onLink?: (href: string) => void;
   /** The station text showing right now, for anything that must keep out of its way. */
   active: HTMLElement | null = null;
 
   constructor(chapters: Chapter[]) {
+    const depth = document.getElementById('gate-depth');
+    if (depth) depth.textContent = String(chapters.length);
     this.texts.addEventListener('click', (e) => {
-      const a = (e.target as HTMLElement).closest('a.text__link') as HTMLAnchorElement | null;
-      const href = a?.getAttribute('href') ?? '';
+      const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null;
       if (!a) return;
-      if (href.startsWith('#project:')) {
-        e.preventDefault();
-        this.onProject?.(href.slice('#project:'.length));
-      } else if (href.startsWith('#go:')) {
-        e.preventDefault();
-        this.onGo?.(href.slice('#go:'.length));
-      }
+      e.preventDefault();
+      this.onLink?.(a.getAttribute('href') ?? '');
     });
     chapters.forEach((c, k) => {
       const ts = c.texts.map((x) => x.t).sort((a, b) => a - b);
@@ -45,9 +55,11 @@ export class Overlay {
       for (const txt of c.texts) {
         const el = document.createElement('div');
         const long = txt.title.replace(/<[^>]*>/g, '').length > 70;
-        el.className = `text text--${txt.align}${long ? ' text--long' : ''}`;
+        // A wall of chips (a skill group, a trio of certificates) gets a wider, quieter card.
+        const wall = (txt.tags?.length ?? 0) > 4 && txt.tags!.some((t) => typeof t !== 'string' && (t.href || t.note));
+        el.className = `text text--${txt.align}${long ? ' text--long' : ''}${wall ? ' text--wall' : ''}`;
         el.style.setProperty('--accent', `#${c.accent.getHexString()}`);
-        const tags = txt.tags?.length ? `<ul class="text__tags">${txt.tags.map((t) => `<li class="chip">${esc(t)}</li>`).join('')}</ul>` : '';
+        const tags = txt.tags?.length ? `<ul class="text__tags">${txt.tags.map(chipHtml).join('')}</ul>` : '';
         const internal = txt.link?.href.startsWith('#') ?? false;
         const link = txt.link
           ? `<a class="text__link" href="${esc(txt.link.href)}"${internal ? '' : ' target="_blank" rel="noopener"'}>${esc(txt.link.label)} →</a>`

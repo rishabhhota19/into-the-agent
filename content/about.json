@@ -1,0 +1,32 @@
+{
+  "intro": "What you are inside, and the agent that answers for him.",
+  "items": [
+    {
+      "slug": "into-the-agent",
+      "title": "Into the Agent",
+      "kicker": "this site",
+      "summary": "A descent through his work, drawn in code: thirteen chambers under one scroll, built with three.js and TypeScript, every chamber read from the same Markdown the written site and the agent use.",
+      "body": "Nothing here is typed twice. The chambers are generated from the portfolio's content files, so a new project, paper or role appears here on the next build. It measures itself before the gate opens and picks the render setting that holds a steady frame on your machine; a machine that cannot hold one is sent to the written site.",
+      "tags": ["three.js", "TypeScript", "Vite", "WebGL"],
+      "link": { "label": "The written site", "href": "https://rishabh-hota.vercel.app/" }
+    },
+    {
+      "slug": "dumbledore",
+      "title": "Dumbledore",
+      "kicker": "his AI agent",
+      "summary": "The agent that answers questions about him on both sites: a Python LangGraph graph with measured retrieval, a reranker vote, a grounding check and a five-gate refusal pipeline, on a ₹0/month stack of free models.",
+      "body": "Ask it about a project, a paper or a number and it reads the same content these chambers are built from, then a second model checks the answer against the passages it came from. It can take you to a page: say \"open the LCSNet paper\" and you are there.",
+      "tags": ["LangGraph", "RAG", "ONNX", "FastAPI", "Python"],
+      "link": { "label": "How it is built", "href": "#project:portfolio-agent" }
+    },
+    {
+      "slug": "ask",
+      "title": "Ask it anything about him.",
+      "kicker": "try it",
+      "summary": "Where he has worked, what the knee X-ray pipeline does, which paper came first, what he would bring to your team. It answers from his record and says so when something is not in it.",
+      "body": "",
+      "tags": [],
+      "link": { "label": "Ask Dumbledore", "href": "#ask" }
+    }
+  ]
+}

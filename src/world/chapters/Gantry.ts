@@ -55,53 +55,52 @@ export class Gantry extends Chapter {
     super();
     // The mouth tube reaches 70 below; the next chamber's entry tube meets it there.
     this.exit.set(0, -90, 0);
-    this.contentPx = 4600; // room for the three showcase stops
+    this.contentPx = 4100; // five stops: the hero, the work history and three showcase stops (the sticky Book a call button and the Dock sell)
     this.definePath([
       [new Vector3(0, 7.5, 27), new Vector3(0, -3, 0)],
       [new Vector3(9.5, 4, 15.5), new Vector3(0, -6, 0)],
       [new Vector3(3.6, 1.4, 5.2), new Vector3(0, -10, 0)],
       [new Vector3(3.2, -2.6, 0.8), new Vector3(3.2, -40, 0.8)],
     ]);
-    this.stations.push(0, 0.3, 0.43, 0.56, 0.69, 0.84);
+    this.stations.push(0, 0.2, 0.42, 0.6, 0.78);
 
     const { site, home, sections } = content;
     const [lead, rest] = splitTagline(site.tagline);
-    const counts = Object.fromEntries(sections.map((s) => [s.id, s.items.length]));
     const best = (sections.find((s) => s.id === 'projects')?.items ?? []).slice(0, 3);
     const texts: StationText[] = [
+      // The hero says what he has done and what he is open to (content/hero.json, this site's own words); the
+      // tagline and the "now" paragraph stand in when that file is missing.
       {
         t: 0,
         align: 'left',
-        kicker: `${site.role} · ${site.location}`,
-        title: rest ? `${lead} <em>${rest}</em>` : lead,
-        body: home.now,
+        kicker: home.hero?.kicker ?? `${site.role} · ${site.location}`,
+        title: home.hero?.title ?? (rest ? `${lead} <em>${rest}</em>` : lead),
+        body: home.hero?.body ?? home.now,
       },
+      // Where he has worked, at a glance: every role, newest first (the roles in detail are the next chamber but one).
+      ...(home.history
+        ? [
+            {
+              t: 0.2,
+              align: 'right' as const,
+              kicker: `work history · ${home.history.roles.length} roles`,
+              title: 'Where he has <em>worked.</em>',
+              body: home.history.body,
+              tags: home.history.roles.map((r) => `${r.title} · ${r.company} · ${r.years}`),
+              link: { label: 'The roles in detail', href: '#go:experience' },
+            },
+          ]
+        : []),
       // The best work, straight away: the first three projects in the site's best-first order, one stop each.
       ...best.map((p, i): StationText => ({
-        t: [0.3, 0.43, 0.56][i],
-        align: i % 2 === 0 ? 'right' : 'left',
+        t: [0.42, 0.6, 0.78][i],
+        align: i % 2 === 0 ? 'left' : 'right',
         kicker: `best work · ${i + 1} of 3`,
         title: p.title,
         body: p.summary,
         tags: p.tags.slice(0, 4),
         link: { label: 'Open the project', href: `#project:${p.slug}` },
       })),
-      {
-        t: 0.69,
-        align: best.length % 2 === 0 ? 'right' : 'left',
-        kicker: 'for hire · freelance and full-time',
-        title: 'Hire the builder, <em>not just the résumé.</em>',
-        body: 'Intelligent, custom, autonomous systems that drive real-world value. Freelance builds, retainers and full-time roles: agents, RAG, fine-tuning and medical imaging, scoped in a call and shipped with evals.',
-        tags: ['agentic systems', 'rag', 'fine-tuning', 'medical imaging', 'training'],
-        link: { label: 'Book a 30-min call', href: `${site.url.replace(/\/$/, '')}/?book=3d` },
-      },
-      {
-        t: 0.84,
-        align: 'center',
-        kicker: 'the edge',
-        title: 'Keep scrolling to go under.',
-        body: `${counts.projects ?? 0} builds, ${counts.research ?? 0} papers, ${counts.experience ?? 0} roles, ${counts.services ?? 0} services. Each chamber is one of them.`,
-      },
     ];
     this.texts.push(...texts);
   }
@@ -260,7 +259,7 @@ export class Gantry extends Chapter {
     this.pupil.add(iris, pupilDisc);
     g.add(this.pupil);
     const glow = new Sprite(
-      new SpriteMaterial({ map: radialTexture(), color: 0xff2a3a, blending: AdditiveBlending, transparent: true, opacity: 0.5, depthWrite: false }),
+      new SpriteMaterial({ map: radialTexture(), color: 0x7fd3e0, blending: AdditiveBlending, transparent: true, opacity: 0.5, depthWrite: false }),
     );
     glow.scale.set(5, 5, 1);
     this.pupil.add(glow);
@@ -291,11 +290,11 @@ export class Gantry extends Chapter {
     g.add(mouth);
     // Inside the mouth: bands of light so the plunge has something to streak.
     const bandTeal = new MeshStandardMaterial({ color: 0x0b1a1e, emissive: 0x7fd3e0, emissiveIntensity: 1.6, roughness: 0.5 });
-    const bandRed = new MeshStandardMaterial({ color: 0x1a0507, emissive: 0xff2a3a, emissiveIntensity: 1.8, roughness: 0.5 });
+    const bandRed = new MeshStandardMaterial({ color: 0x0b1a1e, emissive: 0x5fb0c4, emissiveIntensity: 1.4, roughness: 0.5 }); // a deeper teal, not red: two hues in the chamber, not three
     [-50, -56, -62, -68].forEach((y, i) => {
       g.add(this.ringSegments(HOLE - 0.25, y, 48, 0.12, 0.08, i < 2 ? bandTeal : bandRed, dummy));
     });
-    for (const [y, c] of [[-52, 0x8fd8e4], [-65, 0xff5a66]] as const) {
+    for (const [y, c] of [[-52, 0x8fd8e4], [-65, 0x5fb0c4]] as const) {
       const l = new PointLight(c, 60, 22, 2);
       l.position.set(0, y, 0);
       g.add(l);

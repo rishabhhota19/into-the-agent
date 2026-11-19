@@ -4,6 +4,7 @@ import {
   CylinderGeometry,
   DirectionalLight,
   DoubleSide,
+  Group,
   HemisphereLight,
   InstancedMesh,
   Mesh,
@@ -17,7 +18,7 @@ import {
   Vector3,
 } from 'three';
 import { LightShafts } from '../../atmosphere/LightShafts';
-import type { Section } from '../../content/types';
+import type { Item, Section } from '../../content/types';
 import { noise1 } from '../../util/noise';
 import { BuildContext, Chapter, Grade } from '../Chapter';
 import { concreteMaterial, darkMetalMaterial, lacquerMaterial, metalMaterial } from '../materials';
@@ -29,14 +30,20 @@ export interface HallPalette {
   highlight: number;
 }
 
-const ITEM_SPACING = 9;
+export interface HallOptions {
+  /** Metres between one item's stop and the next. */
+  spacing?: number;
+  /** Wheel pixels per item (one more for the way in). */
+  pace?: number;
+}
+
 const HOLE = 7.3;
 
 /**
- * A content chamber: a long hall of columns with one slab per item, lit from
+ * A content chamber: a long hall of columns with one stop per item, lit from
  * above, entered through a tube in the ceiling and left through a pit in the
- * floor. Phase 2 replaces the slabs with each section's own world; the
- * entry, the pit, the path and the texts stay.
+ * floor. What stands at each stop is `furnish`: a lit slab here, a wall of
+ * cards in the Wall. The entry, the pit, the path and the texts are shared.
  */
 export class Hall extends Chapter {
   readonly id: string;
@@ -45,13 +52,16 @@ export class Hall extends Chapter {
   readonly fogDensity = 0.034;
   readonly grade: Grade;
   override readonly accent: Color;
-  private readonly length: number;
+  protected readonly spacing: number;
+  protected readonly length: number;
   private shafts?: LightShafts;
-  private readonly frames: MeshStandardMaterial[] = [];
+  /** Materials that breathe with the chamber's light, each about its own resting intensity. */
+  protected readonly frames: { mat: MeshStandardMaterial; base: number }[] = [];
 
   constructor(
-    private readonly section: Section,
+    protected readonly section: Section,
     palette: HallPalette,
+    options: HallOptions = {},
   ) {
     super();
     this.id = section.id;
@@ -59,17 +69,18 @@ export class Hall extends Chapter {
     this.fog = new Color(palette.fog);
     this.accent = new Color(palette.accent);
     this.grade = { shadow: new Color(palette.shadow), highlight: new Color(palette.highlight), saturation: 0.95 };
+    this.spacing = options.spacing ?? 9;
 
     const n = section.items.length;
-    this.length = 12 + ITEM_SPACING * n;
+    this.length = 12 + this.spacing * n;
     const L = this.length;
     this.exit.set(0, -64, -L + 0.2);
-    this.contentPx = 900 * (n + 1);
+    this.contentPx = (options.pace ?? 900) * (n + 1);
 
     const points: [Vector3, Vector3][] = [[new Vector3(3.2, 1.8, 0.8), new Vector3(0, 1.3, -9)]];
     section.items.forEach((_, i) => {
       const side = i % 2 === 0 ? 1 : -1;
-      const z = -(9 + ITEM_SPACING * i);
+      const z = this.zOf(i);
       points.push([new Vector3(-side * 1.1, 1.7, z + 5.4), new Vector3(side * 3.2, 1.7, z)]);
     });
     points.push([new Vector3(0, 1.9, -L + 6), new Vector3(0, 0.6, -L + 0.2)]);
@@ -88,16 +99,20 @@ export class Hall extends Chapter {
         kicker: it.kicker || section.label,
         title: it.title,
         body: it.summary,
-        tags: it.tags,
+        tags: it.chips ?? it.tags,
         link: it.link,
       });
     });
   }
 
+  /** Where item i stands along the hall. */
+  protected zOf(i: number): number {
+    return -(9 + this.spacing * i);
+  }
+
   build(ctx: BuildContext): void {
     const g = this.group;
     const L = this.length;
-    const n = this.section.items.length;
     const metal = metalMaterial(ctx.textures, 0x6e7b86);
     const dark = darkMetalMaterial(ctx.textures, 0x3a434c);
     const concrete = concreteMaterial(ctx.textures, 0x1c232a);
@@ -122,13 +137,13 @@ export class Hall extends Chapter {
     g.add(floor);
 
     // --- columns down both sides ------------------------------------------------------------------
-    const count = Math.ceil((L + 10) / ITEM_SPACING) + 1;
+    const count = Math.ceil((L + 10) / this.spacing) + 1;
     const columns = new InstancedMesh(new CylinderGeometry(0.34, 0.4, 11, 12), dark, count * 2);
     const capitals = new InstancedMesh(new BoxGeometry(1.1, 0.3, 1.1), metal, count * 2);
     let c = 0;
     for (let i = 0; i < count; i++) {
       for (const side of [-1, 1]) {
-        dummy.position.set(side * 6.8, 5.5, 3 - i * ITEM_SPACING);
+        dummy.position.set(side * 6.8, 5.5, 3 - i * this.spacing);
         dummy.rotation.set(0, 0, 0);
         dummy.scale.set(1, 1, 1);
         dummy.updateMatrix();
@@ -142,39 +157,8 @@ export class Hall extends Chapter {
     columns.castShadow = columns.receiveShadow = true;
     g.add(columns, capitals);
 
-    // --- one slab per item, with a lit frame ------------------------------------------------------
-    const slabGeo = new BoxGeometry(3.6, 2.2, 0.1);
-    const frameGeo = new BoxGeometry(0.06, 0.06, 0.06);
-    const frames = new InstancedMesh(frameGeo, new MeshStandardMaterial({ color: 0x111111 }), n * 4);
-    let f = 0;
-    this.section.items.forEach((it, i) => {
-      const side = i % 2 === 0 ? 1 : -1;
-      const z = -(9 + ITEM_SPACING * i);
-      const slab = new Mesh(slabGeo, lacquerMaterial(it.featured ? 0x0b1216 : 0x080b0e));
-      slab.position.set(side * 4.6, 1.9, z);
-      slab.rotation.y = -side * Math.PI / 2;
-      slab.castShadow = slab.receiveShadow = true;
-      g.add(slab);
-      // Frame: four emissive edges.
-      const mat = new MeshStandardMaterial({ color: 0x0a0a0a, emissive: this.accent, emissiveIntensity: it.featured ? 1.6 : 0.8, roughness: 0.5 });
-      this.frames.push(mat);
-      const edges: [number, number, number, number][] = [
-        [0, 1.13, 3.7, 0.06],
-        [0, -1.13, 3.7, 0.06],
-        [-1.83, 0, 0.06, 2.3],
-        [1.83, 0, 0.06, 2.3],
-      ];
-      for (const [ex, ey, w, h] of edges) {
-        const edge = new Mesh(new BoxGeometry(w, h, 0.07), mat);
-        edge.position.set(side * 4.55, 1.9 + ey, z - side * ex * 0);
-        // Edge lies in the slab plane: x along the hall for the slab's width.
-        edge.rotation.y = -side * Math.PI / 2;
-        edge.position.z = z + ex;
-        g.add(edge);
-        f += 1;
-      }
-    });
-    void frames;
+    // --- what stands at each stop -----------------------------------------------------------------
+    this.section.items.forEach((it, i) => this.furnish(g, it, i, i % 2 === 0 ? 1 : -1, this.zOf(i)));
 
     // --- entry tube above the start, pit tube below the end ---------------------------------------
     const tubeMat = darkMetalMaterial(ctx.textures, 0x2a3138);
@@ -219,7 +203,33 @@ export class Hall extends Chapter {
     g.add(this.shafts.group);
   }
 
-  private ring(radius: number, y: number, z: number, mat: MeshStandardMaterial, dummy: Object3D, w = 0.12, h = 0.08): InstancedMesh {
+  /** One item's piece: a lacquered slab in a frame of the chamber's light, on the wall it faces. */
+  protected furnish(g: Group, it: Item, _i: number, side: number, z: number): void {
+    const slab = new Mesh(new BoxGeometry(3.6, 2.2, 0.1), lacquerMaterial(it.featured ? 0x0b1216 : 0x080b0e));
+    slab.position.set(side * 4.6, 1.9, z);
+    slab.rotation.y = -side * Math.PI / 2;
+    slab.castShadow = slab.receiveShadow = true;
+    g.add(slab);
+    // Frame: four emissive edges.
+    const base = it.featured ? 1.6 : 0.8;
+    const mat = new MeshStandardMaterial({ color: 0x0a0a0a, emissive: this.accent, emissiveIntensity: base, roughness: 0.5 });
+    this.frames.push({ mat, base });
+    const edges: [number, number, number, number][] = [
+      [0, 1.13, 3.7, 0.06],
+      [0, -1.13, 3.7, 0.06],
+      [-1.83, 0, 0.06, 2.3],
+      [1.83, 0, 0.06, 2.3],
+    ];
+    for (const [ex, ey, w, h] of edges) {
+      const edge = new Mesh(new BoxGeometry(w, h, 0.07), mat);
+      // Edge lies in the slab plane: x along the hall for the slab's width.
+      edge.position.set(side * 4.55, 1.9 + ey, z + ex);
+      edge.rotation.y = -side * Math.PI / 2;
+      g.add(edge);
+    }
+  }
+
+  protected ring(radius: number, y: number, z: number, mat: MeshStandardMaterial, dummy: Object3D, w = 0.12, h = 0.08): InstancedMesh {
     const count = 48;
     const len = ((Math.PI * 2 * radius) / count) * 1.06;
     const mesh = new InstancedMesh(new BoxGeometry(len, h, w), mat, count);
@@ -236,8 +246,8 @@ export class Hall extends Chapter {
 
   override update(_dt: number, _t: number, elapsed: number, _camera: PerspectiveCamera): void {
     this.shafts?.update(elapsed);
-    this.frames.forEach((m, i) => {
-      m.emissiveIntensity = (this.section.items[i]?.featured ? 1.6 : 0.8) * (0.9 + noise1(elapsed * 0.7, i + 40) * 0.1);
+    this.frames.forEach((f, i) => {
+      f.mat.emissiveIntensity = f.base * (0.9 + noise1(elapsed * 0.7, i + 40) * 0.1);
     });
   }
 }
